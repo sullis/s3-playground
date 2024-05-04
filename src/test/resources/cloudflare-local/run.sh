@@ -1,0 +1,1 @@
+yes | wrangler dev ./index.js

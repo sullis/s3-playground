@@ -23,12 +23,15 @@ public class CloudflareLocalContainer extends GenericContainer {
   public static final CloudflareLocalContainer create() {
     ImageFromDockerfile imageFromDockerfile = new ImageFromDockerfile()
         .withFileFromClasspath("index.js", "cloudflare-local/index.js")
+        .withFileFromClasspath("run.sh", "cloudflare-local/run.sh")
         .withDockerfileFromBuilder(builder ->
             builder
                 .from("node:22-slim")
                 .run("npm install -g wrangler")
                 .add("index.js", "index.js")
-                .entryPoint("wrangler dev ./index.js")
+                .add("run.sh", "run.sh")
+                .run("chmod +x ./run.sh")
+                .entryPoint("./run.sh")
                 .build());
     return new CloudflareLocalContainer(imageFromDockerfile);
   }
