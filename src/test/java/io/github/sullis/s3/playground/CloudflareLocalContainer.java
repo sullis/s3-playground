@@ -12,12 +12,13 @@ public class CloudflareLocalContainer extends GenericContainer {
   private CloudflareLocalContainer(ImageFromDockerfile imageFromDockerfile) {
     super(imageFromDockerfile);
     withExposedPorts(DEFAULT_WRANGLER_PORT);
-    waitingFor(
+    /* waitingFor(
         Wait
             .forHttp("/")
             .forPort(DEFAULT_WRANGLER_PORT)
-            .withStartupTimeout(Duration.of(10, ChronoUnit.SECONDS))
-    );
+            .forStatusCode(200)
+            .withStartupTimeout(Duration.of(5, ChronoUnit.SECONDS))
+    ); */
   }
 
   public static final CloudflareLocalContainer create() {
