@@ -160,9 +160,20 @@ public interface CloudRuntime {
 
   class CloudflareLocal implements CloudRuntime {
     private CloudflareLocalContainer container;
+    private final AwsCredentialsProvider awsCredentialsProvider;
+    private final Region awsRegion;
+    private final URI endpoint;
 
     public CloudflareLocal(CloudflareLocalContainer container) {
+      if (!container.isRunning()) {
+        throw new IllegalStateException("container is not running");
+      }
       this.container = container;
+      this.awsCredentialsProvider = StaticCredentialsProvider.create(
+          AwsBasicCredentials.create("dummy", "dummy")
+      );
+      this.awsRegion = Region.of("auto");
+      this.endpoint = URI.create("http://127.0.0.1:" + this.container.getFirstMappedPort());
     }
 
     @Override
