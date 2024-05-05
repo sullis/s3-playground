@@ -33,8 +33,4 @@ public class S3CloudflareLocalTest extends AbstractS3Test {
         new CloudRuntime.CloudflareLocal(CLOUDFLARE_LOCAL));
   }
 
-  @Override
-  protected DataRedundancy[] dataRedundancyValues() {
-    return new DataRedundancy[] { null };
-  }
 }

@@ -15,8 +15,4 @@ public class S3CloudflareTest extends AbstractS3Test {
     return List.of(new CloudRuntime.Cloudflare("aaa", "bbb", "ccc"));
  }
 
-  @Override
-  protected DataRedundancy[] dataRedundancyValues() {
-    return new DataRedundancy[] { null };
-  }
 }

@@ -68,7 +68,9 @@ abstract class AbstractS3Test {
   protected abstract List<CloudRuntime> s3Runtimes();
 
   /** this method must return a non-empty array */
-  abstract protected DataRedundancy[] dataRedundancyValues();
+  protected DataRedundancy[] dataRedundancyValues() {
+    return new DataRedundancy[] { null };
+  }
 
   public List<S3AsyncClientInfo> s3AsyncClients() {
     List<S3AsyncClientInfo> result = new ArrayList<>();

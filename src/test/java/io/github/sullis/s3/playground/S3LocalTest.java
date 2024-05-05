@@ -47,8 +47,4 @@ public class S3LocalTest extends AbstractS3Test {
         new CloudRuntime.S3Mock(S3_MOCK_CONTAINER));
   }
 
-  @Override
-  protected DataRedundancy[] dataRedundancyValues() {
-    return new DataRedundancy[] { null };
-  }
 }
