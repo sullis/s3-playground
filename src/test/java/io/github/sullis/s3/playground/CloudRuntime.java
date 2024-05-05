@@ -178,12 +178,16 @@ public interface CloudRuntime {
 
     @Override
     public S3CrtAsyncClientBuilder configure(S3CrtAsyncClientBuilder builder) {
-      return builder;
+      return builder.region(this.awsRegion)
+          .endpointOverride(this.endpoint)
+          .credentialsProvider(this.awsCredentialsProvider);
     }
 
     @Override
     public AwsClientBuilder<?, ?> configure(AwsClientBuilder<?, ?> builder) {
-      return builder;
+      return builder.region(this.awsRegion)
+          .endpointOverride(this.endpoint)
+          .credentialsProvider(this.awsCredentialsProvider);
     }
   }
 }
