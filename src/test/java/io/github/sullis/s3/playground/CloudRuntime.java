@@ -134,4 +134,30 @@ public interface CloudRuntime {
       return builder;
     }
   }
+
+  class Cloudflare implements CloudRuntime {
+    private final URI endpointUri;
+    private final AwsCredentialsProvider awsCredentialsProvider;
+    private final Region awsRegion;
+
+    public Cloudflare(String cloudflareAccountId, String accessKeyId, String secretAccessKey) {
+        this.endpointUri = URI.create("https://" + cloudflareAccountId + ".r2.cloudflarestorage.com");
+        this.awsCredentialsProvider = StaticCredentialsProvider.create(AwsBasicCredentials.create(accessKeyId, secretAccessKey));
+        this.awsRegion = Region.of("auto");
+    }
+
+    @Override
+    public S3CrtAsyncClientBuilder configure(S3CrtAsyncClientBuilder builder) {
+      return builder.region(awsRegion)
+          .credentialsProvider(awsCredentialsProvider)
+          .endpointOverride(endpointUri);
+    }
+
+    @Override
+    public AwsClientBuilder<?, ?> configure(AwsClientBuilder<?, ?> builder) {
+      return builder.region(awsRegion)
+          .credentialsProvider(awsCredentialsProvider)
+          .endpointOverride(endpointUri);
+    }
+  }
 }
