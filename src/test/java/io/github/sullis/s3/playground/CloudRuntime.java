@@ -142,8 +142,7 @@ public interface CloudRuntime {
 
     public Cloudflare(String cloudflareAccountId, String accessKeyId, String secretAccessKey) {
         this.endpointUri = URI.create("https://" + cloudflareAccountId + ".r2.cloudflarestorage.com");
-        this.awsCredentialsProvider =
-            StaticCredentialsProvider.create(AwsBasicCredentials.create(accessKeyId, secretAccessKey));
+        this.awsCredentialsProvider = StaticCredentialsProvider.create(AwsBasicCredentials.create(accessKeyId, secretAccessKey));
         this.awsRegion = Region.of("auto");
     }
 
