@@ -162,7 +162,7 @@ public interface CloudRuntime {
   }
 
   class CloudflareLocal implements CloudRuntime {
-    private CloudflareLocalContainer container;
+    private final CloudflareLocalContainer container;
     private final AwsCredentialsProvider awsCredentialsProvider;
     private final Region awsRegion;
     private final URI endpoint;
