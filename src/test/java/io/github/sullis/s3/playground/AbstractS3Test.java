@@ -167,7 +167,7 @@ abstract class AbstractS3Test {
           UploadPartRequest.builder().bucket(bucket).key(key).uploadId(uploadId).partNumber(part).build();
       UploadPartResponse uploadPartResponse = s3Client.uploadPart(uploadPartRequest, requestBody).get();
       assertSuccess(uploadPartResponse);
-      logger.info("uploaded part " + part + " using s3 client: " + s3ClientInfo);
+      logger.info("uploaded part " + part + " via " + s3ClientInfo);
       completedParts.add(CompletedPart.builder().partNumber(part).eTag(uploadPartResponse.eTag()).build());
     }
 
@@ -235,7 +235,7 @@ abstract class AbstractS3Test {
           UploadPartRequest.builder().bucket(bucket).key(key).uploadId(uploadId).partNumber(part).build();
       UploadPartResponse uploadPartResponse = s3Client.uploadPart(uploadPartRequest, requestBody);
       assertSuccess(uploadPartResponse);
-      logger.info("uploaded part " + part + " using s3 client: " + s3ClientInfo);
+      logger.info("uploaded part " + part + " via " + s3ClientInfo);
       completedParts.add(CompletedPart.builder().partNumber(part).eTag(uploadPartResponse.eTag()).build());
     }
 
