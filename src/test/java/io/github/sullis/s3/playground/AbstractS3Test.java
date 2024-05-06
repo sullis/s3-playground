@@ -249,6 +249,7 @@ abstract class AbstractS3Test {
 
     Path localPath = Path.of(Files.temporaryFolderPath() + "/" + UUID.randomUUID().toString());
     File localFile = localPath.toFile();
+    localFile.deleteOnExit();
 
     GetObjectRequest getObjectRequest = GetObjectRequest.builder().bucket(bucket).key(key).build();
     GetObjectResponse getObjectResponse = s3Client.getObject(getObjectRequest, localFile.toPath());
