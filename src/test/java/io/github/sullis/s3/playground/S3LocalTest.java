@@ -7,7 +7,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.testcontainers.containers.MinIOContainer;
 import org.testcontainers.containers.localstack.LocalStackContainer;
 import org.testcontainers.utility.DockerImageName;
-import software.amazon.awssdk.services.s3.model.DataRedundancy;
 
 
 public class S3LocalTest extends AbstractS3Test {

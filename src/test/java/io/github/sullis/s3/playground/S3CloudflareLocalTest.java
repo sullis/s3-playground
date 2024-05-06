@@ -4,7 +4,6 @@ import java.util.List;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
-import software.amazon.awssdk.services.s3.model.DataRedundancy;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
