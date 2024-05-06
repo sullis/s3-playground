@@ -51,6 +51,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 abstract class AbstractS3Test {
+  private static final String BUCKET_PREFIX = "test-bucket-";
   private static final int PART_SIZE = 5 * 1024 * 1024;
   private static final int NUM_PARTS = 3;
   private static final long EXPECTED_OBJECT_SIZE = NUM_PARTS * PART_SIZE;
@@ -134,7 +135,7 @@ abstract class AbstractS3Test {
   @MethodSource("validateS3AsyncClientArguments")
   public void validateS3AsyncClient(S3AsyncClientInfo s3ClientInfo, DataRedundancy dataRedundancy) throws Exception {
     final S3AsyncClient s3Client = s3ClientInfo.client;
-    final String bucket = "bucket-" + UUID.randomUUID();
+    final String bucket = BUCKET_PREFIX + UUID.randomUUID();
 
     CreateBucketRequest.Builder createBucketRequestBuilder = CreateBucketRequest.builder().bucket(bucket);
     if (dataRedundancy != null) {
@@ -202,7 +203,7 @@ abstract class AbstractS3Test {
   @MethodSource("validateS3ClientArguments")
   public void validateS3Client(S3ClientInfo s3ClientInfo, DataRedundancy dataRedundancy) throws Exception {
     final S3Client s3Client = s3ClientInfo.client;
-    final String bucket = "bucket-" + UUID.randomUUID();
+    final String bucket = BUCKET_PREFIX + UUID.randomUUID();
 
     CreateBucketRequest.Builder createBucketRequestBuilder = CreateBucketRequest.builder().bucket(bucket);
     if (dataRedundancy != null) {
