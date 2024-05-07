@@ -10,7 +10,7 @@ import org.testcontainers.utility.DockerImageName;
 
 
 public class S3LocalTest extends AbstractS3Test {
-  private static final LocalStackContainer LOCALSTACK = new LocalStackContainer(DockerImageName.parse("localstack/localstack:3.3.0"))
+  private static final LocalStackContainer LOCALSTACK = new LocalStackContainer(DockerImageName.parse("localstack/localstack:s3-latest"))
       .withServices(LocalStackContainer.Service.S3);
 
   private static final MinIOContainer MINIO_CONTAINER = new MinIOContainer(DockerImageName.parse("minio/minio:latest"));
