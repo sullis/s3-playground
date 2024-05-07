@@ -11,3 +11,10 @@ s3 experiments
 
 # S3 Express One Zone storage
 - [Getting started with the Amazon S3 Express One Zone storage class](https://www.youtube.com/watch?v=MzZ5pZ-wXBM)
+
+
+# Open source projects
+
+- [s3proxy](https://github.com/gaul/s3proxy)
+- [S3Mock](https://github.com/adobe/S3Mock)
+
