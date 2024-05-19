@@ -2,6 +2,7 @@ package io.github.sullis.s3.playground;
 
 import com.adobe.testing.s3mock.testcontainers.S3MockContainer;
 import java.net.URI;
+import org.testcontainers.containers.CephContainer;
 import org.testcontainers.containers.MinIOContainer;
 import org.testcontainers.containers.localstack.LocalStackContainer;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
@@ -103,6 +104,33 @@ public interface CloudRuntime {
       );
       this.awsRegion = Region.US_EAST_1;
       this.endpoint = URI.create("http://127.0.0.1:" + this.container.getHttpServerPort());
+    }
+
+    @Override
+    public S3CrtAsyncClientBuilder configure(S3CrtAsyncClientBuilder builder) {
+      return builder.endpointOverride(endpoint)
+          .credentialsProvider(awsCredentialsProvider)
+          .region(awsRegion);
+    }
+
+    @Override
+    public AwsClientBuilder<?, ?> configure(AwsClientBuilder<?, ?> builder) {
+      return builder.endpointOverride(endpoint)
+          .credentialsProvider(awsCredentialsProvider)
+          .region(awsRegion);
+    }
+  }
+
+  class Ceph implements CloudRuntime {
+    private final AwsCredentialsProvider awsCredentialsProvider;
+    private final Region awsRegion;
+    private final URI endpoint;
+
+    public Ceph(final CephContainer container) {
+      this.awsCredentialsProvider = StaticCredentialsProvider.create(
+          AwsBasicCredentials.create(container.getCephAccessKey(), container.getCephSecretKey()));
+      this.awsRegion = Region.US_EAST_1;
+      this.endpoint = URI.create("http://127.0.0.1:" + container.getCephPort());
     }
 
     @Override

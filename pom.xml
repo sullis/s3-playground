@@ -65,6 +65,12 @@
       <scope>test</scope>
     </dependency>
     <dependency>
+      <groupId>io.github.jarlah</groupId>
+      <artifactId>testcontainers-ceph</artifactId>
+      <version>2.0.3</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
       <groupId>software.amazon.awssdk</groupId>
       <artifactId>dynamodb</artifactId>
       <scope>test</scope>
