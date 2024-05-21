@@ -54,7 +54,6 @@ public interface ObjectStorageProvider {
   }
 
   class Minio implements ObjectStorageProvider {
-    private final MinIOContainer container;
     private final AwsCredentialsProvider awsCredentialsProvider;
     private final Region awsRegion;
     private final URI endpoint;
@@ -63,7 +62,6 @@ public interface ObjectStorageProvider {
       if (!container.isRunning()) {
         throw new IllegalStateException("container is not running");
       }
-      this.container = container;
       this.awsCredentialsProvider = StaticCredentialsProvider.create(
           AwsBasicCredentials.create("minioadmin", "minioadmin")
       );
@@ -92,18 +90,16 @@ public interface ObjectStorageProvider {
   }
 
   class S3Mock implements ObjectStorageProvider {
-    private final S3MockContainer container;
     private final AwsCredentialsProvider awsCredentialsProvider;
     private final Region awsRegion;
     private final URI endpoint;
 
     public S3Mock(S3MockContainer container) {
-      this.container = container;
       this.awsCredentialsProvider = StaticCredentialsProvider.create(
           AwsBasicCredentials.create("dummy", "dummy")
       );
       this.awsRegion = Region.US_EAST_1;
-      this.endpoint = URI.create("http://127.0.0.1:" + this.container.getHttpServerPort());
+      this.endpoint = URI.create("http://127.0.0.1:" + container.getHttpServerPort());
     }
 
     @Override
