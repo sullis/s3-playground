@@ -46,12 +46,12 @@ public class S3LocalTest extends AbstractS3Test {
   }
 
   @Override
-  public List<CloudRuntime> s3Runtimes() {
+  public List<ObjectStorageProvider> objectStorageProviders() {
     return List.of(
-        new CloudRuntime.Localstack(LOCALSTACK),
-        new CloudRuntime.Minio(MINIO_CONTAINER),
-        new CloudRuntime.S3Mock(S3_MOCK_CONTAINER),
-        new CloudRuntime.Ceph(CEPH_CONTAINER));
+        new ObjectStorageProvider.Localstack(LOCALSTACK),
+        new ObjectStorageProvider.Minio(MINIO_CONTAINER),
+        new ObjectStorageProvider.S3Mock(S3_MOCK_CONTAINER),
+        new ObjectStorageProvider.Ceph(CEPH_CONTAINER));
   }
 
 }

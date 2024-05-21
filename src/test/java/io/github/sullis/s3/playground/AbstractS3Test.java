@@ -66,7 +66,7 @@ abstract class AbstractS3Test {
 
   private final Logger logger = LoggerFactory.getLogger(getClass());
 
-  protected abstract List<CloudRuntime> s3Runtimes();
+  protected abstract List<ObjectStorageProvider> objectStorageProviders();
 
   /** this method must return a non-empty array */
   protected DataRedundancy[] dataRedundancyValues() {
@@ -75,16 +75,16 @@ abstract class AbstractS3Test {
 
   public List<S3AsyncClientInfo> s3AsyncClients() {
     List<S3AsyncClientInfo> result = new ArrayList<>();
-    for (CloudRuntime s3Runtime : s3Runtimes()) {
+    for (ObjectStorageProvider objectStorage : objectStorageProviders()) {
       ASYNC_HTTP_CLIENT_BUILDER_LIST.forEach(httpClientBuilder -> {
         var httpClient = httpClientBuilder.build();
         S3AsyncClient s3Client =
-            (S3AsyncClient) s3Runtime.configure(S3AsyncClient.builder().httpClient(httpClient)).build();
-        result.add(new S3AsyncClientInfo(httpClient.clientName(), s3Runtime, s3Client));
+            (S3AsyncClient) objectStorage.configure(S3AsyncClient.builder().httpClient(httpClient)).build();
+        result.add(new S3AsyncClientInfo(httpClient.clientName(), objectStorage, s3Client));
       });
 
       // S3 crtBuilder
-      result.add(new S3AsyncClientInfo("crtBuilder", s3Runtime, s3Runtime.configure(S3AsyncClient.crtBuilder()).build()));
+      result.add(new S3AsyncClientInfo("crtBuilder", objectStorage, objectStorage.configure(S3AsyncClient.crtBuilder()).build()));
     }
 
     return result;
@@ -92,12 +92,12 @@ abstract class AbstractS3Test {
 
   public List<S3ClientInfo> s3Clients() {
     List<S3ClientInfo> result = new ArrayList<>();
-    for (CloudRuntime s3Runtime: s3Runtimes()) {
+    for (ObjectStorageProvider objectStorageProvider : objectStorageProviders()) {
       SYNC_HTTP_CLIENT_BUILDER_LIST.forEach(httpClientBuilder -> {
         var httpClient = httpClientBuilder.build();
         S3Client s3Client =
-            (S3Client) s3Runtime.configure(S3Client.builder().httpClient(httpClient)).build();
-        result.add(new S3ClientInfo(httpClient.clientName(), s3Runtime, s3Client));
+            (S3Client) objectStorageProvider.configure(S3Client.builder().httpClient(httpClient)).build();
+        result.add(new S3ClientInfo(httpClient.clientName(), objectStorageProvider, s3Client));
       });
     }
 
@@ -271,17 +271,17 @@ abstract class AbstractS3Test {
     assertThat(sdkResponse.sdkHttpResponse().isSuccessful()).isTrue();
   }
 
-  public record S3AsyncClientInfo(String httpClientDescription, CloudRuntime cloudRuntime, S3AsyncClient client) {
+  public record S3AsyncClientInfo(String httpClientDescription, ObjectStorageProvider objectStorageProvider, S3AsyncClient client) {
     @Override
     public String toString() {
-      return cloudRuntime.getClass().getSimpleName() + ":" + httpClientDescription + ":" + this.client.getClass().getSimpleName();
+      return objectStorageProvider.getClass().getSimpleName() + ":" + httpClientDescription + ":" + this.client.getClass().getSimpleName();
     }
   }
 
-  public record S3ClientInfo(String httpClientDescription, CloudRuntime cloudRuntime, S3Client client) {
+  public record S3ClientInfo(String httpClientDescription, ObjectStorageProvider objectStorageProvider, S3Client client) {
     @Override
     public String toString() {
-      return cloudRuntime.getClass().getSimpleName() + ":" + httpClientDescription + ":" + this.client.getClass().getSimpleName();
+      return objectStorageProvider.getClass().getSimpleName() + ":" + httpClientDescription + ":" + this.client.getClass().getSimpleName();
     }
   }
 }

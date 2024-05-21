@@ -10,8 +10,8 @@ public class S3CloudflareTest extends AbstractS3Test {
   private static final Logger LOGGER = LoggerFactory.getLogger(S3CloudflareTest.class);
 
   @Override
-  protected List<CloudRuntime> s3Runtimes() {
-    return List.of(new CloudRuntime.Cloudflare("aaa", "bbb", "ccc"));
+  protected List<ObjectStorageProvider> objectStorageProviders() {
+    return List.of(new ObjectStorageProvider.Cloudflare("aaa", "bbb", "ccc"));
  }
 
 }

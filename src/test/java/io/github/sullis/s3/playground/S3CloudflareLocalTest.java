@@ -27,9 +27,9 @@ public class S3CloudflareLocalTest extends AbstractS3Test {
   }
 
   @Override
-  public List<CloudRuntime> s3Runtimes() {
+  public List<ObjectStorageProvider> objectStorageProviders() {
     return List.of(
-        new CloudRuntime.CloudflareLocal(CLOUDFLARE_LOCAL));
+        new ObjectStorageProvider.CloudflareLocal(CLOUDFLARE_LOCAL));
   }
 
 }

@@ -13,11 +13,11 @@ import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3CrtAsyncClientBuilder;
 
 
-public interface CloudRuntime {
+public interface ObjectStorageProvider {
   S3CrtAsyncClientBuilder configure(S3CrtAsyncClientBuilder builder);
   AwsClientBuilder<?, ?> configure(AwsClientBuilder<?, ?> builder);
 
-  class Localstack implements CloudRuntime {
+  class Localstack implements ObjectStorageProvider {
     private final LocalStackContainer container;
     private final AwsCredentialsProvider awsCredentialsProvider;
     private final Region awsRegion;
@@ -53,7 +53,7 @@ public interface CloudRuntime {
     }
   }
 
-  class Minio implements CloudRuntime {
+  class Minio implements ObjectStorageProvider {
     private final MinIOContainer container;
     private final AwsCredentialsProvider awsCredentialsProvider;
     private final Region awsRegion;
@@ -91,7 +91,7 @@ public interface CloudRuntime {
     }
   }
 
-  class S3Mock implements CloudRuntime {
+  class S3Mock implements ObjectStorageProvider {
     private final S3MockContainer container;
     private final AwsCredentialsProvider awsCredentialsProvider;
     private final Region awsRegion;
@@ -121,7 +121,7 @@ public interface CloudRuntime {
     }
   }
 
-  class Ceph implements CloudRuntime {
+  class Ceph implements ObjectStorageProvider {
     private final AwsCredentialsProvider awsCredentialsProvider;
     private final Region awsRegion;
     private final URI endpoint;
@@ -148,7 +148,7 @@ public interface CloudRuntime {
     }
   }
 
-  class Aws implements CloudRuntime {
+  class Aws implements ObjectStorageProvider {
 
     public Aws() { }
 
@@ -163,7 +163,7 @@ public interface CloudRuntime {
     }
   }
 
-  class Cloudflare implements CloudRuntime {
+  class Cloudflare implements ObjectStorageProvider {
     private final URI endpointUri;
     private final AwsCredentialsProvider awsCredentialsProvider;
     private final Region awsRegion;
@@ -189,7 +189,7 @@ public interface CloudRuntime {
     }
   }
 
-  class CloudflareLocal implements CloudRuntime {
+  class CloudflareLocal implements ObjectStorageProvider {
     private final CloudflareLocalContainer container;
     private final AwsCredentialsProvider awsCredentialsProvider;
     private final Region awsRegion;
