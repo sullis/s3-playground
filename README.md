@@ -18,3 +18,7 @@ s3 experiments
 - [s3proxy](https://github.com/gaul/s3proxy)
 - [S3Mock](https://github.com/adobe/S3Mock)
 
+# Articles
+- [S3 is showing its age](https://materializedview.io/p/s3-is-showing-its-age)
+
+
