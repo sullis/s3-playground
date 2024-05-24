@@ -159,6 +159,32 @@ public interface ObjectStorageProvider {
     }
   }
 
+  class Tigris implements ObjectStorageProvider {
+    private final URI endpointUri;
+    private final AwsCredentialsProvider awsCredentialsProvider;
+    private final Region awsRegion;
+
+    public Tigris(String accessKeyId, String secretAccessKey) {
+      this.endpointUri = URI.create("https://fly.storage.tigris.dev");
+      this.awsCredentialsProvider = StaticCredentialsProvider.create(AwsBasicCredentials.create(accessKeyId, secretAccessKey));
+      this.awsRegion = Region.of("auto");
+    }
+
+    @Override
+    public S3CrtAsyncClientBuilder configure(S3CrtAsyncClientBuilder builder) {
+      return builder.region(awsRegion)
+          .credentialsProvider(awsCredentialsProvider)
+          .endpointOverride(endpointUri);
+    }
+
+    @Override
+    public AwsClientBuilder<?, ?> configure(AwsClientBuilder<?, ?> builder) {
+      return builder.region(awsRegion)
+          .credentialsProvider(awsCredentialsProvider)
+          .endpointOverride(endpointUri);
+    }
+  }
+
   class Cloudflare implements ObjectStorageProvider {
     private final URI endpointUri;
     private final AwsCredentialsProvider awsCredentialsProvider;
