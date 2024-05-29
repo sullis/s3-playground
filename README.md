@@ -12,6 +12,9 @@ s3 experiments
 # S3 Express One Zone storage
 - [Getting started with the Amazon S3 Express One Zone storage class](https://www.youtube.com/watch?v=MzZ5pZ-wXBM)
 
+# Video
+- [Reimplementing Apache Kafka with Golang and S3](https://www.youtube.com/watch?v=xgzmxe6cj6A) - Ryan Worl, WarpStream 
+
 
 # Open source projects
 
