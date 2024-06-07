@@ -185,6 +185,38 @@ public interface ObjectStorageProvider {
     }
   }
 
+  /*
+
+     Google Cloud with S3
+     https://cloud.google.com/storage/docs/aws-simple-migration
+
+   */
+  class GoogleCloud implements ObjectStorageProvider {
+    private final URI endpointUri;
+    private final AwsCredentialsProvider awsCredentialsProvider;
+    private final Region awsRegion;
+
+    public GoogleCloud(String googleAccessKeyId, String googleSecretAccessKey) {
+      this.endpointUri = URI.create("https://storage.googleapis.com");
+      this.awsCredentialsProvider = StaticCredentialsProvider.create(AwsBasicCredentials.create(googleAccessKeyId, googleSecretAccessKey));
+      this.awsRegion = Region.of("auto");
+    }
+
+    @Override
+    public S3CrtAsyncClientBuilder configure(S3CrtAsyncClientBuilder builder) {
+      return builder.region(awsRegion)
+          .credentialsProvider(awsCredentialsProvider)
+          .endpointOverride(endpointUri);
+    }
+
+    @Override
+    public AwsClientBuilder<?, ?> configure(AwsClientBuilder<?, ?> builder) {
+      return builder.region(awsRegion)
+          .credentialsProvider(awsCredentialsProvider)
+          .endpointOverride(endpointUri);
+    }
+  }
+
   class Cloudflare implements ObjectStorageProvider {
     private final URI endpointUri;
     private final AwsCredentialsProvider awsCredentialsProvider;
