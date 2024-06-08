@@ -16,7 +16,8 @@ s3 experiments
 - [Event Notifications](https://docs.aws.amazon.com/AmazonS3/latest/userguide/EventNotifications.html)
 
 # Video
-- [Reimplementing Apache Kafka with Golang and S3](https://www.youtube.com/watch?v=xgzmxe6cj6A) - Ryan Worl, WarpStream 
+- [Reimplementing Apache Kafka with Golang and S3](https://www.youtube.com/watch?v=xgzmxe6cj6A) - Ryan Worl, WarpStream
+- [Mastering S3 permissions](https://www.youtube.com/watch?v=q93YXkEhPcY) - AWS
 
 
 # Open source projects
