@@ -32,4 +32,8 @@ s3 experiments
 - [S3 is showing its age](https://materializedview.io/p/s3-is-showing-its-age)
 - [Minimizing S3 API Costs with Distributed mmap](https://www.warpstream.com/blog/minimizing-s3-api-costs-with-distributed-mmap)
 - [How WarpStream enables cost-effective low-latency streaming with Amazon S3 Express One Zone](https://aws.amazon.com/blogs/storage/how-warpstream-enables-cost-effective-low-latency-streaming-with-amazon-s3-express-one-zone/)
+
+# Academic papers
+- [MIT: Building a Database on S3](https://people.csail.mit.edu/kraska/pub/sigmod08-s3.pdf) (2008)
+
   
