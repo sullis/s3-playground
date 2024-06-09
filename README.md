@@ -15,6 +15,9 @@ s3 experiments
 # S3 event notifications
 - [Event Notifications](https://docs.aws.amazon.com/AmazonS3/latest/userguide/EventNotifications.html)
 
+# S3 List performance
+- [Delta Lake pdf](https://people.eecs.berkeley.edu/~matei/papers/2020/vldb_delta_lake.pdf)
+- 
 # Video
 - [Reimplementing Apache Kafka with Golang and S3](https://www.youtube.com/watch?v=xgzmxe6cj6A) - Ryan Worl, WarpStream
 - [Mastering S3 permissions](https://www.youtube.com/watch?v=q93YXkEhPcY) - AWS
