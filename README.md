@@ -28,6 +28,7 @@ s3 experiments
 - [s3proxy](https://github.com/gaul/s3proxy)
 - [S3Mock](https://github.com/adobe/S3Mock)
 - [Active Storage](https://guides.rubyonrails.org/v6.0.3/active_storage_overview.html) - Ruby on Rails
+- [s3-tests](https://github.com/ceph/s3-tests)
 
 # Commercial offerings
 - [flexify](https://flexify.io)
