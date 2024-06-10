@@ -29,6 +29,9 @@ s3 experiments
 - [S3Mock](https://github.com/adobe/S3Mock)
 - [Active Storage](https://guides.rubyonrails.org/v6.0.3/active_storage_overview.html) - Ruby on Rails
 
+# Commercial offerings
+- [flexify](https://flexify.io)
+
 # Articles
 - [Cost Analysis Of Replication Vs S3 Express One Zone](https://jack-vanlightly.com/blog/2024/6/10/a-cost-analysis-of-replication-vs-s3-express-one-zone-in-transactional-data-systems)
 - [S3 is showing its age](https://materializedview.io/p/s3-is-showing-its-age)
