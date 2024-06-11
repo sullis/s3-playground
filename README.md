@@ -33,6 +33,9 @@ s3 experiments
 # Commercial offerings
 - [flexify](https://flexify.io)
 
+# BYOB (Bring your own bucket)
+- [Axiom BYOB](https://axiom.co/blog/bring-your-own-bucket)
+
 # Articles
 - [Cost Analysis Of Replication Vs S3 Express One Zone](https://jack-vanlightly.com/blog/2024/6/10/a-cost-analysis-of-replication-vs-s3-express-one-zone-in-transactional-data-systems)
 - [S3 is showing its age](https://materializedview.io/p/s3-is-showing-its-age)
