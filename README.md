@@ -26,7 +26,6 @@ s3 experiments
 
 
 # Open source projects
-
 - [s3proxy](https://github.com/gaul/s3proxy)
 - [S3Mock](https://github.com/adobe/S3Mock)
 - [Active Storage](https://guides.rubyonrails.org/v6.0.3/active_storage_overview.html) - Ruby on Rails
@@ -39,6 +38,7 @@ s3 experiments
 - [Axiom BYOB](https://axiom.co/blog/bring-your-own-bucket)
 
 # Articles
+- [Malware protection for S3](https://aws.amazon.com/blogs/aws/introducing-amazon-guardduty-malware-protection-for-amazon-s3/)
 - [Cost Analysis Of Replication Vs S3 Express One Zone](https://jack-vanlightly.com/blog/2024/6/10/a-cost-analysis-of-replication-vs-s3-express-one-zone-in-transactional-data-systems)
 - [S3 is showing its age](https://materializedview.io/p/s3-is-showing-its-age)
 - [Minimizing S3 API Costs with Distributed mmap](https://www.warpstream.com/blog/minimizing-s3-api-costs-with-distributed-mmap)
