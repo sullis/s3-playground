@@ -22,6 +22,7 @@ s3 experiments
 - [Reimplementing Apache Kafka with Golang and S3](https://www.youtube.com/watch?v=xgzmxe6cj6A) - Ryan Worl, WarpStream
 - [Beyond Kafka: Cutting Costs and Complexity with WarpStream and S3](https://www.youtube.com/watch?v=wgwUE2izH38) - Ryan Worl, WarpStream
 - [Mastering S3 permissions](https://www.youtube.com/watch?v=6oYJTyggbfM) - AWS
+- [Improving your Amazon S3 security with cost-effective practices ](https://www.youtube.com/watch?v=FA1kLC4dHvA) - AWS Re:Inforce 2024
 
 
 # Open source projects
