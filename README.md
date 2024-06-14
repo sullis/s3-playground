@@ -24,7 +24,6 @@ s3 experiments
 - [Mastering S3 permissions](https://www.youtube.com/watch?v=6oYJTyggbfM) - AWS
 - [Improving your Amazon S3 security with cost-effective practices ](https://www.youtube.com/watch?v=FA1kLC4dHvA) - AWS Re:Inforce 2024
 
-
 # Open source projects
 - [s3proxy](https://github.com/gaul/s3proxy)
 - [S3Mock](https://github.com/adobe/S3Mock)
@@ -38,6 +37,7 @@ s3 experiments
 - [Axiom BYOB](https://axiom.co/blog/bring-your-own-bucket)
 
 # Articles
+- [S3 URI parsing](https://aws.amazon.com/blogs/devops/s3-uri-parsing-is-now-available-in-aws-sdk-for-java-2-x/)
 - [Malware protection for S3](https://aws.amazon.com/blogs/aws/introducing-amazon-guardduty-malware-protection-for-amazon-s3/)
 - [Cost Analysis Of Replication Vs S3 Express One Zone](https://jack-vanlightly.com/blog/2024/6/10/a-cost-analysis-of-replication-vs-s3-express-one-zone-in-transactional-data-systems)
 - [S3 is showing its age](https://materializedview.io/p/s3-is-showing-its-age)
