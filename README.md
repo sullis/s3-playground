@@ -36,8 +36,11 @@ s3 experiments
 # BYOB (Bring your own bucket)
 - [Axiom BYOB](https://axiom.co/blog/bring-your-own-bucket)
 
-# Articles
+# Java AWS SDK
+- [software.amazon.awssdk.services.s3.S3Uri](https://sdk.amazonaws.com/java/api/latest/software/amazon/awssdk/services/s3/S3Uri.html)
 - [S3 URI parsing](https://aws.amazon.com/blogs/devops/s3-uri-parsing-is-now-available-in-aws-sdk-for-java-2-x/)
+
+# Articles
 - [Malware protection for S3](https://aws.amazon.com/blogs/aws/introducing-amazon-guardduty-malware-protection-for-amazon-s3/)
 - [Cost Analysis Of Replication Vs S3 Express One Zone](https://jack-vanlightly.com/blog/2024/6/10/a-cost-analysis-of-replication-vs-s3-express-one-zone-in-transactional-data-systems)
 - [S3 is showing its age](https://materializedview.io/p/s3-is-showing-its-age)
