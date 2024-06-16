@@ -31,6 +31,7 @@ s3 experiments
 - [s3-tests](https://github.com/ceph/s3-tests)
 
 # Commercial offerings
+- [Wasabi S3 API](https://docs.wasabi.com/docs/wasabi-api)
 - [flexify](https://flexify.io)
 
 # BYOB (Bring your own bucket)
