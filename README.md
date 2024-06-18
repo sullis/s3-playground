@@ -24,6 +24,7 @@ s3 experiments
 - [Mastering S3 permissions](https://www.youtube.com/watch?v=6oYJTyggbfM) - AWS
 - [Improving your Amazon S3 security with cost-effective practices ](https://www.youtube.com/watch?v=FA1kLC4dHvA) - AWS Re:Inforce 2024
 - [SNIA: Navigating Complexities of Object Storage Compatibility](https://www.youtube.com/watch?v=o6RIPL-S8sA)
+- [Minio for developers](https://www.youtube.com/watch?v=gY090GEDdu8)
 
 # Open source projects
 - [s3proxy](https://github.com/gaul/s3proxy)
