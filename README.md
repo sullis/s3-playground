@@ -9,6 +9,7 @@ s3 experiments
 - [AWS re:Invent 2023 - What’s new with Amazon S3](https://www.youtube.com/watch?v=idz2SvBHK-s)
 - [AWS re:Invent 2023 - Dive deep on Amazon S3](https://www.youtube.com/watch?v=sYDJYqvNeXU)
 - [AWS re:Invent 2023 - Building and optimizing a data lake on Amazon S3](https://www.youtube.com/watch?v=mpQa_Zm1xW8)
+- [AWS re:Invent 2023 - Netflix’s journey to an Apache Iceberg–only data lake](https://www.youtube.com/watch?v=jMFMEk8jFu8)
 
 # S3 Express One Zone storage
 - [Getting started with the Amazon S3 Express One Zone storage class](https://www.youtube.com/watch?v=MzZ5pZ-wXBM)
