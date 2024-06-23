@@ -22,6 +22,7 @@ s3 experiments
 - [Delta Lake pdf](https://people.eecs.berkeley.edu/~matei/papers/2020/vldb_delta_lake.pdf)
 
 # Video
+- [Building and Operating a Pretty Big Storage System (My Adventures in Amazon S3)](https://www.usenix.org/conference/fast23/presentation/warfield) - Andy Warfield @ FAST '23
 - [Reimplementing Apache Kafka with Golang and S3](https://www.youtube.com/watch?v=xgzmxe6cj6A) - Ryan Worl, WarpStream
 - [Beyond Kafka: Cutting Costs and Complexity with WarpStream and S3](https://www.youtube.com/watch?v=wgwUE2izH38) - Ryan Worl, WarpStream
 - [Mastering S3 permissions](https://www.youtube.com/watch?v=6oYJTyggbfM) - AWS
