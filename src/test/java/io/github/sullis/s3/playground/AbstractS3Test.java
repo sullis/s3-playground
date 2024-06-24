@@ -203,21 +203,7 @@ abstract class AbstractS3Test {
   @MethodSource("validateS3ClientArguments")
   public void validateS3Client(S3ClientInfo s3ClientInfo, DataRedundancy dataRedundancy) throws Exception {
     final S3Client s3Client = s3ClientInfo.client;
-    final String bucket = BUCKET_PREFIX + UUID.randomUUID();
-
-    CreateBucketRequest.Builder createBucketRequestBuilder = CreateBucketRequest.builder().bucket(bucket);
-    if (dataRedundancy != null) {
-      BucketInfo bucketInfo = BucketInfo.builder()
-          .dataRedundancy(dataRedundancy)
-          .type(BucketType.DIRECTORY)
-          .build();
-      CreateBucketConfiguration createBucketConfiguration = CreateBucketConfiguration.builder().bucket(bucketInfo).build();
-      createBucketRequestBuilder = createBucketRequestBuilder.createBucketConfiguration(createBucketConfiguration);
-    }
-
-    CreateBucketRequest createBucketRequest = createBucketRequestBuilder.build();
-    CreateBucketResponse createBucketResponse = s3Client.createBucket(createBucketRequest);
-    assertSuccess(createBucketResponse);
+    final String bucket = createNewBucket(s3Client, dataRedundancy);
 
     final String key = "key-" + UUID.randomUUID();
     CreateMultipartUploadRequest createMultipartUploadRequest = CreateMultipartUploadRequest.builder().bucket(bucket).key(key).build();
@@ -265,6 +251,25 @@ abstract class AbstractS3Test {
     S3Object s3Object = s3Objects.get(0);
     assertThat(s3Object.key()).isEqualTo(key);
     assertThat(s3Object.eTag()).isNotNull();
+  }
+
+  private static String createNewBucket(final S3Client s3Client, final DataRedundancy dataRedundancy) {
+    final String bucket = BUCKET_PREFIX + UUID.randomUUID();
+
+    CreateBucketRequest.Builder createBucketRequestBuilder = CreateBucketRequest.builder().bucket(bucket);
+    if (dataRedundancy != null) {
+      BucketInfo bucketInfo = BucketInfo.builder()
+          .dataRedundancy(dataRedundancy)
+          .type(BucketType.DIRECTORY)
+          .build();
+      CreateBucketConfiguration createBucketConfiguration = CreateBucketConfiguration.builder().bucket(bucketInfo).build();
+      createBucketRequestBuilder = createBucketRequestBuilder.createBucketConfiguration(createBucketConfiguration);
+    }
+
+    CreateBucketRequest createBucketRequest = createBucketRequestBuilder.build();
+    CreateBucketResponse createBucketResponse = s3Client.createBucket(createBucketRequest);
+    assertSuccess(createBucketResponse);
+    return bucket;
   }
 
   private static void assertSuccess(final SdkResponse sdkResponse) {
