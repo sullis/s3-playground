@@ -28,6 +28,7 @@ s3 experiments
 - [Building and Operating a Pretty Big Storage System (My Adventures in Amazon S3)](https://www.usenix.org/conference/fast23/presentation/warfield) - Andy Warfield @ FAST '23
 - [Reimplementing Apache Kafka with Golang and S3](https://www.youtube.com/watch?v=xgzmxe6cj6A) - Ryan Worl, WarpStream
 - [Beyond Kafka: Cutting Costs and Complexity with WarpStream and S3](https://www.youtube.com/watch?v=wgwUE2izH38) - Ryan Worl, WarpStream
+- [Best Practices for Trino with Amazon S3](https://www.youtube.com/watch?v=cjUUcHlUKxQ) ([slides](https://trino.io/assets/blog/trino-fest-2024/aws-s3.pdf)) - Trino Fest 2024
 - [Mastering S3 permissions](https://www.youtube.com/watch?v=6oYJTyggbfM) - AWS
 - [Improving your Amazon S3 security with cost-effective practices ](https://www.youtube.com/watch?v=FA1kLC4dHvA) - AWS Re:Inforce 2024
 - [SNIA: Navigating Complexities of Object Storage Compatibility](https://www.youtube.com/watch?v=o6RIPL-S8sA)
