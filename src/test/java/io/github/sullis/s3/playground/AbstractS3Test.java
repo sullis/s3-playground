@@ -1,12 +1,11 @@
 package io.github.sullis.s3.playground;
 
 import java.io.File;
-import java.nio.charset.StandardCharsets;
+import java.io.FileInputStream;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Stream;
 import org.apache.commons.lang3.StringUtils;
@@ -18,10 +17,8 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import software.amazon.awssdk.core.ResponseBytes;
 import software.amazon.awssdk.core.SdkResponse;
 import software.amazon.awssdk.core.async.AsyncRequestBody;
-import software.amazon.awssdk.core.async.AsyncResponseTransformer;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.http.SdkHttpClient;
 import software.amazon.awssdk.http.apache.ApacheHttpClient;
@@ -54,9 +51,13 @@ import software.amazon.awssdk.services.s3.model.S3Object;
 import software.amazon.awssdk.services.s3.model.UploadPartRequest;
 import software.amazon.awssdk.services.s3.model.UploadPartResponse;
 import software.amazon.awssdk.transfer.s3.S3TransferManager;
+import software.amazon.awssdk.transfer.s3.model.CompletedFileDownload;
 import software.amazon.awssdk.transfer.s3.model.CompletedUpload;
+import software.amazon.awssdk.transfer.s3.model.DownloadFileRequest;
+import software.amazon.awssdk.transfer.s3.model.FileDownload;
 import software.amazon.awssdk.transfer.s3.model.Upload;
 import software.amazon.awssdk.transfer.s3.progress.LoggingTransferListener;
+import software.amazon.awssdk.utils.IoUtils;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -297,10 +298,23 @@ abstract class AbstractS3Test {
     assertThat(putObjectResponse.eTag()).isNotNull();
     assertThat(putObjectResponse.expiration()).isNull();
 
-    GetObjectRequest getObjectRequest = GetObjectRequest.builder().bucket(bucket).key(uploadKey).build();
-    ResponseBytes<GetObjectResponse> responseBytes = s3Client.getObject(getObjectRequest, AsyncResponseTransformer.toBytes()).get();
-    String responseText = responseBytes.asString(StandardCharsets.UTF_8);
-    assertThat(responseText).isEqualTo(payload);
+    File destinationFile = Files.newTemporaryFile();
+
+    DownloadFileRequest downloadFileRequest = DownloadFileRequest.builder()
+        .addTransferListener(listener)
+        .destination(destinationFile)
+        .getObjectRequest(GetObjectRequest.builder().bucket(bucket).key(uploadKey).build())
+        .build();
+
+    FileDownload fileDownload = transferManager.downloadFile(downloadFileRequest);
+    CompletedFileDownload completedFileDownload = fileDownload.completionFuture().get();
+    GetObjectResponse getObjectResponse = completedFileDownload.response();
+    assertSuccess(getObjectResponse);
+
+    assertThat(destinationFile).isFile();
+    assertThat(destinationFile).hasSize(11);
+    FileInputStream fis = new FileInputStream(destinationFile);
+    assertThat(IoUtils.toUtf8String(fis)).isEqualTo(payload);
 
     transferManager.close();
   }
