@@ -44,7 +44,7 @@ s3 experiments
 - [Axiom BYOB](https://axiom.co/blog/bring-your-own-bucket)
 
 # S3 Multi Part Upload
-- [multipart upload](https://docs.aws.amazon.com/AmazonS3/latest/userguide/mpu-upload-object.html)
+- [multipart upload](https://docs.aws.amazon.com/AmazonS3/latest/userguide/mpu-upload-object.html) guide
 - [S3 Transfer Manager](https://sdk.amazonaws.com/java/api/latest/software/amazon/awssdk/transfer/s3/package-summary.html)
 
 # Java AWS SDK
