@@ -54,6 +54,7 @@ import software.amazon.awssdk.services.s3.model.UploadPartRequest;
 import software.amazon.awssdk.services.s3.model.UploadPartResponse;
 import software.amazon.awssdk.transfer.s3.S3TransferManager;
 import software.amazon.awssdk.transfer.s3.model.Upload;
+import software.amazon.awssdk.transfer.s3.progress.LoggingTransferListener;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -274,11 +275,15 @@ abstract class AbstractS3Test {
     final String bucket = createNewBucket(s3Client, dataRedundancy);
     final String uploadKey = UUID.randomUUID().toString();
     final String payload = "Hello world";
+
+    final LoggingTransferListener listener = LoggingTransferListener.create();
+
     S3TransferManager transferManager = S3TransferManager.builder()
         .s3Client(s3Client)
         .build();
     Upload upload = transferManager.upload(uploadReq ->
         uploadReq.requestBody(AsyncRequestBody.fromString(payload))
+            .addTransferListener(listener)
             .putObjectRequest(PutObjectRequest.builder()
                 .bucket(bucket)
                 .key(uploadKey)

@@ -6,6 +6,7 @@
     </encoder>
   </appender>
 
+  <logger name="software.amazon.awssdk.transfer.s3.progress.LoggingTransferListener" level="ALL" />
   <logger name="io.netty" level="ERROR"/>
   <logger name="httpserver" level="ALL"/>
   <logger name="io.github.sullis" level="ALL"/>
