@@ -43,8 +43,11 @@ s3 experiments
 # BYOB (Bring your own bucket)
 - [Axiom BYOB](https://axiom.co/blog/bring-your-own-bucket)
 
-# Java AWS SDK
+# S3 Multi Part Upload
+- [multipart upload](https://docs.aws.amazon.com/AmazonS3/latest/userguide/mpu-upload-object.html)
 - [S3 Transfer Manager](https://sdk.amazonaws.com/java/api/latest/software/amazon/awssdk/transfer/s3/package-summary.html)
+
+# Java AWS SDK
 - [software.amazon.awssdk.services.s3.S3Uri](https://sdk.amazonaws.com/java/api/latest/software/amazon/awssdk/services/s3/S3Uri.html)
 - [S3 URI parsing](https://aws.amazon.com/blogs/devops/s3-uri-parsing-is-now-available-in-aws-sdk-for-java-2-x/)
 
