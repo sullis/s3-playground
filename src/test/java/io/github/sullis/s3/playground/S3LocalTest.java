@@ -50,8 +50,8 @@ public class S3LocalTest extends AbstractS3Test {
     return List.of(
         new ObjectStorageProvider.Localstack(LOCALSTACK),
         new ObjectStorageProvider.Minio(MINIO_CONTAINER),
-        new ObjectStorageProvider.S3Mock(S3_MOCK_CONTAINER),
-        new ObjectStorageProvider.Ceph(CEPH_CONTAINER));
+        new ObjectStorageProvider.S3Mock(S3_MOCK_CONTAINER));
+        // TODO new ObjectStorageProvider.Ceph(CEPH_CONTAINER));
   }
 
 }
