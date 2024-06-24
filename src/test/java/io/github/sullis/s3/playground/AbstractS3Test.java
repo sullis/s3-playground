@@ -31,6 +31,7 @@ import software.amazon.awssdk.http.crt.AwsCrtHttpClient;
 import software.amazon.awssdk.http.nio.netty.NettyNioAsyncHttpClient;
 import software.amazon.awssdk.services.s3.S3AsyncClient;
 import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.S3CrtAsyncClientBuilder;
 import software.amazon.awssdk.services.s3.model.BucketInfo;
 import software.amazon.awssdk.services.s3.model.BucketType;
 import software.amazon.awssdk.services.s3.model.CompleteMultipartUploadRequest;
@@ -92,7 +93,12 @@ abstract class AbstractS3Test {
       });
 
       // S3 crtBuilder
-      result.add(new S3AsyncClientInfo("crtBuilder", objectStorage, objectStorage.configure(S3AsyncClient.crtBuilder()).build()));
+      S3CrtAsyncClientBuilder crtBuilder = S3AsyncClient.crtBuilder()
+          .checksumValidationEnabled(true)
+          .maxConcurrency(3)
+          .targetThroughputInGbps(0.5)
+          .minimumPartSizeInBytes(1_000_000L);
+      result.add(new S3AsyncClientInfo("crtBuilder", objectStorage, objectStorage.configure(crtBuilder).build()));
     }
 
     return result;
