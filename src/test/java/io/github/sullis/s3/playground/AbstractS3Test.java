@@ -49,10 +49,12 @@ import software.amazon.awssdk.services.s3.model.GetObjectResponse;
 import software.amazon.awssdk.services.s3.model.ListObjectsV2Request;
 import software.amazon.awssdk.services.s3.model.ListObjectsV2Response;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
+import software.amazon.awssdk.services.s3.model.PutObjectResponse;
 import software.amazon.awssdk.services.s3.model.S3Object;
 import software.amazon.awssdk.services.s3.model.UploadPartRequest;
 import software.amazon.awssdk.services.s3.model.UploadPartResponse;
 import software.amazon.awssdk.transfer.s3.S3TransferManager;
+import software.amazon.awssdk.transfer.s3.model.CompletedUpload;
 import software.amazon.awssdk.transfer.s3.model.Upload;
 import software.amazon.awssdk.transfer.s3.progress.LoggingTransferListener;
 
@@ -288,7 +290,12 @@ abstract class AbstractS3Test {
                 .bucket(bucket)
                 .key(uploadKey)
                 .build()));
-    upload.completionFuture().get();
+    CompletedUpload completedUpload = upload.completionFuture().get();
+
+    PutObjectResponse putObjectResponse = completedUpload.response();
+    assertSuccess(putObjectResponse);
+    assertThat(putObjectResponse.eTag()).isNotNull();
+    assertThat(putObjectResponse.expiration()).isNull();
 
     GetObjectRequest getObjectRequest = GetObjectRequest.builder().bucket(bucket).key(uploadKey).build();
     ResponseBytes<GetObjectResponse> responseBytes = s3Client.getObject(getObjectRequest, AsyncResponseTransformer.toBytes()).get();
