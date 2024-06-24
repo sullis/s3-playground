@@ -20,7 +20,7 @@ s3 experiments
 
 # S3 encryption
 - [server side encryption](https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingServerSideEncryption.html)
-- 
+
 # S3 List performance
 - [Delta Lake pdf](https://people.eecs.berkeley.edu/~matei/papers/2020/vldb_delta_lake.pdf)
 
