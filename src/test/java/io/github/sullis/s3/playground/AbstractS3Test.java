@@ -69,13 +69,11 @@ abstract class AbstractS3Test {
   private static final int NUM_PARTS = 3;
   private static final long EXPECTED_OBJECT_SIZE = NUM_PARTS * PART_SIZE;
 
-  private static final List<SdkAsyncHttpClient.Builder<?>> ASYNC_HTTP_CLIENT_BUILDER_LIST = List.of(
-      NettyNioAsyncHttpClient.builder(),
-      AwsCrtAsyncHttpClient.builder());
+  private static final List<SdkAsyncHttpClient.Builder<?>> ASYNC_HTTP_CLIENT_BUILDER_LIST =
+      List.of(NettyNioAsyncHttpClient.builder(), AwsCrtAsyncHttpClient.builder());
 
-  private static final List<SdkHttpClient.Builder<?>> SYNC_HTTP_CLIENT_BUILDER_LIST = List.of(
-      ApacheHttpClient.builder(),
-      AwsCrtHttpClient.builder());
+  private static final List<SdkHttpClient.Builder<?>> SYNC_HTTP_CLIENT_BUILDER_LIST =
+      List.of(ApacheHttpClient.builder(), AwsCrtHttpClient.builder());
 
   private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -83,7 +81,7 @@ abstract class AbstractS3Test {
 
   /** this method must return a non-empty array */
   protected DataRedundancy[] dataRedundancyValues() {
-    return new DataRedundancy[] { null };
+    return new DataRedundancy[]{null};
   }
 
   public List<S3AsyncClientInfo> s3AsyncClients() {
@@ -97,11 +95,9 @@ abstract class AbstractS3Test {
       });
 
       // S3 crtBuilder
-      S3CrtAsyncClientBuilder crtBuilder = S3AsyncClient.crtBuilder()
-          .checksumValidationEnabled(true)
-          .maxConcurrency(3)
-          .targetThroughputInGbps(0.5)
-          .minimumPartSizeInBytes(1_000_000L);
+      S3CrtAsyncClientBuilder crtBuilder =
+          S3AsyncClient.crtBuilder().checksumValidationEnabled(true).maxConcurrency(3).targetThroughputInGbps(0.5)
+              .minimumPartSizeInBytes(1_000_000L);
       result.add(new S3AsyncClientInfo("crtBuilder", objectStorage, objectStorage.configure(crtBuilder).build()));
     }
 
@@ -151,17 +147,16 @@ abstract class AbstractS3Test {
 
   @ParameterizedTest
   @MethodSource("s3AsyncClientArguments")
-  public void validateS3AsyncClient(S3AsyncClientInfo s3ClientInfo, DataRedundancy dataRedundancy) throws Exception {
+  public void validateS3AsyncClient(S3AsyncClientInfo s3ClientInfo, DataRedundancy dataRedundancy)
+      throws Exception {
     final S3AsyncClient s3Client = s3ClientInfo.client;
     final String bucket = BUCKET_PREFIX + UUID.randomUUID();
 
     CreateBucketRequest.Builder createBucketRequestBuilder = CreateBucketRequest.builder().bucket(bucket);
     if (dataRedundancy != null) {
-      BucketInfo bucketInfo = BucketInfo.builder()
-          .dataRedundancy(dataRedundancy)
-          .type(BucketType.DIRECTORY)
-          .build();
-      CreateBucketConfiguration createBucketConfiguration = CreateBucketConfiguration.builder().bucket(bucketInfo).build();
+      BucketInfo bucketInfo = BucketInfo.builder().dataRedundancy(dataRedundancy).type(BucketType.DIRECTORY).build();
+      CreateBucketConfiguration createBucketConfiguration =
+          CreateBucketConfiguration.builder().bucket(bucketInfo).build();
       createBucketRequestBuilder = createBucketRequestBuilder.createBucketConfiguration(createBucketConfiguration);
     }
 
@@ -170,8 +165,10 @@ abstract class AbstractS3Test {
     assertSuccess(createBucketResponse);
 
     final String key = "key-" + UUID.randomUUID();
-    CreateMultipartUploadRequest createMultipartUploadRequest = CreateMultipartUploadRequest.builder().bucket(bucket).key(key).build();
-    CreateMultipartUploadResponse createMultipartUploadResponse = s3Client.createMultipartUpload(createMultipartUploadRequest).get();
+    CreateMultipartUploadRequest createMultipartUploadRequest =
+        CreateMultipartUploadRequest.builder().bucket(bucket).key(key).build();
+    CreateMultipartUploadResponse createMultipartUploadResponse =
+        s3Client.createMultipartUpload(createMultipartUploadRequest).get();
     assertSuccess(createMultipartUploadResponse);
 
     final String uploadId = createMultipartUploadResponse.uploadId();
@@ -189,12 +186,14 @@ abstract class AbstractS3Test {
       completedParts.add(CompletedPart.builder().partNumber(part).eTag(uploadPartResponse.eTag()).build());
     }
 
-    CompletedMultipartUpload completedMultipartUpload = CompletedMultipartUpload.builder().parts(completedParts).build();
+    CompletedMultipartUpload completedMultipartUpload =
+        CompletedMultipartUpload.builder().parts(completedParts).build();
 
-    CompleteMultipartUploadRequest
-        completeMultipartUploadRequest = CompleteMultipartUploadRequest.builder().bucket(bucket).key(key).uploadId(uploadId).multipartUpload(completedMultipartUpload).build();
-    CompleteMultipartUploadResponse
-        completeMultipartUploadResponse = s3Client.completeMultipartUpload(completeMultipartUploadRequest).get();
+    CompleteMultipartUploadRequest completeMultipartUploadRequest =
+        CompleteMultipartUploadRequest.builder().bucket(bucket).key(key).uploadId(uploadId)
+            .multipartUpload(completedMultipartUpload).build();
+    CompleteMultipartUploadResponse completeMultipartUploadResponse =
+        s3Client.completeMultipartUpload(completeMultipartUploadRequest).get();
     assertSuccess(completeMultipartUploadResponse);
 
     Path localPath = Path.of(Files.temporaryFolderPath() + "/" + UUID.randomUUID().toString());
@@ -219,13 +218,16 @@ abstract class AbstractS3Test {
 
   @ParameterizedTest
   @MethodSource("s3ClientArguments")
-  public void validateS3Client(S3ClientInfo s3ClientInfo, DataRedundancy dataRedundancy) throws Exception {
+  public void validateS3Client(S3ClientInfo s3ClientInfo, DataRedundancy dataRedundancy)
+      throws Exception {
     final S3Client s3Client = s3ClientInfo.client;
     final String bucket = createNewBucket(s3Client, dataRedundancy);
 
     final String key = "key-" + UUID.randomUUID();
-    CreateMultipartUploadRequest createMultipartUploadRequest = CreateMultipartUploadRequest.builder().bucket(bucket).key(key).build();
-    CreateMultipartUploadResponse createMultipartUploadResponse = s3Client.createMultipartUpload(createMultipartUploadRequest);
+    CreateMultipartUploadRequest createMultipartUploadRequest =
+        CreateMultipartUploadRequest.builder().bucket(bucket).key(key).build();
+    CreateMultipartUploadResponse createMultipartUploadResponse =
+        s3Client.createMultipartUpload(createMultipartUploadRequest);
     assertSuccess(createMultipartUploadResponse);
 
     final String uploadId = createMultipartUploadResponse.uploadId();
@@ -243,12 +245,14 @@ abstract class AbstractS3Test {
       completedParts.add(CompletedPart.builder().partNumber(part).eTag(uploadPartResponse.eTag()).build());
     }
 
-    CompletedMultipartUpload completedMultipartUpload = CompletedMultipartUpload.builder().parts(completedParts).build();
+    CompletedMultipartUpload completedMultipartUpload =
+        CompletedMultipartUpload.builder().parts(completedParts).build();
 
-    CompleteMultipartUploadRequest
-        completeMultipartUploadRequest = CompleteMultipartUploadRequest.builder().bucket(bucket).key(key).uploadId(uploadId).multipartUpload(completedMultipartUpload).build();
-    CompleteMultipartUploadResponse
-        completeMultipartUploadResponse = s3Client.completeMultipartUpload(completeMultipartUploadRequest);
+    CompleteMultipartUploadRequest completeMultipartUploadRequest =
+        CompleteMultipartUploadRequest.builder().bucket(bucket).key(key).uploadId(uploadId)
+            .multipartUpload(completedMultipartUpload).build();
+    CompleteMultipartUploadResponse completeMultipartUploadResponse =
+        s3Client.completeMultipartUpload(completeMultipartUploadRequest);
     assertSuccess(completeMultipartUploadResponse);
 
     Path localPath = Path.of(Files.temporaryFolderPath() + "/" + UUID.randomUUID().toString());
@@ -273,7 +277,8 @@ abstract class AbstractS3Test {
 
   @ParameterizedTest
   @MethodSource("s3AsyncClientArguments")
-  public void validateTransferManager(S3AsyncClientInfo s3ClientInfo, DataRedundancy dataRedundancy) throws Exception {
+  public void validateTransferManager(S3AsyncClientInfo s3ClientInfo, DataRedundancy dataRedundancy)
+      throws Exception {
     final S3AsyncClient s3Client = s3ClientInfo.client;
     final String bucket = createNewBucket(s3Client, dataRedundancy);
     final String uploadKey = UUID.randomUUID().toString();
@@ -281,42 +286,36 @@ abstract class AbstractS3Test {
 
     final LoggingTransferListener listener = LoggingTransferListener.create();
 
-    S3TransferManager transferManager = S3TransferManager.builder()
-        .s3Client(s3Client)
-        .build();
-    Upload upload = transferManager.upload(uploadReq ->
-        uploadReq.requestBody(AsyncRequestBody.fromString(payload))
-            .addTransferListener(listener)
-            .putObjectRequest(PutObjectRequest.builder()
-                .bucket(bucket)
-                .key(uploadKey)
-                .build()));
-    CompletedUpload completedUpload = upload.completionFuture().get();
+    try (S3TransferManager transferManager = S3TransferManager.builder().s3Client(s3Client).build()) {
 
-    PutObjectResponse putObjectResponse = completedUpload.response();
-    assertSuccess(putObjectResponse);
-    assertThat(putObjectResponse.eTag()).isNotNull();
-    assertThat(putObjectResponse.expiration()).isNull();
+      Upload upload = transferManager.upload(
+          uploadReq -> uploadReq.requestBody(AsyncRequestBody.fromString(payload)).addTransferListener(listener)
+              .putObjectRequest(PutObjectRequest.builder().bucket(bucket).key(uploadKey).build()));
+      CompletedUpload completedUpload = upload.completionFuture().get();
 
-    File destinationFile = Files.newTemporaryFile();
+      PutObjectResponse putObjectResponse = completedUpload.response();
+      assertSuccess(putObjectResponse);
+      assertThat(putObjectResponse.eTag()).isNotNull();
+      assertThat(putObjectResponse.expiration()).isNull();
 
-    DownloadFileRequest downloadFileRequest = DownloadFileRequest.builder()
-        .addTransferListener(listener)
-        .destination(destinationFile)
-        .getObjectRequest(GetObjectRequest.builder().bucket(bucket).key(uploadKey).build())
-        .build();
+      File destinationFile = Files.newTemporaryFile();
 
-    FileDownload fileDownload = transferManager.downloadFile(downloadFileRequest);
-    CompletedFileDownload completedFileDownload = fileDownload.completionFuture().get();
-    GetObjectResponse getObjectResponse = completedFileDownload.response();
-    assertSuccess(getObjectResponse);
+      DownloadFileRequest downloadFileRequest =
+          DownloadFileRequest.builder().addTransferListener(listener).destination(destinationFile)
+              .getObjectRequest(GetObjectRequest.builder().bucket(bucket).key(uploadKey).build()).build();
 
-    assertThat(destinationFile).isFile();
-    assertThat(destinationFile).hasSize(11);
-    FileInputStream fis = new FileInputStream(destinationFile);
-    assertThat(IoUtils.toUtf8String(fis)).isEqualTo(payload);
+      FileDownload fileDownload = transferManager.downloadFile(downloadFileRequest);
+      CompletedFileDownload completedFileDownload = fileDownload.completionFuture().get();
+      GetObjectResponse getObjectResponse = completedFileDownload.response();
+      assertSuccess(getObjectResponse);
 
-    transferManager.close();
+      assertThat(destinationFile).isFile();
+      assertThat(destinationFile).hasSize(11);
+
+      try (FileInputStream fis = new FileInputStream(destinationFile)) {
+        assertThat(IoUtils.toUtf8String(fis)).isEqualTo(payload);
+      }
+    }
   }
 
   private static String createNewBucket(final S3Client s3Client, final DataRedundancy dataRedundancy) {
@@ -324,11 +323,9 @@ abstract class AbstractS3Test {
 
     CreateBucketRequest.Builder createBucketRequestBuilder = CreateBucketRequest.builder().bucket(bucket);
     if (dataRedundancy != null) {
-      BucketInfo bucketInfo = BucketInfo.builder()
-          .dataRedundancy(dataRedundancy)
-          .type(BucketType.DIRECTORY)
-          .build();
-      CreateBucketConfiguration createBucketConfiguration = CreateBucketConfiguration.builder().bucket(bucketInfo).build();
+      BucketInfo bucketInfo = BucketInfo.builder().dataRedundancy(dataRedundancy).type(BucketType.DIRECTORY).build();
+      CreateBucketConfiguration createBucketConfiguration =
+          CreateBucketConfiguration.builder().bucket(bucketInfo).build();
       createBucketRequestBuilder = createBucketRequestBuilder.createBucketConfiguration(createBucketConfiguration);
     }
 
@@ -345,11 +342,9 @@ abstract class AbstractS3Test {
 
     CreateBucketRequest.Builder createBucketRequestBuilder = CreateBucketRequest.builder().bucket(bucket);
     if (dataRedundancy != null) {
-      BucketInfo bucketInfo = BucketInfo.builder()
-          .dataRedundancy(dataRedundancy)
-          .type(BucketType.DIRECTORY)
-          .build();
-      CreateBucketConfiguration createBucketConfiguration = CreateBucketConfiguration.builder().bucket(bucketInfo).build();
+      BucketInfo bucketInfo = BucketInfo.builder().dataRedundancy(dataRedundancy).type(BucketType.DIRECTORY).build();
+      CreateBucketConfiguration createBucketConfiguration =
+          CreateBucketConfiguration.builder().bucket(bucketInfo).build();
       createBucketRequestBuilder = createBucketRequestBuilder.createBucketConfiguration(createBucketConfiguration);
     }
 
@@ -363,17 +358,21 @@ abstract class AbstractS3Test {
     assertThat(sdkResponse.sdkHttpResponse().isSuccessful()).isTrue();
   }
 
-  public record S3AsyncClientInfo(String httpClientDescription, ObjectStorageProvider objectStorageProvider, S3AsyncClient client) {
+  public record S3AsyncClientInfo(String httpClientDescription, ObjectStorageProvider objectStorageProvider,
+                                  S3AsyncClient client) {
     @Override
     public String toString() {
-      return objectStorageProvider.getClass().getSimpleName() + ":" + httpClientDescription + ":" + this.client.getClass().getSimpleName();
+      return objectStorageProvider.getClass().getSimpleName() + ":" + httpClientDescription + ":"
+          + this.client.getClass().getSimpleName();
     }
   }
 
-  public record S3ClientInfo(String httpClientDescription, ObjectStorageProvider objectStorageProvider, S3Client client) {
+  public record S3ClientInfo(String httpClientDescription, ObjectStorageProvider objectStorageProvider,
+                             S3Client client) {
     @Override
     public String toString() {
-      return objectStorageProvider.getClass().getSimpleName() + ":" + httpClientDescription + ":" + this.client.getClass().getSimpleName();
+      return objectStorageProvider.getClass().getSimpleName() + ":" + httpClientDescription + ":"
+          + this.client.getClass().getSimpleName();
     }
   }
 }
