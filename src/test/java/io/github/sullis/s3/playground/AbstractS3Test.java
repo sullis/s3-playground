@@ -122,7 +122,7 @@ abstract class AbstractS3Test {
     return result;
   }
 
-  private Stream<Arguments> validateS3AsyncClientArguments() {
+  private Stream<Arguments> s3AsyncClientArguments() {
     List<Arguments> argumentsList = new ArrayList<>();
     for (DataRedundancy dataRedundancy : dataRedundancyValues()) {
       for (S3AsyncClientInfo s3AsyncClient : s3AsyncClients()) {
@@ -132,7 +132,7 @@ abstract class AbstractS3Test {
     return argumentsList.stream();
   }
 
-  private Stream<Arguments> validateS3ClientArguments() {
+  private Stream<Arguments> s3ClientArguments() {
     List<Arguments> argumentsList = new ArrayList<>();
     for (DataRedundancy dataRedundancy : dataRedundancyValues()) {
       for (S3ClientInfo s3Client : s3Clients()) {
@@ -150,7 +150,7 @@ abstract class AbstractS3Test {
   }
 
   @ParameterizedTest
-  @MethodSource("validateS3AsyncClientArguments")
+  @MethodSource("s3AsyncClientArguments")
   public void validateS3AsyncClient(S3AsyncClientInfo s3ClientInfo, DataRedundancy dataRedundancy) throws Exception {
     final S3AsyncClient s3Client = s3ClientInfo.client;
     final String bucket = BUCKET_PREFIX + UUID.randomUUID();
@@ -218,7 +218,7 @@ abstract class AbstractS3Test {
   }
 
   @ParameterizedTest
-  @MethodSource("validateS3ClientArguments")
+  @MethodSource("s3ClientArguments")
   public void validateS3Client(S3ClientInfo s3ClientInfo, DataRedundancy dataRedundancy) throws Exception {
     final S3Client s3Client = s3ClientInfo.client;
     final String bucket = createNewBucket(s3Client, dataRedundancy);
@@ -272,7 +272,7 @@ abstract class AbstractS3Test {
   }
 
   @ParameterizedTest
-  @MethodSource("validateS3AsyncClientArguments")
+  @MethodSource("s3AsyncClientArguments")
   public void validateTransferManager(S3AsyncClientInfo s3ClientInfo, DataRedundancy dataRedundancy) throws Exception {
     final S3AsyncClient s3Client = s3ClientInfo.client;
     final String bucket = createNewBucket(s3Client, dataRedundancy);
