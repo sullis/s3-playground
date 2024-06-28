@@ -56,6 +56,7 @@ s3 experiments
 - [S3 URI parsing](https://aws.amazon.com/blogs/devops/s3-uri-parsing-is-now-available-in-aws-sdk-for-java-2-x/)
 
 # Articles
+- [Materialize: Bulk exports to S3](https://materialize.com/blog/bulk-exports-s3/)
 - [How Fetch reduced latency on image uploads using Amazon S3 Express One Zone](https://aws.amazon.com/blogs/storage/how-fetch-reduces-latency-on-image-uploads-using-amazon-s3-express-one-zone/)
 - [Building and operating a pretty big storage system called S3](https://www.allthingsdistributed.com/2023/07/building-and-operating-a-pretty-big-storage-system.html) - Andy Warfield
 - [Malware protection for S3](https://aws.amazon.com/blogs/aws/introducing-amazon-guardduty-malware-protection-for-amazon-s3/)
