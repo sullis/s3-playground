@@ -3,9 +3,13 @@ name: CI
 on:
   workflow_dispatch:
   pull_request:
+    paths-ignore:
+      - '**/*.md'
     branches:
       - main
   push:
+    paths-ignore:
+      - '**/*.md'
     branches:
       - main
 

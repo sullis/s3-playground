@@ -1,6 +1,6 @@
 # s3-playground
 
-s3 experiments
+Amazon s3 experiments
 
 # S3 at AWS re:Invent 2023
 
