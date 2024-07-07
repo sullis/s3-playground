@@ -1,7 +1,6 @@
 package io.github.sullis.s3.playground;
 
 import java.io.File;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +57,6 @@ import software.amazon.awssdk.transfer.s3.model.FileDownload;
 import software.amazon.awssdk.transfer.s3.model.Upload;
 import software.amazon.awssdk.transfer.s3.progress.LoggingTransferListener;
 
-import static org.apache.commons.io.FileUtils.readFileToString;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
@@ -312,7 +310,7 @@ abstract class AbstractS3Test {
       assertThat(destinationFile).isFile();
       assertThat(destinationFile).hasSize(11);
 
-      assertThat(readFileToString(destinationFile, StandardCharsets.UTF_8))
+      assertThat(destinationFile).content()
           .isEqualTo(payload);
     }
   }
