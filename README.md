@@ -12,6 +12,9 @@ s3 experiments
 - [AWS re:Invent 2023 - AWS storage: The backbone for your data-driven business](https://www.youtube.com/watch?v=Alxig9GFIE4) - Andy Warfield
 - [AWS re:Invent 2023 - Netflix’s journey to an Apache Iceberg–only data lake](https://www.youtube.com/watch?v=jMFMEk8jFu8)
 
+# S3 storage classes
+- [using S3 storage classes](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-class-intro.html)
+
 # S3 Express One Zone storage
 - [Working with S3 Express One Zone](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-SDKs.html)
 - [Getting started with the Amazon S3 Express One Zone storage class](https://www.youtube.com/watch?v=MzZ5pZ-wXBM)
