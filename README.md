@@ -43,6 +43,7 @@ s3 experiments
 - [S3Mock](https://github.com/adobe/S3Mock)
 - [Active Storage](https://guides.rubyonrails.org/v6.0.3/active_storage_overview.html) - Ruby on Rails
 - [s3-tests](https://github.com/ceph/s3-tests)
+- [AWS crt s3 benchmarks](https://github.com/awslabs/aws-crt-s3-benchmarks)
 
 # Commercial offerings
 - [Wasabi S3 API](https://docs.wasabi.com/docs/wasabi-api)
