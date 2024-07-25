@@ -82,7 +82,7 @@ public class S3TestHelper {
           UploadPartRequest.builder().bucket(bucket).key(key).uploadId(uploadId).partNumber(part).build();
       UploadPartResponse uploadPartResponse = s3Client.uploadPart(uploadPartRequest, requestBody).get();
       assertSuccess(uploadPartResponse);
-      logger.info("uploaded part " + part);
+      logger.info("S3AsyncClient uploaded part " + part);
       completedParts.add(CompletedPart.builder().partNumber(part).eTag(uploadPartResponse.eTag()).build());
     }
 
@@ -141,7 +141,7 @@ public class S3TestHelper {
           UploadPartRequest.builder().bucket(bucket).key(key).uploadId(uploadId).partNumber(part).build();
       UploadPartResponse uploadPartResponse = s3Client.uploadPart(uploadPartRequest, requestBody);
       assertSuccess(uploadPartResponse);
-      logger.info("uploaded part " + part);
+      logger.info("S3Client uploaded part " + part);
       completedParts.add(CompletedPart.builder().partNumber(part).eTag(uploadPartResponse.eTag()).build());
     }
 
