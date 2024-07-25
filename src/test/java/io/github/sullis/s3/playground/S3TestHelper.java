@@ -202,7 +202,7 @@ public class S3TestHelper {
   }
 
   private static void putObjectIntoBucket(final S3AsyncClient s3Client, final String bucket) throws Exception {
-    final String key = "putObject-s3Client-key-" + UUID.randomUUID().toString();
+    final String key = "putObject-s3AsyncClient-key-" + UUID.randomUUID().toString();
     final String data = "Hello-" + UUID.randomUUID().toString();
 
     PutObjectRequest request = PutObjectRequest.builder().bucket(bucket).key(key).build();
