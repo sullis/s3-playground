@@ -44,6 +44,7 @@ s3 experiments
 - [Active Storage](https://guides.rubyonrails.org/v6.0.3/active_storage_overview.html) - Ruby on Rails
 - [s3-tests](https://github.com/ceph/s3-tests)
 - [AWS crt s3 benchmarks](https://github.com/awslabs/aws-crt-s3-benchmarks)
+- [Apache Pinot: s3 object storage](https://docs.pinot.apache.org/users/tutorials/use-s3-as-deep-store-for-pinot)
 
 # Commercial offerings
 - [Wasabi S3 API](https://docs.wasabi.com/docs/wasabi-api)
