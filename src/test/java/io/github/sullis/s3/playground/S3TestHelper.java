@@ -12,10 +12,12 @@ import org.apache.commons.io.IOUtils;
 import org.assertj.core.util.Files;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import software.amazon.awssdk.core.ResponseBytes;
 import software.amazon.awssdk.core.SdkResponse;
 import software.amazon.awssdk.core.async.AsyncRequestBody;
 import software.amazon.awssdk.core.async.AsyncResponseTransformer;
 import software.amazon.awssdk.core.sync.RequestBody;
+import software.amazon.awssdk.core.sync.ResponseTransformer;
 import software.amazon.awssdk.services.s3.S3AsyncClient;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.CompleteMultipartUploadRequest;
@@ -62,6 +64,8 @@ public class S3TestHelper {
     CreateBucketRequest createBucketRequest = createBucketRequestBuilder.build();
     CreateBucketResponse createBucketResponse = s3Client.createBucket(createBucketRequest).get();
     assertSuccess(createBucketResponse);
+
+    putObjectIntoBucket(s3Client, bucket);
 
     final String key = "multipart-key-" + UUID.randomUUID();
     CreateMultipartUploadRequest createMultipartUploadRequest =
@@ -111,7 +115,10 @@ public class S3TestHelper {
     ListObjectsV2Request listObjectsV2Request = ListObjectsV2Request.builder().bucket(bucket).build();
     ListObjectsV2Response listObjectsV2Response = s3Client.listObjectsV2(listObjectsV2Request).get();
     assertSuccess(listObjectsV2Response);
-    List<S3Object> s3Objects = listObjectsV2Response.contents();
+    List<S3Object> s3Objects = listObjectsV2Response.contents()
+        .stream()
+        .filter(obj -> obj.key().equals(key))
+        .toList();
     assertThat(s3Objects).hasSize(1);
     S3Object s3Object = s3Objects.get(0);
     assertThat(s3Object.key()).isEqualTo(key);
@@ -121,6 +128,8 @@ public class S3TestHelper {
   static public void validateS3Client(S3Client s3Client)
       throws Exception {
     final String bucket = createNewBucket(s3Client);
+
+    putObjectIntoBucket(s3Client, bucket);
 
     final String key = "multipart-key-" + UUID.randomUUID();
     CreateMultipartUploadRequest createMultipartUploadRequest =
@@ -167,11 +176,42 @@ public class S3TestHelper {
     ListObjectsV2Request listObjectsV2Request = ListObjectsV2Request.builder().bucket(bucket).build();
     ListObjectsV2Response listObjectsV2Response = s3Client.listObjectsV2(listObjectsV2Request);
     assertSuccess(listObjectsV2Response);
-    List<S3Object> s3Objects = listObjectsV2Response.contents();
+    List<S3Object> s3Objects = listObjectsV2Response.contents()
+        .stream()
+        .filter(obj -> obj.key().equals(key))
+        .toList();
     assertThat(s3Objects).hasSize(1);
     S3Object s3Object = s3Objects.get(0);
     assertThat(s3Object.key()).isEqualTo(key);
     assertThat(s3Object.eTag()).isNotNull();
+  }
+
+  private static void putObjectIntoBucket(final S3Client s3Client, final String bucket) {
+    final String key = "putObject-s3Client-key-" + UUID.randomUUID().toString();
+    final String data = "Hello-" + UUID.randomUUID().toString();
+
+    PutObjectRequest request = PutObjectRequest.builder().bucket(bucket).key(key).build();
+    PutObjectResponse response = s3Client.putObject(request, RequestBody.fromString(data));
+    assertSuccess(response);
+    assertThat(response.eTag()).isNotNull();
+
+    GetObjectRequest getObjectRequest = GetObjectRequest.builder().bucket(bucket).key(key).build();
+    ResponseBytes<GetObjectResponse> responseBytes = s3Client.getObject(getObjectRequest, ResponseTransformer.toBytes());
+    assertThat(responseBytes.asUtf8String()).isEqualTo(data);
+  }
+
+  private static void putObjectIntoBucket(final S3AsyncClient s3Client, final String bucket) throws Exception {
+    final String key = "putObject-s3Client-key-" + UUID.randomUUID().toString();
+    final String data = "Hello-" + UUID.randomUUID().toString();
+
+    PutObjectRequest request = PutObjectRequest.builder().bucket(bucket).key(key).build();
+    PutObjectResponse response = s3Client.putObject(request, AsyncRequestBody.fromString(data)).get();
+    assertSuccess(response);
+    assertThat(response.eTag()).isNotNull();
+
+    GetObjectRequest getObjectRequest = GetObjectRequest.builder().bucket(bucket).key(key).build();
+    ResponseBytes<GetObjectResponse> responseBytes = s3Client.getObject(getObjectRequest, AsyncResponseTransformer.toBytes()).get();
+    assertThat(responseBytes.asUtf8String()).isEqualTo(data);
   }
 
   public static void validateTransferManager(S3AsyncClient s3Client)
