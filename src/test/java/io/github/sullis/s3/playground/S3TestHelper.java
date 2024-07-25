@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.assertj.core.util.Files;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,7 +73,7 @@ public class S3TestHelper {
     final String uploadId = createMultipartUploadResponse.uploadId();
 
     List<CompletedPart> completedParts = new ArrayList<>();
-    final String partText = StringUtils.repeat("a", PART_SIZE);
+    final String partText = "a".repeat(PART_SIZE);
 
     for (int part = 1; part <= NUM_PARTS; part++) {
       AsyncRequestBody requestBody = AsyncRequestBody.fromString(partText);
@@ -133,7 +132,7 @@ public class S3TestHelper {
     final String uploadId = createMultipartUploadResponse.uploadId();
 
     List<CompletedPart> completedParts = new ArrayList<>();
-    final String partText = StringUtils.repeat("a", PART_SIZE);
+    final String partText = "a".repeat(PART_SIZE);
 
     for (int part = 1; part <= NUM_PARTS; part++) {
       RequestBody requestBody = RequestBody.fromString(partText);
