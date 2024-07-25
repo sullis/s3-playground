@@ -12,7 +12,6 @@ import java.util.stream.Stream;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.assertj.core.util.Files;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -32,18 +31,14 @@ import software.amazon.awssdk.http.nio.netty.NettyNioAsyncHttpClient;
 import software.amazon.awssdk.services.s3.S3AsyncClient;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.S3CrtAsyncClientBuilder;
-import software.amazon.awssdk.services.s3.model.BucketInfo;
-import software.amazon.awssdk.services.s3.model.BucketType;
 import software.amazon.awssdk.services.s3.model.CompleteMultipartUploadRequest;
 import software.amazon.awssdk.services.s3.model.CompleteMultipartUploadResponse;
 import software.amazon.awssdk.services.s3.model.CompletedMultipartUpload;
 import software.amazon.awssdk.services.s3.model.CompletedPart;
-import software.amazon.awssdk.services.s3.model.CreateBucketConfiguration;
 import software.amazon.awssdk.services.s3.model.CreateBucketRequest;
 import software.amazon.awssdk.services.s3.model.CreateBucketResponse;
 import software.amazon.awssdk.services.s3.model.CreateMultipartUploadRequest;
 import software.amazon.awssdk.services.s3.model.CreateMultipartUploadResponse;
-import software.amazon.awssdk.services.s3.model.DataRedundancy;
 import software.amazon.awssdk.services.s3.model.GetObjectRequest;
 import software.amazon.awssdk.services.s3.model.GetObjectResponse;
 import software.amazon.awssdk.services.s3.model.ListObjectsV2Request;
@@ -81,11 +76,6 @@ abstract class AbstractS3Test {
 
   protected abstract List<ObjectStorageProvider> objectStorageProviders();
 
-  /** this method must return a non-empty array */
-  protected DataRedundancy[] dataRedundancyValues() {
-    return new DataRedundancy[]{null};
-  }
-
   public List<S3AsyncClientInfo> s3AsyncClients() {
     List<S3AsyncClientInfo> result = new ArrayList<>();
     for (ObjectStorageProvider objectStorage : objectStorageProviders()) {
@@ -122,46 +112,28 @@ abstract class AbstractS3Test {
 
   private Stream<Arguments> s3AsyncClientArguments() {
     List<Arguments> argumentsList = new ArrayList<>();
-    for (DataRedundancy dataRedundancy : dataRedundancyValues()) {
       for (S3AsyncClientInfo s3AsyncClient : s3AsyncClients()) {
-        argumentsList.add(Arguments.of(s3AsyncClient, dataRedundancy));
+        argumentsList.add(Arguments.of(s3AsyncClient));
       }
-    }
     return argumentsList.stream();
   }
 
   private Stream<Arguments> s3ClientArguments() {
     List<Arguments> argumentsList = new ArrayList<>();
-    for (DataRedundancy dataRedundancy : dataRedundancyValues()) {
       for (S3ClientInfo s3Client : s3Clients()) {
-        argumentsList.add(Arguments.of(s3Client, dataRedundancy));
+        argumentsList.add(Arguments.of(s3Client));
       }
-    }
     return argumentsList.stream();
-  }
-
-  @BeforeEach
-  void checkDataRedundancyValues() {
-    if (this.dataRedundancyValues().length == 0) {
-      throw new IllegalStateException("dataRedundancyValues is zero length");
-    }
   }
 
   @ParameterizedTest
   @MethodSource("s3AsyncClientArguments")
-  public void validateS3AsyncClient(S3AsyncClientInfo s3ClientInfo, DataRedundancy dataRedundancy)
+  public void validateS3AsyncClient(S3AsyncClientInfo s3ClientInfo)
       throws Exception {
     final S3AsyncClient s3Client = s3ClientInfo.client;
     final String bucket = BUCKET_PREFIX + UUID.randomUUID();
 
     CreateBucketRequest.Builder createBucketRequestBuilder = CreateBucketRequest.builder().bucket(bucket);
-    if (dataRedundancy != null) {
-      BucketInfo bucketInfo = BucketInfo.builder().dataRedundancy(dataRedundancy).type(BucketType.DIRECTORY).build();
-      CreateBucketConfiguration createBucketConfiguration =
-          CreateBucketConfiguration.builder().bucket(bucketInfo).build();
-      createBucketRequestBuilder = createBucketRequestBuilder.createBucketConfiguration(createBucketConfiguration);
-    }
-
     CreateBucketRequest createBucketRequest = createBucketRequestBuilder.build();
     CreateBucketResponse createBucketResponse = s3Client.createBucket(createBucketRequest).get();
     assertSuccess(createBucketResponse);
@@ -223,10 +195,10 @@ abstract class AbstractS3Test {
 
   @ParameterizedTest
   @MethodSource("s3ClientArguments")
-  public void validateS3Client(S3ClientInfo s3ClientInfo, DataRedundancy dataRedundancy)
+  public void validateS3Client(S3ClientInfo s3ClientInfo)
       throws Exception {
     final S3Client s3Client = s3ClientInfo.client;
-    final String bucket = createNewBucket(s3Client, dataRedundancy);
+    final String bucket = createNewBucket(s3Client);
 
     final String key = "key-" + UUID.randomUUID();
     CreateMultipartUploadRequest createMultipartUploadRequest =
@@ -282,10 +254,10 @@ abstract class AbstractS3Test {
 
   @ParameterizedTest
   @MethodSource("s3AsyncClientArguments")
-  public void validateTransferManager(S3AsyncClientInfo s3ClientInfo, DataRedundancy dataRedundancy)
+  public void validateTransferManager(S3AsyncClientInfo s3ClientInfo)
       throws Exception {
     final S3AsyncClient s3Client = s3ClientInfo.client;
-    final String bucket = createNewBucket(s3Client, dataRedundancy);
+    final String bucket = createNewBucket(s3Client);
     final String uploadKey = UUID.randomUUID().toString();
     final String payload = "Hello world";
 
@@ -322,36 +294,22 @@ abstract class AbstractS3Test {
     }
   }
 
-  private static String createNewBucket(final S3Client s3Client, final DataRedundancy dataRedundancy) {
+  private static String createNewBucket(final S3Client s3Client) {
     final String bucket = BUCKET_PREFIX + UUID.randomUUID();
 
     CreateBucketRequest.Builder createBucketRequestBuilder = CreateBucketRequest.builder().bucket(bucket);
-    if (dataRedundancy != null) {
-      BucketInfo bucketInfo = BucketInfo.builder().dataRedundancy(dataRedundancy).type(BucketType.DIRECTORY).build();
-      CreateBucketConfiguration createBucketConfiguration =
-          CreateBucketConfiguration.builder().bucket(bucketInfo).build();
-      createBucketRequestBuilder = createBucketRequestBuilder.createBucketConfiguration(createBucketConfiguration);
-    }
-
     CreateBucketRequest createBucketRequest = createBucketRequestBuilder.build();
     CreateBucketResponse createBucketResponse = s3Client.createBucket(createBucketRequest);
     assertSuccess(createBucketResponse);
     return bucket;
   }
 
-  private static String createNewBucket(S3AsyncClient s3Client, DataRedundancy dataRedundancy)
+  private static String createNewBucket(S3AsyncClient s3Client)
       throws ExecutionException, InterruptedException {
 
     final String bucket = BUCKET_PREFIX + UUID.randomUUID();
 
     CreateBucketRequest.Builder createBucketRequestBuilder = CreateBucketRequest.builder().bucket(bucket);
-    if (dataRedundancy != null) {
-      BucketInfo bucketInfo = BucketInfo.builder().dataRedundancy(dataRedundancy).type(BucketType.DIRECTORY).build();
-      CreateBucketConfiguration createBucketConfiguration =
-          CreateBucketConfiguration.builder().bucket(bucketInfo).build();
-      createBucketRequestBuilder = createBucketRequestBuilder.createBucketConfiguration(createBucketConfiguration);
-    }
-
     CreateBucketRequest createBucketRequest = createBucketRequestBuilder.build();
     CreateBucketResponse createBucketResponse = s3Client.createBucket(createBucketRequest).get();
     assertSuccess(createBucketResponse);
