@@ -96,13 +96,6 @@ abstract class AbstractS3Test {
     S3TestHelper.validateS3Client(s3ClientInfo.client);
   }
 
-  @ParameterizedTest
-  @MethodSource("s3AsyncClientArguments")
-  public void validateTransferManager(S3AsyncClientInfo s3ClientInfo)
-      throws Exception {
-    S3TestHelper.validateTransferManager(s3ClientInfo.client);
-  }
-
   public record S3AsyncClientInfo(String httpClientDescription, ObjectStorageProvider objectStorageProvider,
                                   S3AsyncClient client) {
     @Override
