@@ -58,13 +58,7 @@ public class S3TestHelper {
 
   static public void validateS3AsyncClient(S3AsyncClient s3Client)
       throws Exception {
-    final String bucket = BUCKET_PREFIX + UUID.randomUUID();
-
-    CreateBucketRequest.Builder createBucketRequestBuilder = CreateBucketRequest.builder().bucket(bucket);
-    CreateBucketRequest createBucketRequest = createBucketRequestBuilder.build();
-    CreateBucketResponse createBucketResponse = s3Client.createBucket(createBucketRequest).get();
-    assertSuccess(createBucketResponse);
-
+    final String bucket = createNewBucket(s3Client);
     putObjectIntoBucket(s3Client, bucket);
     uploadMultiPartIntoBucket(s3Client, bucket);
   }
