@@ -66,7 +66,6 @@ public class S3TestHelper {
     assertSuccess(createBucketResponse);
 
     putObjectIntoBucket(s3Client, bucket);
-
     uploadMultiPartIntoBucket(s3Client, bucket);
   }
 
