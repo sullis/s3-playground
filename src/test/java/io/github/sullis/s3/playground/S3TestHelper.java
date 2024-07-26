@@ -67,6 +67,11 @@ public class S3TestHelper {
 
     putObjectIntoBucket(s3Client, bucket);
 
+    uploadMultiPartIntoBucket(s3Client, bucket);
+  }
+
+  static public void uploadMultiPartIntoBucket(S3AsyncClient s3Client, String bucket) throws Exception {
+
     final String key = "multipart-key-" + UUID.randomUUID();
     CreateMultipartUploadRequest createMultipartUploadRequest =
         CreateMultipartUploadRequest.builder().bucket(bucket).key(key).build();
@@ -131,6 +136,10 @@ public class S3TestHelper {
     final String bucket = createNewBucket(s3Client);
 
     putObjectIntoBucket(s3Client, bucket);
+    uploadMultipartIntoBucket(s3Client, bucket);
+  }
+
+  static public void uploadMultipartIntoBucket(S3Client s3Client, String bucket) {
 
     final String key = "multipart-key-" + UUID.randomUUID();
     CreateMultipartUploadRequest createMultipartUploadRequest =
