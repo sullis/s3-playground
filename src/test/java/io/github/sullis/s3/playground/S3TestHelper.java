@@ -128,7 +128,6 @@ public class S3TestHelper {
   static public void validateS3Client(S3Client s3Client)
       throws Exception {
     final String bucket = createNewBucket(s3Client);
-
     putObjectIntoBucket(s3Client, bucket);
     uploadMultipartIntoBucket(s3Client, bucket);
   }
