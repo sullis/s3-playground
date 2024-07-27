@@ -18,6 +18,8 @@ import software.amazon.awssdk.http.nio.netty.NettyNioAsyncHttpClient;
 import software.amazon.awssdk.services.s3.S3AsyncClient;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.S3CrtAsyncClientBuilder;
+import software.amazon.awssdk.services.s3.model.StorageClass;
+
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 abstract class AbstractS3Test {
@@ -31,6 +33,12 @@ abstract class AbstractS3Test {
   private final Logger logger = LoggerFactory.getLogger(getClass());
 
   protected abstract List<ObjectStorageProvider> objectStorageProviders();
+
+  public StorageClass[] storageClasses() {
+    return new StorageClass[] {
+        StorageClass.STANDARD,
+    };
+  }
 
   public List<S3AsyncClientInfo> s3AsyncClients() {
     List<S3AsyncClientInfo> result = new ArrayList<>();
@@ -68,32 +76,36 @@ abstract class AbstractS3Test {
 
   private Stream<Arguments> s3AsyncClientArguments() {
     List<Arguments> argumentsList = new ArrayList<>();
+    for (StorageClass storageClass : storageClasses()) {
       for (S3AsyncClientInfo s3AsyncClient : s3AsyncClients()) {
-        argumentsList.add(Arguments.of(s3AsyncClient));
+        argumentsList.add(Arguments.of(s3AsyncClient, storageClass));
       }
+    }
     return argumentsList.stream();
   }
 
   private Stream<Arguments> s3ClientArguments() {
     List<Arguments> argumentsList = new ArrayList<>();
+    for (StorageClass storageClass : storageClasses()) {
       for (S3ClientInfo s3Client : s3Clients()) {
-        argumentsList.add(Arguments.of(s3Client));
+        argumentsList.add(Arguments.of(s3Client, storageClass));
       }
+    }
     return argumentsList.stream();
   }
 
   @ParameterizedTest
   @MethodSource("s3AsyncClientArguments")
-  public void validateS3AsyncClient(S3AsyncClientInfo s3ClientInfo)
+  public void validateS3AsyncClient(S3AsyncClientInfo s3ClientInfo, StorageClass storageClass)
       throws Exception {
-    S3TestHelper.validateS3AsyncClient(s3ClientInfo.client);
+    S3TestHelper.validateS3AsyncClient(s3ClientInfo.client, storageClass);
   }
 
   @ParameterizedTest
   @MethodSource("s3ClientArguments")
-  public void validateS3Client(S3ClientInfo s3ClientInfo)
+  public void validateS3Client(S3ClientInfo s3ClientInfo, StorageClass storageClass)
       throws Exception {
-    S3TestHelper.validateS3Client(s3ClientInfo.client);
+    S3TestHelper.validateS3Client(s3ClientInfo.client, storageClass);
   }
 
   public record S3AsyncClientInfo(String httpClientDescription,

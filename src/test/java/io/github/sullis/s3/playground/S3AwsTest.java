@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import software.amazon.awssdk.auth.credentials.AwsCredentials;
 import software.amazon.awssdk.auth.credentials.DefaultCredentialsProvider;
+import software.amazon.awssdk.services.s3.model.StorageClass;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -22,6 +23,14 @@ public class S3AwsTest extends AbstractS3Test {
         assertThat(credentials).isNotNull();
         LOGGER.info("resolved AWS credentials");
       }
+  }
+
+  @Override
+  public StorageClass[] storageClasses() {
+    return new StorageClass[] {
+        StorageClass.STANDARD,
+        StorageClass.EXPRESS_ONEZONE
+    };
   }
 
   @Override

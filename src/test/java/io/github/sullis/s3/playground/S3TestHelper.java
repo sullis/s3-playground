@@ -10,6 +10,7 @@ import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 import org.apache.commons.io.IOUtils;
 import org.assertj.core.util.Files;
+import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import software.amazon.awssdk.core.ResponseBytes;
@@ -35,6 +36,7 @@ import software.amazon.awssdk.services.s3.model.ListObjectsV2Response;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import software.amazon.awssdk.services.s3.model.PutObjectResponse;
 import software.amazon.awssdk.services.s3.model.S3Object;
+import software.amazon.awssdk.services.s3.model.StorageClass;
 import software.amazon.awssdk.services.s3.model.UploadPartRequest;
 import software.amazon.awssdk.services.s3.model.UploadPartResponse;
 import software.amazon.awssdk.transfer.s3.S3TransferManager;
@@ -46,6 +48,7 @@ import software.amazon.awssdk.transfer.s3.model.Upload;
 import software.amazon.awssdk.transfer.s3.progress.LoggingTransferListener;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import org.jspecify.annotations.Nullable;
 
 
 public class S3TestHelper {
@@ -56,10 +59,13 @@ public class S3TestHelper {
 
   private static final Logger logger = LoggerFactory.getLogger(S3TestHelper.class);
 
-  static public void validateS3AsyncClient(S3AsyncClient s3Client)
+  static public void validateS3AsyncClient(
+      S3AsyncClient s3Client,
+      @Nullable StorageClass storageClass)
       throws Exception {
+    logger.info("validate S3AsyncClient: storageClass=" + storageClass);
     final String bucket = createNewBucket(s3Client);
-    putObjectIntoBucket(s3Client, bucket);
+    putObjectIntoBucket(s3Client, bucket, storageClass);
     uploadMultiPartIntoBucket(s3Client, bucket);
     exerciseTransferManager(s3Client);
   }
@@ -125,14 +131,17 @@ public class S3TestHelper {
     assertThat(s3Object.eTag()).isNotNull();
   }
 
-  static public void validateS3Client(S3Client s3Client)
+  static public void validateS3Client(
+      S3Client s3Client,
+      @Nullable StorageClass storageClass)
       throws Exception {
+    logger.info("validate S3Client: storageClass=" + storageClass);
     final String bucket = createNewBucket(s3Client);
-    putObjectIntoBucket(s3Client, bucket);
-    uploadMultipartIntoBucket(s3Client, bucket);
+    putObjectIntoBucket(s3Client, bucket, storageClass);
+    uploadMultipartIntoBucket(s3Client, bucket, storageClass);
   }
 
-  static public void uploadMultipartIntoBucket(S3Client s3Client, String bucket) {
+  static public void uploadMultipartIntoBucket(S3Client s3Client, String bucket, StorageClass storageClass) {
 
     final String key = "multipart-key-" + UUID.randomUUID();
     CreateMultipartUploadRequest createMultipartUploadRequest =
@@ -189,11 +198,11 @@ public class S3TestHelper {
     assertThat(s3Object.eTag()).isNotNull();
   }
 
-  private static void putObjectIntoBucket(final S3Client s3Client, final String bucket) {
+  private static void putObjectIntoBucket(final S3Client s3Client, final String bucket, @Nullable final StorageClass storageClass) {
     final String key = "putObject-s3Client-key-" + UUID.randomUUID().toString();
     final String data = "Hello-" + UUID.randomUUID().toString();
 
-    PutObjectRequest request = PutObjectRequest.builder().bucket(bucket).key(key).build();
+    PutObjectRequest request = PutObjectRequest.builder().bucket(bucket).key(key).storageClass(storageClass).build();
     PutObjectResponse response = s3Client.putObject(request, RequestBody.fromString(data));
     assertSuccess(response);
     assertThat(response.eTag()).isNotNull();
@@ -203,11 +212,11 @@ public class S3TestHelper {
     assertThat(responseBytes.asUtf8String()).isEqualTo(data);
   }
 
-  private static void putObjectIntoBucket(final S3AsyncClient s3Client, final String bucket) throws Exception {
+  private static void putObjectIntoBucket(final S3AsyncClient s3Client, final String bucket, final StorageClass storageClass) throws Exception {
     final String key = "putObject-s3AsyncClient-key-" + UUID.randomUUID().toString();
     final String data = "Hello-" + UUID.randomUUID().toString();
 
-    PutObjectRequest request = PutObjectRequest.builder().bucket(bucket).key(key).build();
+    PutObjectRequest request = PutObjectRequest.builder().bucket(bucket).key(key).storageClass(storageClass).build();
     PutObjectResponse response = s3Client.putObject(request, AsyncRequestBody.fromString(data)).get();
     assertSuccess(response);
     assertThat(response.eTag()).isNotNull();
