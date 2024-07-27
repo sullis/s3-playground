@@ -96,7 +96,8 @@ abstract class AbstractS3Test {
     S3TestHelper.validateS3Client(s3ClientInfo.client);
   }
 
-  public record S3AsyncClientInfo(String httpClientDescription, ObjectStorageProvider objectStorageProvider,
+  public record S3AsyncClientInfo(String httpClientDescription,
+                                  ObjectStorageProvider objectStorageProvider,
                                   S3AsyncClient client) {
     @Override
     public String toString() {
@@ -105,7 +106,8 @@ abstract class AbstractS3Test {
     }
   }
 
-  public record S3ClientInfo(String httpClientDescription, ObjectStorageProvider objectStorageProvider,
+  public record S3ClientInfo(String httpClientDescription,
+                             ObjectStorageProvider objectStorageProvider,
                              S3Client client) {
     @Override
     public String toString() {
