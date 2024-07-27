@@ -10,7 +10,6 @@ import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 import org.apache.commons.io.IOUtils;
 import org.assertj.core.util.Files;
-import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import software.amazon.awssdk.core.ResponseBytes;
