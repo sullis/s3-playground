@@ -67,7 +67,7 @@ public class S3TestHelper {
     final String bucket = createNewBucket(s3Client);
     putObjectIntoBucket(s3Client, bucket, storageClass);
     uploadMultiPartIntoBucket(s3Client, bucket);
-    exerciseTransferManager(s3Client);
+    exerciseTransferManager(s3Client, storageClass);
   }
 
   static public void uploadMultiPartIntoBucket(S3AsyncClient s3Client, String bucket) throws Exception {
@@ -226,7 +226,7 @@ public class S3TestHelper {
     assertThat(responseBytes.asUtf8String()).isEqualTo(data);
   }
 
-  public static void exerciseTransferManager(S3AsyncClient s3Client)
+  public static void exerciseTransferManager(S3AsyncClient s3Client, @Nullable StorageClass storageClass)
       throws Exception {
     final String bucket = createNewBucket(s3Client);
     final String uploadKey = UUID.randomUUID().toString();
@@ -238,7 +238,7 @@ public class S3TestHelper {
 
       Upload upload = transferManager.upload(
           uploadReq -> uploadReq.requestBody(AsyncRequestBody.fromString(payload)).addTransferListener(listener)
-              .putObjectRequest(PutObjectRequest.builder().bucket(bucket).key(uploadKey).build()));
+              .putObjectRequest(PutObjectRequest.builder().bucket(bucket).key(uploadKey).storageClass(storageClass).build()));
       CompletedUpload completedUpload = upload.completionFuture().get();
 
       PutObjectResponse putObjectResponse = completedUpload.response();
