@@ -227,6 +227,8 @@ public class S3TestHelper {
 
   public static void exerciseTransferManager(S3AsyncClient s3Client, @Nullable StorageClass storageClass)
       throws Exception {
+    logger.info("exerciseTransferManager: " + s3Client.getClass().getSimpleName());
+
     final String bucket = createNewBucket(s3Client);
     final String uploadKey = UUID.randomUUID().toString();
     final String payload = "Hello world";
