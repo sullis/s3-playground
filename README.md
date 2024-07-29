@@ -18,6 +18,7 @@ s3 experiments
 # S3 Express One Zone storage
 - [Working with S3 Express One Zone](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-SDKs.html)
 - [Getting started with the Amazon S3 Express One Zone storage class](https://www.youtube.com/watch?v=MzZ5pZ-wXBM)
+- [s3 express one zone @ Clickhouse Cloud](https://aws.amazon.com/blogs/storage/clickhouse-cloud-amazon-s3-express-one-zone-making-a-blazing-fast-analytical-database-even-faster/)
 
 # S3 event notifications
 - [Event Notifications](https://docs.aws.amazon.com/AmazonS3/latest/userguide/EventNotifications.html)
