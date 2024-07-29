@@ -28,6 +28,7 @@ import software.amazon.awssdk.services.s3.model.CreateBucketRequest;
 import software.amazon.awssdk.services.s3.model.CreateBucketResponse;
 import software.amazon.awssdk.services.s3.model.CreateMultipartUploadRequest;
 import software.amazon.awssdk.services.s3.model.CreateMultipartUploadResponse;
+import software.amazon.awssdk.services.s3.model.GetBucketAclResponse;
 import software.amazon.awssdk.services.s3.model.GetObjectRequest;
 import software.amazon.awssdk.services.s3.model.GetObjectResponse;
 import software.amazon.awssdk.services.s3.model.ListObjectsV2Request;
@@ -273,6 +274,10 @@ public class S3TestHelper {
     CreateBucketRequest createBucketRequest = createBucketRequestBuilder.build();
     CreateBucketResponse createBucketResponse = s3Client.createBucket(createBucketRequest);
     assertSuccess(createBucketResponse);
+
+    GetBucketAclResponse getBucketAclResponse = s3Client.getBucketAcl(request -> request.bucket(bucket));
+    assertSuccess(getBucketAclResponse);
+
     return bucket;
   }
 
