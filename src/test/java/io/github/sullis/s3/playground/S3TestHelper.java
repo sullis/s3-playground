@@ -31,6 +31,8 @@ import software.amazon.awssdk.services.s3.model.CreateMultipartUploadRequest;
 import software.amazon.awssdk.services.s3.model.CreateMultipartUploadResponse;
 import software.amazon.awssdk.services.s3.model.GetObjectRequest;
 import software.amazon.awssdk.services.s3.model.GetObjectResponse;
+import software.amazon.awssdk.services.s3.model.HeadObjectRequest;
+import software.amazon.awssdk.services.s3.model.HeadObjectResponse;
 import software.amazon.awssdk.services.s3.model.ListObjectsV2Request;
 import software.amazon.awssdk.services.s3.model.ListObjectsV2Response;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
@@ -222,6 +224,11 @@ public class S3TestHelper {
     GetObjectRequest getObjectRequest = GetObjectRequest.builder().bucket(bucket).key(key).build();
     ResponseBytes<GetObjectResponse> responseBytes = s3Client.getObject(getObjectRequest, ResponseTransformer.toBytes());
     assertThat(responseBytes.asUtf8String()).isEqualTo(data);
+
+    HeadObjectRequest headObjectRequest = HeadObjectRequest.builder().bucket(bucket).key(key).build();
+    HeadObjectResponse headObjectResponse = s3Client.headObject(headObjectRequest);
+    assertThat(headObjectResponse.eTag()).isNotNull();
+    assertThat(headObjectResponse.expiration()).isNull();
   }
 
   private static void putObjectIntoBucket(final S3AsyncClient s3Client, final String bucket, final StorageClass storageClass) throws Exception {
@@ -236,6 +243,11 @@ public class S3TestHelper {
     GetObjectRequest getObjectRequest = GetObjectRequest.builder().bucket(bucket).key(key).build();
     ResponseBytes<GetObjectResponse> responseBytes = s3Client.getObject(getObjectRequest, AsyncResponseTransformer.toBytes()).get();
     assertThat(responseBytes.asUtf8String()).isEqualTo(data);
+
+    HeadObjectRequest headObjectRequest = HeadObjectRequest.builder().bucket(bucket).key(key).build();
+    HeadObjectResponse headObjectResponse = s3Client.headObject(headObjectRequest).get();
+    assertThat(headObjectResponse.eTag()).isNotNull();
+    assertThat(headObjectResponse.expiration()).isNull();
   }
 
   public static void exerciseTransferManager(S3AsyncClient s3Client, @Nullable StorageClass storageClass)
