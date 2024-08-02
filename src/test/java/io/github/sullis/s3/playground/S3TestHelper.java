@@ -31,6 +31,7 @@ import software.amazon.awssdk.services.s3.model.CreateMultipartUploadRequest;
 import software.amazon.awssdk.services.s3.model.CreateMultipartUploadResponse;
 import software.amazon.awssdk.services.s3.model.GetObjectRequest;
 import software.amazon.awssdk.services.s3.model.GetObjectResponse;
+import software.amazon.awssdk.services.s3.model.HeadBucketResponse;
 import software.amazon.awssdk.services.s3.model.HeadObjectRequest;
 import software.amazon.awssdk.services.s3.model.HeadObjectResponse;
 import software.amazon.awssdk.services.s3.model.ListObjectsV2Request;
@@ -314,6 +315,9 @@ public class S3TestHelper {
     Bucket bucket = s3Client.listBuckets().buckets().stream().filter(b -> b.name().equals(bucketName)).findFirst().get();
     assertThat(bucket.creationDate()).isNotNull();
     assertThat(bucket.name()).isEqualTo(bucketName);
+
+    HeadBucketResponse headBucketResponse = s3Client.headBucket(request -> request.bucket(bucketName));
+    assertSuccess(headBucketResponse);
   }
 
   public static void assertBucketExists(final S3AsyncClient s3Client, final String bucketName)
@@ -321,6 +325,9 @@ public class S3TestHelper {
     Bucket bucket = s3Client.listBuckets().get().buckets().stream().filter(b -> b.name().equals(bucketName)).findFirst().get();
     assertThat(bucket.creationDate()).isNotNull();
     assertThat(bucket.name()).isEqualTo(bucketName);
+
+    HeadBucketResponse headBucketResponse = s3Client.headBucket(request -> request.bucket(bucketName)).get();
+    assertSuccess(headBucketResponse);
   }
 
   public static String createNewBucket(final S3AsyncClient s3Client)
