@@ -139,6 +139,7 @@ public class S3TestHelper {
     S3Object s3Object = s3Objects.get(0);
     assertThat(s3Object.key()).isEqualTo(key);
     assertThat(s3Object.eTag()).isNotNull();
+    assertThat(s3Object.size()).isEqualTo(EXPECTED_OBJECT_SIZE);
   }
 
   static public void validateS3Client(
@@ -211,6 +212,7 @@ public class S3TestHelper {
     S3Object s3Object = s3Objects.get(0);
     assertThat(s3Object.key()).isEqualTo(key);
     assertThat(s3Object.eTag()).isNotNull();
+    assertThat(s3Object.size()).isEqualTo(EXPECTED_OBJECT_SIZE);
   }
 
   private static void putObjectIntoBucket(final S3Client s3Client, final String bucket, @Nullable final StorageClass storageClass) {
