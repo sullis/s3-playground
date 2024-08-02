@@ -275,22 +275,37 @@ public class S3TestHelper {
     CreateBucketResponse createBucketResponse = s3Client.createBucket(createBucketRequest);
     assertSuccess(createBucketResponse);
 
-    Bucket bucket = s3Client.listBuckets().buckets().stream().filter(b -> b.name().equals(bucketName)).findFirst().get();
-    assertThat(bucket.creationDate()).isNotNull();
+    assertBucketExists(s3Client, bucketName);
 
     return bucketName;
   }
 
-  public static String createNewBucket(S3AsyncClient s3Client)
+  public static void assertBucketExists(final S3Client s3Client, final String bucketName) {
+    Bucket bucket = s3Client.listBuckets().buckets().stream().filter(b -> b.name().equals(bucketName)).findFirst().get();
+    assertThat(bucket.creationDate()).isNotNull();
+    assertThat(bucket.name()).isEqualTo(bucketName);
+  }
+
+  public static void assertBucketExists(final S3AsyncClient s3Client, final String bucketName)
+      throws ExecutionException, InterruptedException {
+    Bucket bucket = s3Client.listBuckets().get().buckets().stream().filter(b -> b.name().equals(bucketName)).findFirst().get();
+    assertThat(bucket.creationDate()).isNotNull();
+    assertThat(bucket.name()).isEqualTo(bucketName);
+  }
+
+  public static String createNewBucket(final S3AsyncClient s3Client)
       throws ExecutionException, InterruptedException {
 
-    final String bucket = BUCKET_PREFIX + UUID.randomUUID();
+    final String bucketName = BUCKET_PREFIX + UUID.randomUUID();
 
-    CreateBucketRequest.Builder createBucketRequestBuilder = CreateBucketRequest.builder().bucket(bucket);
+    CreateBucketRequest.Builder createBucketRequestBuilder = CreateBucketRequest.builder().bucket(bucketName);
     CreateBucketRequest createBucketRequest = createBucketRequestBuilder.build();
     CreateBucketResponse createBucketResponse = s3Client.createBucket(createBucketRequest).get();
     assertSuccess(createBucketResponse);
-    return bucket;
+
+    assertBucketExists(s3Client, bucketName);
+
+    return bucketName;
   }
 
   public static void assertSuccess(final SdkResponse sdkResponse) {
