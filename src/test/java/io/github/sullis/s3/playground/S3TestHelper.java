@@ -72,9 +72,10 @@ public class S3TestHelper {
 
   static public void uploadMultiPartIntoBucket(S3AsyncClient s3Client, String bucket) throws Exception {
 
+    final String contentType = "plain/text";
     final String key = "multipart-key-" + UUID.randomUUID();
     CreateMultipartUploadRequest createMultipartUploadRequest =
-        CreateMultipartUploadRequest.builder().bucket(bucket).key(key).build();
+        CreateMultipartUploadRequest.builder().bucket(bucket).key(key).contentType(contentType).build();
     CreateMultipartUploadResponse createMultipartUploadResponse =
         s3Client.createMultipartUpload(createMultipartUploadRequest).get();
     assertSuccess(createMultipartUploadResponse);
@@ -111,6 +112,9 @@ public class S3TestHelper {
     GetObjectRequest getObjectRequest = GetObjectRequest.builder().bucket(bucket).key(key).build();
     GetObjectResponse getObjectResponse = s3Client.getObject(getObjectRequest, localFile.toPath()).get();
     assertSuccess(getObjectResponse);
+    assertThat(getObjectResponse.contentType()).isNotNull();
+    assertThat(getObjectResponse.eTag()).isNotNull();
+
     assertThat(localFile).exists();
     assertThat(localFile).hasSize(EXPECTED_OBJECT_SIZE);
 
@@ -182,6 +186,8 @@ public class S3TestHelper {
     GetObjectRequest getObjectRequest = GetObjectRequest.builder().bucket(bucket).key(key).build();
     GetObjectResponse getObjectResponse = s3Client.getObject(getObjectRequest, localFile.toPath());
     assertSuccess(getObjectResponse);
+    assertThat(getObjectResponse.contentType()).isNotNull();
+
     assertThat(localFile).exists();
     assertThat(localFile).hasSize(EXPECTED_OBJECT_SIZE);
 
@@ -258,8 +264,12 @@ public class S3TestHelper {
 
       FileDownload fileDownload = transferManager.downloadFile(downloadFileRequest);
       CompletedFileDownload completedFileDownload = fileDownload.completionFuture().get();
+
       GetObjectResponse getObjectResponse = completedFileDownload.response();
       assertSuccess(getObjectResponse);
+      assertThat(getObjectResponse.eTag()).isNotNull();
+      assertThat(getObjectResponse.cacheControl()).isNull();
+      assertThat(getObjectResponse.contentType()).startsWith("text/plain;");
 
       assertThat(destinationFile).isFile();
       assertThat(destinationFile).hasSize(11);
