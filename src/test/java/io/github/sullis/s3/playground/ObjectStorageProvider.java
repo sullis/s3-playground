@@ -243,36 +243,4 @@ public interface ObjectStorageProvider {
     }
   }
 
-  class CloudflareLocal implements ObjectStorageProvider {
-    private final CloudflareLocalContainer container;
-    private final AwsCredentialsProvider awsCredentialsProvider;
-    private final Region awsRegion;
-    private final URI endpoint;
-
-    public CloudflareLocal(CloudflareLocalContainer container) {
-      if (!container.isRunning()) {
-        throw new IllegalStateException("container is not running");
-      }
-      this.container = container;
-      this.awsCredentialsProvider = StaticCredentialsProvider.create(
-          AwsBasicCredentials.create("dummy", "dummy")
-      );
-      this.awsRegion = Region.of("auto");
-      this.endpoint = URI.create("http://127.0.0.1:" + this.container.getFirstMappedPort());
-    }
-
-    @Override
-    public S3CrtAsyncClientBuilder configure(S3CrtAsyncClientBuilder builder) {
-      return builder.region(this.awsRegion)
-          .endpointOverride(this.endpoint)
-          .credentialsProvider(this.awsCredentialsProvider);
-    }
-
-    @Override
-    public AwsClientBuilder<?, ?> configure(AwsClientBuilder<?, ?> builder) {
-      return builder.region(this.awsRegion)
-          .endpointOverride(this.endpoint)
-          .credentialsProvider(this.awsCredentialsProvider);
-    }
-  }
 }
