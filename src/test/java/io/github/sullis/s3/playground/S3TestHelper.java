@@ -104,6 +104,9 @@ public class S3TestHelper {
     CompleteMultipartUploadResponse completeMultipartUploadResponse =
         s3Client.completeMultipartUpload(completeMultipartUploadRequest).get();
     assertSuccess(completeMultipartUploadResponse);
+    assertThat(completeMultipartUploadResponse.location())
+        .contains("/" + bucket + "/")
+        .endsWith("/" + key);
 
     Path localPath = Path.of(Files.temporaryFolderPath() + "/" + UUID.randomUUID().toString());
     File localFile = localPath.toFile();
@@ -178,6 +181,9 @@ public class S3TestHelper {
     CompleteMultipartUploadResponse completeMultipartUploadResponse =
         s3Client.completeMultipartUpload(completeMultipartUploadRequest);
     assertSuccess(completeMultipartUploadResponse);
+    assertThat(completeMultipartUploadResponse.location())
+        .contains("/" + bucket + "/")
+        .endsWith("/" + key);
 
     Path localPath = Path.of(Files.temporaryFolderPath() + "/" + UUID.randomUUID().toString());
     File localFile = localPath.toFile();
