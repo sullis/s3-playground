@@ -242,6 +242,8 @@ public class S3TestHelper {
           uploadReq -> uploadReq.requestBody(AsyncRequestBody.fromString(payload)).addTransferListener(listener)
               .putObjectRequest(PutObjectRequest.builder().bucket(bucket).key(uploadKey).storageClass(storageClass).build()));
       CompletedUpload completedUpload = upload.completionFuture().get();
+      assertThat(completedUpload.response().eTag()).isNotNull();
+      assertThat(completedUpload.response().expiration()).isNull();
 
       PutObjectResponse putObjectResponse = completedUpload.response();
       assertSuccess(putObjectResponse);
