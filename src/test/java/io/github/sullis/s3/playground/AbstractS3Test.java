@@ -3,6 +3,8 @@ package io.github.sullis.s3.playground;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -33,6 +35,18 @@ abstract class AbstractS3Test {
   private final Logger logger = LoggerFactory.getLogger(getClass());
 
   protected abstract List<ObjectStorageProvider> objectStorageProviders();
+
+  private S3TestHelper s3TestHelper;
+
+  @BeforeEach
+  public void beforeEachTest() {
+    s3TestHelper = new S3TestHelper();
+  }
+
+  @AfterEach
+  public void afterEachTest() {
+    s3TestHelper.cleanup();
+  }
 
   public StorageClass[] storageClasses() {
     return new StorageClass[] {
@@ -98,14 +112,14 @@ abstract class AbstractS3Test {
   @MethodSource("s3AsyncClientArguments")
   public void validateS3AsyncClient(S3AsyncClientInfo s3ClientInfo, StorageClass storageClass)
       throws Exception {
-    S3TestHelper.validateS3AsyncClient(s3ClientInfo.client, storageClass);
+    s3TestHelper.validateS3AsyncClient(s3ClientInfo.client, storageClass);
   }
 
   @ParameterizedTest
   @MethodSource("s3ClientArguments")
   public void validateS3Client(S3ClientInfo s3ClientInfo, StorageClass storageClass)
       throws Exception {
-    S3TestHelper.validateS3Client(s3ClientInfo.client, storageClass);
+    s3TestHelper.validateS3Client(s3ClientInfo.client, storageClass);
   }
 
   public record S3AsyncClientInfo(String httpClientDescription,

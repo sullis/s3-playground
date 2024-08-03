@@ -62,7 +62,11 @@ public class S3TestHelper {
 
   private static final Logger logger = LoggerFactory.getLogger(S3TestHelper.class);
 
-  static public void validateS3AsyncClient(
+  private List<String> bucketsCreated = new ArrayList<>();
+
+  public S3TestHelper() { }
+
+  public void validateS3AsyncClient(
       S3AsyncClient s3Client,
       @Nullable StorageClass storageClass)
       throws Exception {
@@ -73,7 +77,7 @@ public class S3TestHelper {
     exerciseTransferManager(s3Client, storageClass);
   }
 
-  static public void uploadMultiPartIntoBucket(S3AsyncClient s3Client, String bucket) throws Exception {
+  public void uploadMultiPartIntoBucket(S3AsyncClient s3Client, String bucket) throws Exception {
 
     final String contentType = "plain/text";
     final String key = "multipart-key-" + UUID.randomUUID();
@@ -142,7 +146,7 @@ public class S3TestHelper {
     assertThat(s3Object.size()).isEqualTo(EXPECTED_OBJECT_SIZE);
   }
 
-  static public void validateS3Client(
+  public void validateS3Client(
       S3Client s3Client,
       @Nullable StorageClass storageClass)
       throws Exception {
@@ -152,7 +156,7 @@ public class S3TestHelper {
     uploadMultipartIntoBucket(s3Client, bucket, storageClass);
   }
 
-  static public void uploadMultipartIntoBucket(S3Client s3Client, String bucket, StorageClass storageClass) {
+  public void uploadMultipartIntoBucket(S3Client s3Client, String bucket, StorageClass storageClass) {
 
     final String key = "multipart-key-" + UUID.randomUUID();
     CreateMultipartUploadRequest createMultipartUploadRequest =
@@ -215,7 +219,7 @@ public class S3TestHelper {
     assertThat(s3Object.size()).isEqualTo(EXPECTED_OBJECT_SIZE);
   }
 
-  private static void putObjectIntoBucket(final S3Client s3Client, final String bucket, @Nullable final StorageClass storageClass) {
+  private void putObjectIntoBucket(final S3Client s3Client, final String bucket, @Nullable final StorageClass storageClass) {
     final String key = "putObject-s3Client-key-" + UUID.randomUUID().toString();
     final String data = "Hello-" + UUID.randomUUID().toString();
 
@@ -234,7 +238,7 @@ public class S3TestHelper {
     assertThat(headObjectResponse.expiration()).isNull();
   }
 
-  private static void putObjectIntoBucket(final S3AsyncClient s3Client, final String bucket, final StorageClass storageClass) throws Exception {
+  private void putObjectIntoBucket(final S3AsyncClient s3Client, final String bucket, final StorageClass storageClass) throws Exception {
     final String key = "putObject-s3AsyncClient-key-" + UUID.randomUUID().toString();
     final String data = "Hello-" + UUID.randomUUID().toString();
 
@@ -253,7 +257,7 @@ public class S3TestHelper {
     assertThat(headObjectResponse.expiration()).isNull();
   }
 
-  public static void exerciseTransferManager(S3AsyncClient s3Client, @Nullable StorageClass storageClass)
+  public void exerciseTransferManager(S3AsyncClient s3Client, @Nullable StorageClass storageClass)
       throws Exception {
     logger.info("exerciseTransferManager: " + s3Client.getClass().getSimpleName());
 
@@ -300,8 +304,9 @@ public class S3TestHelper {
     }
   }
 
-  public static String createNewBucket(final S3Client s3Client) {
+  public String createNewBucket(final S3Client s3Client) {
     final String bucketName = BUCKET_PREFIX + UUID.randomUUID();
+    bucketsCreated.add(bucketName);
 
     CreateBucketRequest.Builder createBucketRequestBuilder = CreateBucketRequest.builder().bucket(bucketName);
     CreateBucketRequest createBucketRequest = createBucketRequestBuilder.build();
@@ -313,7 +318,7 @@ public class S3TestHelper {
     return bucketName;
   }
 
-  public static void assertBucketExists(final S3Client s3Client, final String bucketName) {
+  public void assertBucketExists(final S3Client s3Client, final String bucketName) {
     Bucket bucket = s3Client.listBuckets().buckets().stream().filter(b -> b.name().equals(bucketName)).findFirst().get();
     assertThat(bucket.creationDate()).isNotNull();
     assertThat(bucket.name()).isEqualTo(bucketName);
@@ -322,7 +327,7 @@ public class S3TestHelper {
     assertSuccess(headBucketResponse);
   }
 
-  public static void assertBucketExists(final S3AsyncClient s3Client, final String bucketName)
+  public void assertBucketExists(final S3AsyncClient s3Client, final String bucketName)
       throws ExecutionException, InterruptedException {
     Bucket bucket = s3Client.listBuckets().get().buckets().stream().filter(b -> b.name().equals(bucketName)).findFirst().get();
     assertThat(bucket.creationDate()).isNotNull();
@@ -332,10 +337,11 @@ public class S3TestHelper {
     assertSuccess(headBucketResponse);
   }
 
-  public static String createNewBucket(final S3AsyncClient s3Client)
+  public String createNewBucket(final S3AsyncClient s3Client)
       throws ExecutionException, InterruptedException {
 
     final String bucketName = BUCKET_PREFIX + UUID.randomUUID();
+    bucketsCreated.add(bucketName);
 
     CreateBucketRequest.Builder createBucketRequestBuilder = CreateBucketRequest.builder().bucket(bucketName);
     CreateBucketRequest createBucketRequest = createBucketRequestBuilder.build();
@@ -347,8 +353,13 @@ public class S3TestHelper {
     return bucketName;
   }
 
-  public static void assertSuccess(final SdkResponse sdkResponse) {
+  private static void assertSuccess(final SdkResponse sdkResponse) {
     assertThat(sdkResponse.sdkHttpResponse().isSuccessful()).isTrue();
   }
 
+  public void cleanup() {
+    for (String bucketName : bucketsCreated) {
+       // todo : implementation
+    }
+  }
 }
