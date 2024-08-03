@@ -118,7 +118,7 @@ public class S3TestHelper {
     GetObjectRequest getObjectRequest = GetObjectRequest.builder().bucket(bucket).key(key).build();
     GetObjectResponse getObjectResponse = s3Client.getObject(getObjectRequest, localFile.toPath()).get();
     assertSuccess(getObjectResponse);
-    assertThat(getObjectResponse.contentType()).isNotNull();
+    assertThat(getObjectResponse.contentType()).startsWith("plain/text");
     assertThat(getObjectResponse.eTag()).isNotNull();
 
     assertThat(localFile).exists();
