@@ -10,6 +10,7 @@
   <logger name="com.github" level="ERROR"/>
   <logger name="io.netty" level="ERROR"/>
   <logger name="httpserver" level="ALL"/>
+  <logger name="ceph" level="ALL"/>
   <logger name="io.github.sullis" level="ALL"/>
   <logger name="org.apache" level="ERROR"/>
   <logger name="org.apache.hc.client5.http.wire" level="ALL"/>

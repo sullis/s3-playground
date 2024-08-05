@@ -4,9 +4,11 @@ import com.adobe.testing.s3mock.testcontainers.S3MockContainer;
 import java.util.List;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.slf4j.LoggerFactory;
 import org.testcontainers.containers.CephContainer;
 import org.testcontainers.containers.MinIOContainer;
 import org.testcontainers.containers.localstack.LocalStackContainer;
+import org.testcontainers.containers.output.Slf4jLogConsumer;
 import org.testcontainers.utility.DockerImageName;
 
 
@@ -26,6 +28,9 @@ public class S3LocalTest extends AbstractS3Test {
     LOCALSTACK.start();
     MINIO_CONTAINER.start();
     S3_MOCK_CONTAINER.start();
+
+    Slf4jLogConsumer logConsumer = new Slf4jLogConsumer(LoggerFactory.getLogger("ceph.logs"));
+    CEPH_CONTAINER.withLogConsumer(logConsumer);
     CEPH_CONTAINER.start();
   }
 
@@ -50,8 +55,8 @@ public class S3LocalTest extends AbstractS3Test {
     return List.of(
         new ObjectStorageProvider.Localstack(LOCALSTACK),
         new ObjectStorageProvider.Minio(MINIO_CONTAINER),
-        new ObjectStorageProvider.S3Mock(S3_MOCK_CONTAINER));
-        // TODO new ObjectStorageProvider.Ceph(CEPH_CONTAINER));
+        new ObjectStorageProvider.S3Mock(S3_MOCK_CONTAINER),
+        new ObjectStorageProvider.Ceph(CEPH_CONTAINER));
   }
 
 }
