@@ -1,4 +1,4 @@
-package io.github.sullis.s3.playground;
+package io.github.sullis.s3.playground.testkit;
 
 import java.io.File;
 import java.io.InputStream;
@@ -16,10 +16,7 @@ import software.amazon.awssdk.core.ResponseBytes;
 import software.amazon.awssdk.core.SdkResponse;
 import software.amazon.awssdk.core.async.AsyncRequestBody;
 import software.amazon.awssdk.core.async.AsyncResponseTransformer;
-import software.amazon.awssdk.core.sync.RequestBody;
-import software.amazon.awssdk.core.sync.ResponseTransformer;
 import software.amazon.awssdk.services.s3.S3AsyncClient;
-import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.Bucket;
 import software.amazon.awssdk.services.s3.model.CompleteMultipartUploadRequest;
 import software.amazon.awssdk.services.s3.model.CompleteMultipartUploadResponse;
@@ -29,6 +26,7 @@ import software.amazon.awssdk.services.s3.model.CreateBucketRequest;
 import software.amazon.awssdk.services.s3.model.CreateBucketResponse;
 import software.amazon.awssdk.services.s3.model.CreateMultipartUploadRequest;
 import software.amazon.awssdk.services.s3.model.CreateMultipartUploadResponse;
+import software.amazon.awssdk.services.s3.model.DeleteBucketResponse;
 import software.amazon.awssdk.services.s3.model.GetObjectRequest;
 import software.amazon.awssdk.services.s3.model.GetObjectResponse;
 import software.amazon.awssdk.services.s3.model.HeadBucketResponse;
@@ -54,30 +52,32 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.jspecify.annotations.Nullable;
 
 
-public class S3TestHelper {
+public class S3AsyncTestKit implements S3TestKit {
   private static final String BUCKET_PREFIX = "test-bucket-";
   private static final int PART_SIZE = 5 * 1024 * 1024;
   private static final int NUM_PARTS = 3;
   private static final long EXPECTED_OBJECT_SIZE = NUM_PARTS * PART_SIZE;
 
-  private static final Logger logger = LoggerFactory.getLogger(S3TestHelper.class);
+  private static final Logger logger = LoggerFactory.getLogger(S3AsyncTestKit.class);
 
   private List<String> bucketsCreated = new ArrayList<>();
+  private final S3AsyncClient s3Client;
 
-  public S3TestHelper() { }
-
-  public void validateS3AsyncClient(
-      S3AsyncClient s3Client,
-      @Nullable StorageClass storageClass)
-      throws Exception {
-    logger.info("validate S3AsyncClient: storageClass=" + storageClass);
-    final String bucket = createNewBucket(s3Client);
-    putObjectIntoBucket(s3Client, bucket, storageClass);
-    uploadMultiPartIntoBucket(s3Client, bucket);
-    exerciseTransferManager(s3Client, storageClass);
+  public S3AsyncTestKit(final S3AsyncClient s3Client) {
+    this.s3Client = s3Client;
   }
 
-  public void uploadMultiPartIntoBucket(S3AsyncClient s3Client, String bucket) throws Exception {
+  public void validate(@Nullable StorageClass storageClass)
+      throws Exception {
+    logger.info("validate S3AsyncClient: storageClass=" + storageClass);
+    final String bucket = createNewBucket();
+    putObjectIntoBucket(bucket, storageClass);
+    uploadMultiPartIntoBucket(bucket, storageClass);
+    exerciseTransferManager(storageClass);
+  }
+
+  @Override
+  public void uploadMultiPartIntoBucket(String bucket, @Nullable StorageClass storageClass) throws Exception {
 
     final String contentType = "plain/text";
     final String key = "multipart-key-" + UUID.randomUUID();
@@ -146,99 +146,8 @@ public class S3TestHelper {
     assertThat(s3Object.size()).isEqualTo(EXPECTED_OBJECT_SIZE);
   }
 
-  public void validateS3Client(
-      S3Client s3Client,
-      @Nullable StorageClass storageClass)
-      throws Exception {
-    logger.info("validate S3Client: storageClass=" + storageClass);
-    final String bucket = createNewBucket(s3Client);
-    putObjectIntoBucket(s3Client, bucket, storageClass);
-    uploadMultipartIntoBucket(s3Client, bucket, storageClass);
-  }
-
-  public void uploadMultipartIntoBucket(S3Client s3Client, String bucket, StorageClass storageClass) {
-
-    final String key = "multipart-key-" + UUID.randomUUID();
-    CreateMultipartUploadRequest createMultipartUploadRequest =
-        CreateMultipartUploadRequest.builder().bucket(bucket).key(key).build();
-    CreateMultipartUploadResponse createMultipartUploadResponse =
-        s3Client.createMultipartUpload(createMultipartUploadRequest);
-    assertSuccess(createMultipartUploadResponse);
-
-    final String uploadId = createMultipartUploadResponse.uploadId();
-
-    List<CompletedPart> completedParts = new ArrayList<>();
-    final String partText = "a".repeat(PART_SIZE);
-
-    for (int part = 1; part <= NUM_PARTS; part++) {
-      RequestBody requestBody = RequestBody.fromString(partText);
-      UploadPartRequest uploadPartRequest =
-          UploadPartRequest.builder().bucket(bucket).key(key).uploadId(uploadId).partNumber(part).build();
-      UploadPartResponse uploadPartResponse = s3Client.uploadPart(uploadPartRequest, requestBody);
-      assertSuccess(uploadPartResponse);
-      logger.info("S3Client uploaded part " + part + " of " + NUM_PARTS);
-      completedParts.add(CompletedPart.builder().partNumber(part).eTag(uploadPartResponse.eTag()).build());
-    }
-
-    CompletedMultipartUpload completedMultipartUpload =
-        CompletedMultipartUpload.builder().parts(completedParts).build();
-
-    CompleteMultipartUploadRequest completeMultipartUploadRequest =
-        CompleteMultipartUploadRequest.builder().bucket(bucket).key(key).uploadId(uploadId)
-            .multipartUpload(completedMultipartUpload).build();
-    CompleteMultipartUploadResponse completeMultipartUploadResponse =
-        s3Client.completeMultipartUpload(completeMultipartUploadRequest);
-    assertSuccess(completeMultipartUploadResponse);
-    assertThat(completeMultipartUploadResponse.location())
-        .contains("/" + bucket + "/")
-        .endsWith("/" + key);
-
-    Path localPath = Path.of(Files.temporaryFolderPath() + "/" + UUID.randomUUID().toString());
-    File localFile = localPath.toFile();
-    localFile.deleteOnExit();
-
-    GetObjectRequest getObjectRequest = GetObjectRequest.builder().bucket(bucket).key(key).build();
-    GetObjectResponse getObjectResponse = s3Client.getObject(getObjectRequest, localFile.toPath());
-    assertSuccess(getObjectResponse);
-    assertThat(getObjectResponse.contentType()).isNotNull();
-
-    assertThat(localFile).exists();
-    assertThat(localFile).hasSize(EXPECTED_OBJECT_SIZE);
-
-    ListObjectsV2Request listObjectsV2Request = ListObjectsV2Request.builder().bucket(bucket).build();
-    ListObjectsV2Response listObjectsV2Response = s3Client.listObjectsV2(listObjectsV2Request);
-    assertSuccess(listObjectsV2Response);
-    List<S3Object> s3Objects = listObjectsV2Response.contents()
-        .stream()
-        .filter(obj -> obj.key().equals(key))
-        .toList();
-    assertThat(s3Objects).hasSize(1);
-    S3Object s3Object = s3Objects.get(0);
-    assertThat(s3Object.key()).isEqualTo(key);
-    assertThat(s3Object.eTag()).isNotNull();
-    assertThat(s3Object.size()).isEqualTo(EXPECTED_OBJECT_SIZE);
-  }
-
-  private void putObjectIntoBucket(final S3Client s3Client, final String bucket, @Nullable final StorageClass storageClass) {
-    final String key = "putObject-s3Client-key-" + UUID.randomUUID().toString();
-    final String data = "Hello-" + UUID.randomUUID().toString();
-
-    PutObjectRequest request = PutObjectRequest.builder().bucket(bucket).key(key).storageClass(storageClass).build();
-    PutObjectResponse response = s3Client.putObject(request, RequestBody.fromString(data));
-    assertSuccess(response);
-    assertThat(response.eTag()).isNotNull();
-
-    GetObjectRequest getObjectRequest = GetObjectRequest.builder().bucket(bucket).key(key).build();
-    ResponseBytes<GetObjectResponse> responseBytes = s3Client.getObject(getObjectRequest, ResponseTransformer.toBytes());
-    assertThat(responseBytes.asUtf8String()).isEqualTo(data);
-
-    HeadObjectRequest headObjectRequest = HeadObjectRequest.builder().bucket(bucket).key(key).build();
-    HeadObjectResponse headObjectResponse = s3Client.headObject(headObjectRequest);
-    assertThat(headObjectResponse.eTag()).isNotNull();
-    assertThat(headObjectResponse.expiration()).isNull();
-  }
-
-  private void putObjectIntoBucket(final S3AsyncClient s3Client, final String bucket, final StorageClass storageClass) throws Exception {
+  @Override
+  public void putObjectIntoBucket(final String bucket, final StorageClass storageClass) throws Exception {
     final String key = "putObject-s3AsyncClient-key-" + UUID.randomUUID().toString();
     final String data = "Hello-" + UUID.randomUUID().toString();
 
@@ -257,11 +166,11 @@ public class S3TestHelper {
     assertThat(headObjectResponse.expiration()).isNull();
   }
 
-  public void exerciseTransferManager(S3AsyncClient s3Client, @Nullable StorageClass storageClass)
+  public void exerciseTransferManager(@Nullable StorageClass storageClass)
       throws Exception {
     logger.info("exerciseTransferManager: " + s3Client.getClass().getSimpleName());
 
-    final String bucket = createNewBucket(s3Client);
+    final String bucket = createNewBucket();
     final String uploadKey = UUID.randomUUID().toString();
     final String payload = "Hello world";
 
@@ -304,30 +213,7 @@ public class S3TestHelper {
     }
   }
 
-  public String createNewBucket(final S3Client s3Client) {
-    final String bucketName = BUCKET_PREFIX + UUID.randomUUID();
-    bucketsCreated.add(bucketName);
-
-    CreateBucketRequest.Builder createBucketRequestBuilder = CreateBucketRequest.builder().bucket(bucketName);
-    CreateBucketRequest createBucketRequest = createBucketRequestBuilder.build();
-    CreateBucketResponse createBucketResponse = s3Client.createBucket(createBucketRequest);
-    assertSuccess(createBucketResponse);
-
-    assertBucketExists(s3Client, bucketName);
-
-    return bucketName;
-  }
-
-  public void assertBucketExists(final S3Client s3Client, final String bucketName) {
-    Bucket bucket = s3Client.listBuckets().buckets().stream().filter(b -> b.name().equals(bucketName)).findFirst().get();
-    assertThat(bucket.creationDate()).isNotNull();
-    assertThat(bucket.name()).isEqualTo(bucketName);
-
-    HeadBucketResponse headBucketResponse = s3Client.headBucket(request -> request.bucket(bucketName));
-    assertSuccess(headBucketResponse);
-  }
-
-  public void assertBucketExists(final S3AsyncClient s3Client, final String bucketName)
+  public void assertBucketExists(final String bucketName)
       throws ExecutionException, InterruptedException {
     Bucket bucket = s3Client.listBuckets().get().buckets().stream().filter(b -> b.name().equals(bucketName)).findFirst().get();
     assertThat(bucket.creationDate()).isNotNull();
@@ -337,7 +223,7 @@ public class S3TestHelper {
     assertSuccess(headBucketResponse);
   }
 
-  public String createNewBucket(final S3AsyncClient s3Client)
+  public String createNewBucket()
       throws ExecutionException, InterruptedException {
 
     final String bucketName = BUCKET_PREFIX + UUID.randomUUID();
@@ -348,7 +234,7 @@ public class S3TestHelper {
     CreateBucketResponse createBucketResponse = s3Client.createBucket(createBucketRequest).get();
     assertSuccess(createBucketResponse);
 
-    assertBucketExists(s3Client, bucketName);
+    assertBucketExists(bucketName);
 
     return bucketName;
   }
@@ -357,9 +243,23 @@ public class S3TestHelper {
     assertThat(sdkResponse.sdkHttpResponse().isSuccessful()).isTrue();
   }
 
+  public void deleteBucket(final String bucketName)
+      throws ExecutionException, InterruptedException {
+    ListObjectsV2Response listResponse = s3Client.listObjectsV2(request -> request.bucket(bucketName)).get();
+    for (S3Object s3Object : listResponse.contents()) {
+      s3Client.deleteObject(request -> request.bucket(bucketName).key(s3Object.key())).get();
+    }
+    DeleteBucketResponse response = s3Client.deleteBucket(request -> request.bucket(bucketName)).get();
+    assertSuccess(response);
+  }
+
   public void cleanup() {
     for (String bucketName : bucketsCreated) {
-       // todo : implementation
+      try {
+        deleteBucket(bucketName);
+      } catch (Exception ex) {
+        throw new RuntimeException(ex);
+      }
     }
   }
 }
