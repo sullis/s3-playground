@@ -166,6 +166,7 @@ public class S3SyncTestKit implements S3TestKit {
 
   @Override
   public void deleteBucket(final String bucketName) throws Exception {
+    logger.info("deleteBucket: " + bucketName);
     for (S3Object s3Object : s3Client.listObjectsV2(request -> request.bucket(bucketName)).contents()) {
       s3Client.deleteObject(request -> request.bucket(bucketName).key(s3Object.key()));
     }
