@@ -148,7 +148,7 @@ public class S3AsyncTestKit implements S3TestKit {
 
   @Override
   public void putObjectIntoBucket(final String bucket, final StorageClass storageClass) throws Exception {
-    final String key = "putObject-s3AsyncClient-key-" + UUID.randomUUID().toString();
+    final String key = "putObject-key-" + UUID.randomUUID().toString();
     final String data = "Hello-" + UUID.randomUUID().toString();
 
     PutObjectRequest request = PutObjectRequest.builder().bucket(bucket).key(key).storageClass(storageClass).build();
