@@ -69,7 +69,7 @@ public class S3SyncTestKit implements S3TestKit {
 
     final String key = "multipart-key-" + UUID.randomUUID();
     CreateMultipartUploadRequest createMultipartUploadRequest =
-        CreateMultipartUploadRequest.builder().bucket(bucket).key(key).build();
+        CreateMultipartUploadRequest.builder().bucket(bucket).key(key).storageClass(storageClass).build();
     CreateMultipartUploadResponse createMultipartUploadResponse =
         s3Client.createMultipartUpload(createMultipartUploadRequest);
     assertSuccess(createMultipartUploadResponse);

@@ -82,7 +82,7 @@ public class S3AsyncTestKit implements S3TestKit {
     final String contentType = "plain/text";
     final String key = "multipart-key-" + UUID.randomUUID();
     CreateMultipartUploadRequest createMultipartUploadRequest =
-        CreateMultipartUploadRequest.builder().bucket(bucket).key(key).contentType(contentType).build();
+        CreateMultipartUploadRequest.builder().bucket(bucket).key(key).storageClass(storageClass).contentType(contentType).build();
     CreateMultipartUploadResponse createMultipartUploadResponse =
         s3Client.createMultipartUpload(createMultipartUploadRequest).get();
     assertSuccess(createMultipartUploadResponse);
