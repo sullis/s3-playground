@@ -23,7 +23,7 @@ public class S3ClientAdapter {
     };
     return (S3AsyncClient) Proxy.newProxyInstance(
         Thread.currentThread().getContextClassLoader(),
-        new Class[] {S3AsyncClient.class},
+        new Class[] { S3AsyncClient.class },
         handler);
   }
 }
