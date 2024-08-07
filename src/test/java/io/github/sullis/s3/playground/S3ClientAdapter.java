@@ -15,9 +15,11 @@ public class S3ClientAdapter {
       public Object invoke(Object obj, Method method, Object[] args)
           throws Throwable {
         Method syncMethod = syncClient.getClass().getMethod(method.getName(), method.getParameterTypes());
+        syncMethod.setAccessible(true);
         System.out.println("method.name=" + method.getName());
         System.out.println("syncMethod.name=" + syncMethod.getName());
         Object syncMethodResult = syncMethod.invoke(syncClient, args);
+        System.out.println("syncMethodResult: " + syncMethodResult);
         return CompletableFuture.completedFuture(syncMethodResult);
       }
     };

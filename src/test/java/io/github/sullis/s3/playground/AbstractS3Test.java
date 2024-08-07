@@ -112,7 +112,8 @@ abstract class AbstractS3Test {
   @MethodSource("s3ClientArguments")
   public void validateS3Client(S3ClientInfo s3ClientInfo, StorageClass storageClass)
       throws Exception {
-    S3SyncTestKit testkit = new S3SyncTestKit(s3ClientInfo.client);
+    S3AsyncClient asyncClient = S3ClientAdapter.adapt(s3ClientInfo.client);
+    S3AsyncTestKit testkit = new S3AsyncTestKit(asyncClient);
     try {
       testkit.validate(storageClass);
     } finally {
