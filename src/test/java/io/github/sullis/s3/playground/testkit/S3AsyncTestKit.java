@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -16,6 +17,7 @@ import software.amazon.awssdk.core.ResponseBytes;
 import software.amazon.awssdk.core.SdkResponse;
 import software.amazon.awssdk.core.async.AsyncRequestBody;
 import software.amazon.awssdk.core.async.AsyncResponseTransformer;
+import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3AsyncClient;
 import software.amazon.awssdk.services.s3.model.Bucket;
 import software.amazon.awssdk.services.s3.model.CompleteMultipartUploadRequest;
@@ -39,6 +41,11 @@ import software.amazon.awssdk.services.s3.model.S3Object;
 import software.amazon.awssdk.services.s3.model.StorageClass;
 import software.amazon.awssdk.services.s3.model.UploadPartRequest;
 import software.amazon.awssdk.services.s3.model.UploadPartResponse;
+import software.amazon.awssdk.services.s3.presigner.S3Presigner;
+import software.amazon.awssdk.services.s3.presigner.model.GetObjectPresignRequest;
+import software.amazon.awssdk.services.s3.presigner.model.PresignedGetObjectRequest;
+import software.amazon.awssdk.services.s3.presigner.model.PresignedPutObjectRequest;
+import software.amazon.awssdk.services.s3.presigner.model.PutObjectPresignRequest;
 import software.amazon.awssdk.transfer.s3.S3TransferManager;
 import software.amazon.awssdk.transfer.s3.model.CompletedFileDownload;
 import software.amazon.awssdk.transfer.s3.model.CompletedUpload;
@@ -73,6 +80,32 @@ public class S3AsyncTestKit implements S3TestKit {
     putObjectIntoBucket(bucket, storageClass);
     uploadMultiPartIntoBucket(bucket, storageClass);
     exerciseTransferManager(storageClass);
+    validatePresignGetObject();
+    validatePresignPutObject();
+  }
+
+  private void validatePresignGetObject() {
+    try (S3Presigner presigner = S3Presigner.builder().region(Region.US_EAST_1).build()) {
+      GetObjectPresignRequest request = GetObjectPresignRequest.builder()
+          .signatureDuration(Duration.ofMinutes(1))
+          .getObjectRequest(GetObjectRequest.builder().bucket("foo-bucket").key("foo-key").build())
+          .build();
+      PresignedGetObjectRequest presigned = presigner.presignGetObject(request);
+      String url = presigned.url().toString();
+      assertThat(url).isNotNull();
+    }
+  }
+
+  private void validatePresignPutObject() {
+    try (S3Presigner presigner = S3Presigner.builder().region(Region.US_EAST_1).build()) {
+      PutObjectPresignRequest request = PutObjectPresignRequest.builder()
+          .signatureDuration(Duration.ofMinutes(1))
+          .putObjectRequest(PutObjectRequest.builder().bucket("foo-bucket").key("foo-key").build())
+          .build();
+      PresignedPutObjectRequest presigned = presigner.presignPutObject(request);
+      String url = presigned.url().toString();
+      assertThat(url).isNotNull();
+    }
   }
 
   @Override
