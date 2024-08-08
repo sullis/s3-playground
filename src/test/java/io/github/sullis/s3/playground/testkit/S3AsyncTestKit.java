@@ -115,6 +115,8 @@ public class S3AsyncTestKit implements S3TestKit {
         .contains("/" + bucket + "/")
         .endsWith("/" + key);
 
+    assertKeyExists(bucket, key);
+
     Path localPath = Path.of(Files.temporaryFolderPath() + "/" + UUID.randomUUID().toString());
     File localFile = localPath.toFile();
     localFile.deleteOnExit();
@@ -156,14 +158,11 @@ public class S3AsyncTestKit implements S3TestKit {
     assertSuccess(response);
     assertThat(response.eTag()).isNotNull();
 
+    assertKeyExists(bucket, key);
+
     GetObjectRequest getObjectRequest = GetObjectRequest.builder().bucket(bucket).key(key).build();
     ResponseBytes<GetObjectResponse> responseBytes = s3Client.getObject(getObjectRequest, AsyncResponseTransformer.toBytes()).get();
     assertThat(responseBytes.asUtf8String()).isEqualTo(data);
-
-    HeadObjectRequest headObjectRequest = HeadObjectRequest.builder().bucket(bucket).key(key).build();
-    HeadObjectResponse headObjectResponse = s3Client.headObject(headObjectRequest).get();
-    assertThat(headObjectResponse.eTag()).isNotNull();
-    assertThat(headObjectResponse.expiration()).isNull();
   }
 
   public void exerciseTransferManager(@Nullable StorageClass storageClass)
@@ -171,7 +170,7 @@ public class S3AsyncTestKit implements S3TestKit {
     logger.info("exerciseTransferManager: " + s3Client.getClass().getSimpleName());
 
     final String bucket = createNewBucket();
-    final String uploadKey = UUID.randomUUID().toString();
+    final String uploadKey = "upload-key-" + UUID.randomUUID().toString();
     final String payload = "Hello world";
 
     final LoggingTransferListener listener = LoggingTransferListener.create();
@@ -189,6 +188,8 @@ public class S3AsyncTestKit implements S3TestKit {
       assertSuccess(putObjectResponse);
       assertThat(putObjectResponse.eTag()).isNotNull();
       assertThat(putObjectResponse.expiration()).isNull();
+
+      assertKeyExists(bucket, uploadKey);
 
       File destinationFile = Files.newTemporaryFile();
 
@@ -221,6 +222,13 @@ public class S3AsyncTestKit implements S3TestKit {
 
     HeadBucketResponse headBucketResponse = s3Client.headBucket(request -> request.bucket(bucketName)).get();
     assertSuccess(headBucketResponse);
+  }
+
+  public void assertKeyExists(final String bucketName, final String key) throws Exception {
+    HeadObjectResponse headBucketResponse = s3Client.headObject(request -> request.bucket(bucketName).key(key)).get();
+    assertSuccess(headBucketResponse);
+    assertThat(headBucketResponse.eTag()).isNotNull();
+    assertThat(headBucketResponse.contentLength()).isGreaterThan(0);
   }
 
   public String createNewBucket()

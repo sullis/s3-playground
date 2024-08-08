@@ -102,6 +102,8 @@ public class S3SyncTestKit implements S3TestKit {
         .contains("/" + bucket + "/")
         .endsWith("/" + key);
 
+    assertKeyExists(bucket, key);
+
     Path localPath = Path.of(Files.temporaryFolderPath() + "/" + UUID.randomUUID().toString());
     File localFile = localPath.toFile();
     localFile.deleteOnExit();
@@ -138,14 +140,11 @@ public class S3SyncTestKit implements S3TestKit {
     assertSuccess(response);
     assertThat(response.eTag()).isNotNull();
 
+    assertKeyExists(bucket, key);
+
     GetObjectRequest getObjectRequest = GetObjectRequest.builder().bucket(bucket).key(key).build();
     ResponseBytes<GetObjectResponse> responseBytes = s3Client.getObject(getObjectRequest, ResponseTransformer.toBytes());
     assertThat(responseBytes.asUtf8String()).isEqualTo(data);
-
-    HeadObjectRequest headObjectRequest = HeadObjectRequest.builder().bucket(bucket).key(key).build();
-    HeadObjectResponse headObjectResponse = s3Client.headObject(headObjectRequest);
-    assertThat(headObjectResponse.eTag()).isNotNull();
-    assertThat(headObjectResponse.expiration()).isNull();
   }
 
 
@@ -181,6 +180,13 @@ public class S3SyncTestKit implements S3TestKit {
 
     HeadBucketResponse headBucketResponse = s3Client.headBucket(request -> request.bucket(bucketName));
     assertSuccess(headBucketResponse);
+  }
+
+  public void assertKeyExists(final String bucketName, final String key) {
+    HeadObjectResponse headBucketResponse = s3Client.headObject(request -> request.bucket(bucketName).key(key));
+    assertSuccess(headBucketResponse);
+    assertThat(headBucketResponse.eTag()).isNotNull();
+    assertThat(headBucketResponse.contentLength()).isGreaterThan(0);
   }
 
   private static void assertSuccess(final SdkResponse sdkResponse) {
