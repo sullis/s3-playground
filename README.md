@@ -19,6 +19,8 @@ s3 experiments
 - [Working with S3 Express One Zone](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-SDKs.html)
 - [Getting started with the Amazon S3 Express One Zone storage class](https://www.youtube.com/watch?v=MzZ5pZ-wXBM)
 - [s3 express one zone @ Clickhouse Cloud](https://aws.amazon.com/blogs/storage/clickhouse-cloud-amazon-s3-express-one-zone-making-a-blazing-fast-analytical-database-even-faster/)
+- [S3 Express One Zone, Not Quite What I Hoped For](https://jack-vanlightly.com/blog/2023/11/29/s3-express-one-zone-not-quite-what-i-hoped-for) - Jack Vanlightly
+- [A Cost Analysis Of Replication Vs S3 Express One Zone In Transactional Data Systems](https://jack-vanlightly.com/blog/2024/6/10/a-cost-analysis-of-replication-vs-s3-express-one-zone-in-transactional-data-systems) - Jack Vanlightly
 
 # S3 event notifications
 - [Event Notifications](https://docs.aws.amazon.com/AmazonS3/latest/userguide/EventNotifications.html)
