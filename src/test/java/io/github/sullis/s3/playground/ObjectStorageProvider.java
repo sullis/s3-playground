@@ -266,7 +266,7 @@ public interface ObjectStorageProvider {
     public Wasabi(String accessKeyId, String secretAccessKey) {
       this.endpointUri = URI.create("https://s3.wasabisys.com/");
       this.awsCredentialsProvider = StaticCredentialsProvider.create(AwsBasicCredentials.create(accessKeyId, secretAccessKey));
-      this.awsRegion = Region.of("auto");
+      this.awsRegion = Region.of("us-east-1");
     }
 
     @Override
