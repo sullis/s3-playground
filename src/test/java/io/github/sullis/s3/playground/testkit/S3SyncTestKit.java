@@ -98,7 +98,7 @@ public class S3SyncTestKit implements S3TestKit {
         s3Client.completeMultipartUpload(completeMultipartUploadRequest);
     assertSuccess(completeMultipartUploadResponse);
     assertThat(completeMultipartUploadResponse.location())
-        .contains("/" + bucket + "/")
+        .contains(bucket)
         .endsWith("/" + key);
 
     assertKeyExists(bucket, key);

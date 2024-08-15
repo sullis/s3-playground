@@ -111,7 +111,7 @@ public class S3AsyncTestKit implements S3TestKit {
         s3Client.completeMultipartUpload(completeMultipartUploadRequest).get();
     assertSuccess(completeMultipartUploadResponse);
     assertThat(completeMultipartUploadResponse.location())
-        .contains("/" + bucket + "/")
+        .contains(bucket)
         .endsWith("/" + key);
 
     assertKeyExists(bucket, key);
