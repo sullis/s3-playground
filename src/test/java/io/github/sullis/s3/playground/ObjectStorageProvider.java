@@ -217,6 +217,12 @@ public interface ObjectStorageProvider {
     }
   }
 
+  /*
+
+     Cloudflare R2 storage
+     https://developers.cloudflare.com/r2/
+
+   */
   class Cloudflare implements ObjectStorageProvider {
     private final URI endpointUri;
     private final AwsCredentialsProvider awsCredentialsProvider;
