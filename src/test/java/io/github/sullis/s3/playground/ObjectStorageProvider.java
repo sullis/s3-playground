@@ -263,9 +263,9 @@ public interface ObjectStorageProvider {
     private final AwsCredentialsProvider awsCredentialsProvider;
     private final Region awsRegion;
 
-    public Wasabi(String accessKeyId, String secretAccessKey) {
+    public Wasabi(AwsCredentialsProvider credentialsProvider) {
       this.endpointUri = URI.create("https://s3.wasabisys.com/");
-      this.awsCredentialsProvider = StaticCredentialsProvider.create(AwsBasicCredentials.create(accessKeyId, secretAccessKey));
+      this.awsCredentialsProvider = credentialsProvider;
       this.awsRegion = Region.of("us-east-1");
     }
 
