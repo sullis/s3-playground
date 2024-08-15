@@ -249,4 +249,39 @@ public interface ObjectStorageProvider {
     }
   }
 
+  /*
+
+     Wasabi S3 Object Storage
+
+     https://docs.wasabi.com/docs/wasabi-api
+
+     https://docs.wasabi.com/docs/how-do-i-use-aws-sdk-for-java-v2-with-wasabi
+
+   */
+  class Wasabi implements ObjectStorageProvider {
+    private final URI endpointUri;
+    private final AwsCredentialsProvider awsCredentialsProvider;
+    private final Region awsRegion;
+
+    public Wasabi(String accessKeyId, String secretAccessKey) {
+      this.endpointUri = URI.create("https://s3.wasabisys.com/");
+      this.awsCredentialsProvider = StaticCredentialsProvider.create(AwsBasicCredentials.create(accessKeyId, secretAccessKey));
+      this.awsRegion = Region.of("auto");
+    }
+
+    @Override
+    public S3CrtAsyncClientBuilder configure(S3CrtAsyncClientBuilder builder) {
+      return builder.region(awsRegion)
+          .credentialsProvider(awsCredentialsProvider)
+          .endpointOverride(endpointUri);
+    }
+
+    @Override
+    public AwsClientBuilder<?, ?> configure(AwsClientBuilder<?, ?> builder) {
+      return builder.region(awsRegion)
+          .credentialsProvider(awsCredentialsProvider)
+          .endpointOverride(endpointUri);
+    }
+  }
+
 }
