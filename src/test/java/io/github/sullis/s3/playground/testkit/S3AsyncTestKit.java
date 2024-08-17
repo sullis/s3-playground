@@ -31,8 +31,12 @@ import software.amazon.awssdk.services.s3.model.GetObjectRequest;
 import software.amazon.awssdk.services.s3.model.GetObjectResponse;
 import software.amazon.awssdk.services.s3.model.HeadBucketResponse;
 import software.amazon.awssdk.services.s3.model.HeadObjectResponse;
+import software.amazon.awssdk.services.s3.model.LifecycleExpiration;
+import software.amazon.awssdk.services.s3.model.LifecycleRule;
 import software.amazon.awssdk.services.s3.model.ListObjectsV2Request;
 import software.amazon.awssdk.services.s3.model.ListObjectsV2Response;
+import software.amazon.awssdk.services.s3.model.PutBucketLifecycleConfigurationRequest;
+import software.amazon.awssdk.services.s3.model.PutBucketLifecycleConfigurationResponse;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import software.amazon.awssdk.services.s3.model.PutObjectResponse;
 import software.amazon.awssdk.services.s3.model.S3Object;
@@ -240,6 +244,15 @@ public class S3AsyncTestKit implements S3TestKit {
     CreateBucketRequest createBucketRequest = createBucketRequestBuilder.build();
     CreateBucketResponse createBucketResponse = s3Client.createBucket(createBucketRequest).get();
     assertSuccess(createBucketResponse);
+
+    LifecycleRule expiration = LifecycleRule.builder().expiration(LifecycleExpiration.builder().days(1).build()).build();
+
+    PutBucketLifecycleConfigurationResponse lifecycleConfigurationResponse = s3Client.putBucketLifecycleConfiguration(PutBucketLifecycleConfigurationRequest.builder()
+        .bucket(bucketName)
+        .lifecycleConfiguration(config ->
+            config.rules(expiration)).build()).get();
+
+    assertSuccess(lifecycleConfigurationResponse);
 
     assertBucketExists(bucketName);
 
