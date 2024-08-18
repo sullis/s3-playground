@@ -27,6 +27,7 @@ import software.amazon.awssdk.services.s3.model.CreateBucketResponse;
 import software.amazon.awssdk.services.s3.model.CreateMultipartUploadRequest;
 import software.amazon.awssdk.services.s3.model.CreateMultipartUploadResponse;
 import software.amazon.awssdk.services.s3.model.DeleteBucketResponse;
+import software.amazon.awssdk.services.s3.model.ExpirationStatus;
 import software.amazon.awssdk.services.s3.model.GetObjectRequest;
 import software.amazon.awssdk.services.s3.model.GetObjectResponse;
 import software.amazon.awssdk.services.s3.model.HeadBucketResponse;
@@ -245,7 +246,10 @@ public class S3AsyncTestKit implements S3TestKit {
     CreateBucketResponse createBucketResponse = s3Client.createBucket(createBucketRequest).get();
     assertSuccess(createBucketResponse);
 
-    LifecycleRule expiration = LifecycleRule.builder().expiration(LifecycleExpiration.builder().days(1).build()).build();
+    LifecycleRule expiration = LifecycleRule.builder()
+        .status(ExpirationStatus.ENABLED)
+        .expiration(LifecycleExpiration.builder().days(1).build())
+        .build();
 
     PutBucketLifecycleConfigurationResponse lifecycleConfigurationResponse = s3Client.putBucketLifecycleConfiguration(PutBucketLifecycleConfigurationRequest.builder()
         .bucket(bucketName)
