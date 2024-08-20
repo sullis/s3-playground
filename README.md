@@ -44,7 +44,7 @@ s3 experiments
 # Open source projects
 - [s3proxy](https://github.com/gaul/s3proxy)
 - [S3Mock](https://github.com/adobe/S3Mock)
-- [warp](https://github.com/minio/warp) - s3 benchmark
+- [warp](https://github.com/minio/warp) - s3 benchmarking tool
 - [testcontainers-ceph](https://github.com/jarlah/testcontainers-ceph)
 - [Active Storage](https://guides.rubyonrails.org/v6.0.3/active_storage_overview.html) - Ruby on Rails
 - [s3-tests](https://github.com/ceph/s3-tests)
