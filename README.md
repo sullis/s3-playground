@@ -52,6 +52,7 @@ s3 experiments
 - [Apache Pinot: s3 object storage](https://docs.pinot.apache.org/users/tutorials/use-s3-as-deep-store-for-pinot)
 - [LinkedIn Ambry](https://github.com/linkedin/ambry)
 - [s3fs-fuse](https://github.com/s3fs-fuse/s3fs-fuse)
+- [slatedb](https://github.com/slatedb/slatedb)
 
 # Commercial offerings
 - [Wasabi S3 API](https://docs.wasabi.com/docs/wasabi-api)
