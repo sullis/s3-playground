@@ -7,7 +7,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.testcontainers.utility.DockerImageName;
 
 
-public class S3LocalTest extends AbstractS3Test {
+public class S3MockTest extends AbstractS3Test {
   private static final S3MockContainer S3_MOCK_CONTAINER = new S3MockContainer(DockerImageName.parse("adobe/s3mock:latest"));
 
   @BeforeAll
