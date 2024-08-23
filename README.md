@@ -71,6 +71,7 @@ s3 experiments
 
 # Articles
 - [Delta Lake and S3](https://delta.io/blog/delta-lake-s3/)
+- [S3 now supports conditional writes](https://aws.amazon.com/about-aws/whats-new/2024/08/amazon-s3-conditional-writes/)
 - [Registering S3 files into Apache Iceberg tables- without the rewrites](https://medium.com/inquery-data/registering-s3-files-into-apache-iceberg-tables-without-the-rewrites-3c087cb01658)
 - [Materialize: Bulk exports to S3](https://materialize.com/blog/bulk-exports-s3/)
 - [How Fetch reduced latency on image uploads using Amazon S3 Express One Zone](https://aws.amazon.com/blogs/storage/how-fetch-reduces-latency-on-image-uploads-using-amazon-s3-express-one-zone/)
