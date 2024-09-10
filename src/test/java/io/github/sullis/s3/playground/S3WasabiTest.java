@@ -11,7 +11,6 @@ import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 
 @Disabled
 public class S3WasabiTest extends AbstractS3Test {
-  private static final Logger LOGGER = LoggerFactory.getLogger(S3WasabiTest.class);
 
   @Override
   protected List<ObjectStorageProvider> objectStorageProviders() {

@@ -13,7 +13,6 @@ import org.slf4j.LoggerFactory;
  */
 @Disabled
 public class S3TigrisTest extends AbstractS3Test {
-  private static final Logger LOGGER = LoggerFactory.getLogger(S3TigrisTest.class);
 
   @Override
   protected List<ObjectStorageProvider> objectStorageProviders() {
