@@ -1,7 +1,9 @@
 package io.github.sullis.s3.playground;
 
+import io.github.sullis.s3.playground.metrics.MicrometerPublisher;
 import io.github.sullis.s3.playground.testkit.S3AsyncTestKit;
 import io.github.sullis.s3.playground.testkit.S3SyncTestKit;
+import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
@@ -33,8 +35,13 @@ abstract class AbstractS3Test {
       List.of(ApacheHttpClient.builder(), AwsCrtHttpClient.builder());
 
   private final Logger logger = LoggerFactory.getLogger(getClass());
+  private final MicrometerPublisher micrometerPublisher = createMicrometerPublisher();
 
   protected abstract List<ObjectStorageProvider> objectStorageProviders();
+
+  protected MicrometerPublisher createMicrometerPublisher() {
+    return new MicrometerPublisher(new SimpleMeterRegistry());
+  }
 
   public StorageClass[] storageClasses() {
     return new StorageClass[] {
@@ -48,7 +55,10 @@ abstract class AbstractS3Test {
       ASYNC_HTTP_CLIENT_BUILDER_LIST.forEach(httpClientBuilder -> {
         var httpClient = httpClientBuilder.build();
         S3AsyncClient s3Client =
-            (S3AsyncClient) objectStorage.configure(S3AsyncClient.builder().httpClient(httpClient)).build();
+            (S3AsyncClient) objectStorage.configure(S3AsyncClient.builder()
+                    .overrideConfiguration(c -> c.addMetricPublisher(micrometerPublisher))
+                    .httpClient(httpClient))
+                    .build();
         result.add(new S3AsyncClientInfo(httpClient.clientName(), objectStorage, s3Client));
       });
 
@@ -68,7 +78,10 @@ abstract class AbstractS3Test {
       SYNC_HTTP_CLIENT_BUILDER_LIST.forEach(httpClientBuilder -> {
         var httpClient = httpClientBuilder.build();
         S3Client s3Client =
-            (S3Client) objectStorageProvider.configure(S3Client.builder().httpClient(httpClient)).build();
+            (S3Client) objectStorageProvider.configure(S3Client.builder()
+                .overrideConfiguration(c -> c.addMetricPublisher(micrometerPublisher))
+                .httpClient(httpClient))
+                .build();
         result.add(new S3ClientInfo(httpClient.clientName(), objectStorageProvider, s3Client));
       });
     }
