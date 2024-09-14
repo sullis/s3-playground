@@ -27,6 +27,7 @@ import software.amazon.awssdk.services.s3.model.StorageClass;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 abstract class AbstractS3Test {
+  protected static final int BUCKET_EXPIRATION_IN_DAYS = 0; // TODO : set this to 1
 
   private static final List<SdkAsyncHttpClient.Builder<?>> ASYNC_HTTP_CLIENT_BUILDER_LIST =
       List.of(NettyNioAsyncHttpClient.builder(), AwsCrtAsyncHttpClient.builder());
@@ -113,7 +114,7 @@ abstract class AbstractS3Test {
   @MethodSource("s3AsyncClientArguments")
   public void validateS3AsyncClient(S3AsyncClientInfo s3ClientInfo, StorageClass storageClass)
       throws Exception {
-    S3AsyncTestKit testkit = new S3AsyncTestKit(s3ClientInfo.client);
+    S3AsyncTestKit testkit = new S3AsyncTestKit(s3ClientInfo.client, BUCKET_EXPIRATION_IN_DAYS);
     try {
       testkit.validate(storageClass);
     } finally {
@@ -125,7 +126,7 @@ abstract class AbstractS3Test {
   @MethodSource("s3ClientArguments")
   public void validateS3Client(S3ClientInfo s3ClientInfo, StorageClass storageClass)
       throws Exception {
-    S3SyncTestKit testkit = new S3SyncTestKit(s3ClientInfo.client);
+    S3SyncTestKit testkit = new S3SyncTestKit(s3ClientInfo.client, BUCKET_EXPIRATION_IN_DAYS);
     try {
       testkit.validate(storageClass);
     } finally {

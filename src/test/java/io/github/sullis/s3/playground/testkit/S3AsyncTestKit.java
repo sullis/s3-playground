@@ -18,6 +18,7 @@ import software.amazon.awssdk.core.async.AsyncRequestBody;
 import software.amazon.awssdk.core.async.AsyncResponseTransformer;
 import software.amazon.awssdk.services.s3.S3AsyncClient;
 import software.amazon.awssdk.services.s3.model.Bucket;
+import software.amazon.awssdk.services.s3.model.BucketLifecycleConfiguration;
 import software.amazon.awssdk.services.s3.model.CompleteMultipartUploadRequest;
 import software.amazon.awssdk.services.s3.model.CompleteMultipartUploadResponse;
 import software.amazon.awssdk.services.s3.model.CompletedMultipartUpload;
@@ -33,6 +34,8 @@ import software.amazon.awssdk.services.s3.model.HeadBucketResponse;
 import software.amazon.awssdk.services.s3.model.HeadObjectResponse;
 import software.amazon.awssdk.services.s3.model.ListObjectsV2Request;
 import software.amazon.awssdk.services.s3.model.ListObjectsV2Response;
+import software.amazon.awssdk.services.s3.model.PutBucketLifecycleConfigurationRequest;
+import software.amazon.awssdk.services.s3.model.PutBucketLifecycleConfigurationResponse;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import software.amazon.awssdk.services.s3.model.PutObjectResponse;
 import software.amazon.awssdk.services.s3.model.S3Object;
@@ -61,9 +64,11 @@ public class S3AsyncTestKit implements S3TestKit {
 
   private List<String> bucketsCreated = new ArrayList<>();
   private final S3AsyncClient s3Client;
+  private final int bucketExpirationInDays;
 
-  public S3AsyncTestKit(final S3AsyncClient s3Client) {
+  public S3AsyncTestKit(final S3AsyncClient s3Client, final int bucketExpirationInDays) {
     this.s3Client = s3Client;
+    this.bucketExpirationInDays = bucketExpirationInDays;
   }
 
   public void validate(@Nullable StorageClass storageClass)
@@ -240,6 +245,17 @@ public class S3AsyncTestKit implements S3TestKit {
     CreateBucketRequest createBucketRequest = createBucketRequestBuilder.build();
     CreateBucketResponse createBucketResponse = s3Client.createBucket(createBucketRequest).get();
     assertSuccess(createBucketResponse);
+
+    BucketLifecycleConfiguration blConfig = createBucketExpiration(this.bucketExpirationInDays);
+    if (blConfig != null) {
+      PutBucketLifecycleConfigurationResponse
+          response = s3Client.putBucketLifecycleConfiguration(
+          PutBucketLifecycleConfigurationRequest.builder()
+              .bucket(bucketName)
+              .lifecycleConfiguration(blConfig)
+              .build()).get();
+      assertSuccess(response);
+    }
 
     assertBucketExists(bucketName);
 
