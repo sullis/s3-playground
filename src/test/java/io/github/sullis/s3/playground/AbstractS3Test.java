@@ -1,9 +1,8 @@
 package io.github.sullis.s3.playground;
 
-import io.github.sullis.s3.playground.metrics.MicrometerPublisher;
+import io.github.sullis.s3.playground.metrics.Slf4jPublisher;
 import io.github.sullis.s3.playground.testkit.S3AsyncTestKit;
 import io.github.sullis.s3.playground.testkit.S3SyncTestKit;
-import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
@@ -19,6 +18,7 @@ import software.amazon.awssdk.http.async.SdkAsyncHttpClient;
 import software.amazon.awssdk.http.crt.AwsCrtAsyncHttpClient;
 import software.amazon.awssdk.http.crt.AwsCrtHttpClient;
 import software.amazon.awssdk.http.nio.netty.NettyNioAsyncHttpClient;
+import software.amazon.awssdk.metrics.MetricPublisher;
 import software.amazon.awssdk.services.s3.S3AsyncClient;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.S3CrtAsyncClientBuilder;
@@ -35,12 +35,12 @@ abstract class AbstractS3Test {
       List.of(ApacheHttpClient.builder(), AwsCrtHttpClient.builder());
 
   private final Logger logger = LoggerFactory.getLogger(getClass());
-  private final MicrometerPublisher micrometerPublisher = createMicrometerPublisher();
+  private final MetricPublisher metricPublisher = createMetricPublisher();
 
   protected abstract List<ObjectStorageProvider> objectStorageProviders();
 
-  protected MicrometerPublisher createMicrometerPublisher() {
-    return new MicrometerPublisher(new SimpleMeterRegistry());
+  protected MetricPublisher createMetricPublisher() {
+    return new Slf4jPublisher();
   }
 
   public StorageClass[] storageClasses() {
@@ -56,7 +56,7 @@ abstract class AbstractS3Test {
         var httpClient = httpClientBuilder.build();
         S3AsyncClient s3Client =
             (S3AsyncClient) objectStorage.configure(S3AsyncClient.builder()
-                    .overrideConfiguration(c -> c.addMetricPublisher(micrometerPublisher))
+                    .overrideConfiguration(c -> c.addMetricPublisher(metricPublisher))
                     .httpClient(httpClient))
                     .build();
         result.add(new S3AsyncClientInfo(httpClient.clientName(), objectStorage, s3Client));
@@ -79,7 +79,7 @@ abstract class AbstractS3Test {
         var httpClient = httpClientBuilder.build();
         S3Client s3Client =
             (S3Client) objectStorageProvider.configure(S3Client.builder()
-                .overrideConfiguration(c -> c.addMetricPublisher(micrometerPublisher))
+                .overrideConfiguration(c -> c.addMetricPublisher(metricPublisher))
                 .httpClient(httpClient))
                 .build();
         result.add(new S3ClientInfo(httpClient.clientName(), objectStorageProvider, s3Client));
