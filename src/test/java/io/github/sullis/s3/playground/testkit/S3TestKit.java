@@ -14,11 +14,14 @@ public interface S3TestKit {
   void uploadMultiPartIntoBucket(String bucket, @Nullable StorageClass storageClass) throws Exception;
   void putObjectIntoBucket(String bucket, StorageClass storageClass) throws Exception;
   void cleanup() throws Exception;
+
   default @Nullable BucketLifecycleConfiguration createBucketExpiration(int numDays) {
     if (numDays < 1) {
       return null;
     }
-    LifecycleExpiration expiration = LifecycleExpiration.builder().days(numDays).build();
+    LifecycleExpiration expiration = LifecycleExpiration.builder()
+        .days(numDays)
+        .build();
     LifecycleRule rule = LifecycleRule.builder()
         .expiration(expiration)
         .status("Enabled")
