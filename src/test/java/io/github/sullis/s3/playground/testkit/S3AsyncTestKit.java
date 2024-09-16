@@ -73,7 +73,7 @@ public class S3AsyncTestKit implements S3TestKit {
 
   public void validate(@Nullable StorageClass storageClass)
       throws Exception {
-    logger.info("validate S3AsyncClient: storageClass=" + storageClass);
+    logger.info("validate S3AsyncClient: storageClass={}", storageClass);
     final String bucket = createNewBucket();
     putObjectIntoBucket(bucket, storageClass);
     uploadMultiPartIntoBucket(bucket, storageClass);
@@ -102,7 +102,7 @@ public class S3AsyncTestKit implements S3TestKit {
           UploadPartRequest.builder().bucket(bucket).key(key).uploadId(uploadId).partNumber(part).build();
       UploadPartResponse uploadPartResponse = s3Client.uploadPart(uploadPartRequest, requestBody).get();
       assertSuccess(uploadPartResponse);
-      logger.info("S3AsyncClient uploaded part " + part + " of " + NUM_PARTS);
+      logger.info("S3AsyncClient uploaded part {} of {}", part, NUM_PARTS);
       completedParts.add(CompletedPart.builder().partNumber(part).eTag(uploadPartResponse.eTag()).build());
     }
 
@@ -171,7 +171,7 @@ public class S3AsyncTestKit implements S3TestKit {
 
   public void exerciseTransferManager(@Nullable StorageClass storageClass)
       throws Exception {
-    logger.info("exerciseTransferManager: " + s3Client.getClass().getSimpleName());
+    logger.info("exerciseTransferManager: {}", s3Client.getClass().getSimpleName());
 
     final String bucket = createNewBucket();
     final String uploadKey = "upload-key-" + UUID.randomUUID().toString();
@@ -268,7 +268,7 @@ public class S3AsyncTestKit implements S3TestKit {
 
   public void deleteBucket(final String bucketName)
       throws ExecutionException, InterruptedException {
-    logger.info("deleteBucket: " + bucketName);
+    logger.info("deleteBucket: {}", bucketName);
     ListObjectsV2Response listResponse = s3Client.listObjectsV2(request -> request.bucket(bucketName)).get();
     for (S3Object s3Object : listResponse.contents()) {
       s3Client.deleteObject(request -> request.bucket(bucketName).key(s3Object.key())).get();
