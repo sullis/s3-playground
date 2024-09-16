@@ -64,8 +64,10 @@ abstract class AbstractS3Test {
       });
 
       // S3 crtBuilder
-      S3CrtAsyncClientBuilder crtBuilder =
-          S3AsyncClient.crtBuilder().checksumValidationEnabled(true).maxConcurrency(3).targetThroughputInGbps(0.5)
+      S3CrtAsyncClientBuilder crtBuilder = S3AsyncClient.crtBuilder()
+              .checksumValidationEnabled(true)
+              .maxConcurrency(3)
+              .targetThroughputInGbps(0.5)
               .minimumPartSizeInBytes(1_000_000L);
       result.add(new S3AsyncClientInfo("crtBuilder", objectStorage, objectStorage.configure(crtBuilder).build()));
     }
