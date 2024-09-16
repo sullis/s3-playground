@@ -8,9 +8,9 @@ import software.amazon.awssdk.services.s3.model.StorageClass;
 
 
 public interface S3TestKit {
+  void validate(@Nullable StorageClass storageClass) throws Exception;
   String createNewBucket() throws Exception;
   void deleteBucket(String bucketName) throws Exception;
-  void validate(@Nullable StorageClass storageClass) throws Exception;
   void uploadMultiPartIntoBucket(String bucket, @Nullable StorageClass storageClass) throws Exception;
   void putObjectIntoBucket(String bucket, StorageClass storageClass) throws Exception;
   void cleanup() throws Exception;
