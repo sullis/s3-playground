@@ -34,8 +34,8 @@ public class S3AwsTest extends AbstractS3Test {
   }
 
   @Override
-  protected List<ObjectStorageProvider> objectStorageProviders() {
-    return List.of(new ObjectStorageProvider.Aws());
+  protected ObjectStorageProvider objectStorageProvider() {
+    return new ObjectStorageProvider.Aws();
  }
 
 }

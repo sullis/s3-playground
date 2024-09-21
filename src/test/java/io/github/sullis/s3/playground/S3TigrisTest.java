@@ -15,8 +15,8 @@ import org.slf4j.LoggerFactory;
 public class S3TigrisTest extends AbstractS3Test {
 
   @Override
-  protected List<ObjectStorageProvider> objectStorageProviders() {
-    return List.of(new ObjectStorageProvider.Tigris("aaa", "bbb"));
+  protected ObjectStorageProvider objectStorageProvider() {
+    return new ObjectStorageProvider.Tigris("aaa", "bbb");
  }
 
 }

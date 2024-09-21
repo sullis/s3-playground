@@ -9,8 +9,8 @@ import org.slf4j.LoggerFactory;
 public class S3CloudflareTest extends AbstractS3Test {
 
   @Override
-  protected List<ObjectStorageProvider> objectStorageProviders() {
-    return List.of(new ObjectStorageProvider.Cloudflare("aaa", "bbb", "ccc"));
+  protected ObjectStorageProvider objectStorageProvider() {
+    return new ObjectStorageProvider.Cloudflare("aaa", "bbb", "ccc");
  }
 
 }

@@ -27,8 +27,6 @@ import software.amazon.awssdk.services.s3.model.StorageClass;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 abstract class AbstractS3Test {
-  protected static final int BUCKET_EXPIRATION_IN_DAYS = 0; // TODO : set this to 1
-
   private static final List<SdkAsyncHttpClient.Builder<?>> ASYNC_HTTP_CLIENT_BUILDER_LIST =
       List.of(NettyNioAsyncHttpClient.builder(), AwsCrtAsyncHttpClient.builder());
 
@@ -38,7 +36,15 @@ abstract class AbstractS3Test {
   private final Logger logger = LoggerFactory.getLogger(getClass());
   private final MetricPublisher metricPublisher = createMetricPublisher();
 
-  protected abstract List<ObjectStorageProvider> objectStorageProviders();
+  protected abstract ObjectStorageProvider objectStorageProvider();
+
+  protected int getBucketExpirationInDays() {
+    if (this.objectStorageProvider().isLocal()) {
+      return -1;
+    } else {
+      return 1;
+    }
+  }
 
   protected MetricPublisher createMetricPublisher() {
     return new Slf4jPublisher();
@@ -52,7 +58,7 @@ abstract class AbstractS3Test {
 
   public List<S3AsyncClientInfo> s3AsyncClients() {
     List<S3AsyncClientInfo> result = new ArrayList<>();
-    for (ObjectStorageProvider objectStorage : objectStorageProviders()) {
+    for (ObjectStorageProvider objectStorage : List.of(objectStorageProvider())) {
       ASYNC_HTTP_CLIENT_BUILDER_LIST.forEach(httpClientBuilder -> {
         var httpClient = httpClientBuilder.build();
         S3AsyncClient s3Client =
@@ -75,7 +81,7 @@ abstract class AbstractS3Test {
 
   public List<S3ClientInfo> s3Clients() {
     List<S3ClientInfo> result = new ArrayList<>();
-    for (ObjectStorageProvider objectStorageProvider : objectStorageProviders()) {
+    for (ObjectStorageProvider objectStorageProvider : List.of(objectStorageProvider())) {
       SYNC_HTTP_CLIENT_BUILDER_LIST.forEach(httpClientBuilder -> {
         var httpClient = httpClientBuilder.build();
         S3Client s3Client =
@@ -114,7 +120,7 @@ abstract class AbstractS3Test {
   @MethodSource("s3AsyncClientArguments")
   public void validateS3AsyncClient(S3AsyncClientInfo s3ClientInfo, StorageClass storageClass)
       throws Exception {
-    S3AsyncTestKit testkit = new S3AsyncTestKit(s3ClientInfo.client, BUCKET_EXPIRATION_IN_DAYS);
+    S3AsyncTestKit testkit = new S3AsyncTestKit(s3ClientInfo.client, getBucketExpirationInDays());
     try {
       testkit.validate(storageClass);
     } finally {
@@ -126,7 +132,7 @@ abstract class AbstractS3Test {
   @MethodSource("s3ClientArguments")
   public void validateS3Client(S3ClientInfo s3ClientInfo, StorageClass storageClass)
       throws Exception {
-    S3SyncTestKit testkit = new S3SyncTestKit(s3ClientInfo.client, BUCKET_EXPIRATION_IN_DAYS);
+    S3SyncTestKit testkit = new S3SyncTestKit(s3ClientInfo.client, getBucketExpirationInDays());
     try {
       testkit.validate(storageClass);
     } finally {

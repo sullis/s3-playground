@@ -16,6 +16,7 @@ import software.amazon.awssdk.services.s3.S3CrtAsyncClientBuilder;
 public interface ObjectStorageProvider {
   S3CrtAsyncClientBuilder configure(S3CrtAsyncClientBuilder builder);
   AwsClientBuilder<?, ?> configure(AwsClientBuilder<?, ?> builder);
+  default boolean isLocal() { return false; }
 
   class Localstack implements ObjectStorageProvider {
     private final LocalStackContainer container;
@@ -45,6 +46,11 @@ public interface ObjectStorageProvider {
       return builder.endpointOverride(container.getEndpoint())
           .credentialsProvider(awsCredentialsProvider)
           .region(awsRegion);
+    }
+
+    @Override
+    public boolean isLocal() {
+      return true;
     }
 
     @Override
@@ -84,6 +90,11 @@ public interface ObjectStorageProvider {
     }
 
     @Override
+    public boolean isLocal() {
+      return true;
+    }
+
+    @Override
     public String toString() {
       return this.getClass().getSimpleName();
     }
@@ -115,6 +126,11 @@ public interface ObjectStorageProvider {
           .credentialsProvider(awsCredentialsProvider)
           .region(awsRegion);
     }
+
+    @Override
+    public boolean isLocal() {
+      return true;
+    }
   }
 
   class Ceph implements ObjectStorageProvider {
@@ -127,6 +143,11 @@ public interface ObjectStorageProvider {
           AwsBasicCredentials.create(container.getCephAccessKey(), container.getCephSecretKey()));
       this.awsRegion = Region.US_EAST_1;
       this.endpoint = URI.create("http://127.0.0.1:" + container.getCephPort());
+    }
+
+    @Override
+    public boolean isLocal() {
+      return true;
     }
 
     @Override

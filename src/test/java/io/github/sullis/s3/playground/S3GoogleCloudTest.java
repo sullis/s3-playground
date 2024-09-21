@@ -10,8 +10,8 @@ import org.junit.jupiter.api.Disabled;
 public class S3GoogleCloudTest extends AbstractS3Test {
 
   @Override
-  protected List<ObjectStorageProvider> objectStorageProviders() {
-    return List.of(new ObjectStorageProvider.GoogleCloud("aaa", "bbb"));
+  protected ObjectStorageProvider objectStorageProvider() {
+    return new ObjectStorageProvider.GoogleCloud("aaa", "bbb");
  }
 
 }

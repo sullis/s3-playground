@@ -14,8 +14,8 @@ public class S3LocalstackTest extends AbstractS3Test {
       .withServices(LocalStackContainer.Service.S3);
 
   @Override
-  public List<ObjectStorageProvider> objectStorageProviders() {
-    return List.of(new ObjectStorageProvider.Localstack(LOCALSTACK));
+  public ObjectStorageProvider objectStorageProvider() {
+    return new ObjectStorageProvider.Localstack(LOCALSTACK);
   }
 
 }

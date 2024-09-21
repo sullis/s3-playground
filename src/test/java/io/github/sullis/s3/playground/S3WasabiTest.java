@@ -13,9 +13,9 @@ import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 public class S3WasabiTest extends AbstractS3Test {
 
   @Override
-  protected List<ObjectStorageProvider> objectStorageProviders() {
+  protected ObjectStorageProvider objectStorageProvider() {
     AwsCredentials credentials = AwsBasicCredentials.create("aaa", "bbb");
-    return List.of(new ObjectStorageProvider.Wasabi(StaticCredentialsProvider.create(credentials)));
+    return new ObjectStorageProvider.Wasabi(StaticCredentialsProvider.create(credentials));
  }
 
 }

@@ -14,8 +14,8 @@ public class S3CephTest extends AbstractS3Test {
   private static final CephContainer CEPH_CONTAINER = new CephContainer();
 
   @Override
-  public List<ObjectStorageProvider> objectStorageProviders() {
-    return List.of(new ObjectStorageProvider.Ceph(CEPH_CONTAINER));
+  public ObjectStorageProvider objectStorageProvider() {
+    return new ObjectStorageProvider.Ceph(CEPH_CONTAINER);
   }
 
 }

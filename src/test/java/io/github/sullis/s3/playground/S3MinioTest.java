@@ -13,8 +13,8 @@ public class S3MinioTest extends AbstractS3Test {
   private static final MinIOContainer MINIO_CONTAINER = new MinIOContainer(DockerImageName.parse("minio/minio:latest"));
 
   @Override
-  public List<ObjectStorageProvider> objectStorageProviders() {
-    return List.of(new ObjectStorageProvider.Minio(MINIO_CONTAINER));
+  public ObjectStorageProvider objectStorageProvider() {
+    return new ObjectStorageProvider.Minio(MINIO_CONTAINER);
   }
 
 }
