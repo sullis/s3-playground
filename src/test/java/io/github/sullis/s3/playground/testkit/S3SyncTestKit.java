@@ -72,8 +72,11 @@ public class S3SyncTestKit implements S3TestKit {
   public void uploadMultiPartIntoBucket(String bucket, @Nullable StorageClass storageClass) throws Exception {
 
     final String key = "multipart-key-" + UUID.randomUUID();
-    CreateMultipartUploadRequest createMultipartUploadRequest =
-        CreateMultipartUploadRequest.builder().bucket(bucket).key(key).storageClass(storageClass).build();
+    CreateMultipartUploadRequest.Builder createMultipartUploadBuilder = CreateMultipartUploadRequest.builder().bucket(bucket).key(key);
+    if (storageClass != null) {
+      createMultipartUploadBuilder.storageClass(storageClass);
+    }
+    CreateMultipartUploadRequest createMultipartUploadRequest = createMultipartUploadBuilder.build();
     CreateMultipartUploadResponse createMultipartUploadResponse =
         s3Client.createMultipartUpload(createMultipartUploadRequest);
     assertSuccess(createMultipartUploadResponse);
@@ -139,7 +142,11 @@ public class S3SyncTestKit implements S3TestKit {
     final String key = "putObject-s3Client-key-" + UUID.randomUUID().toString();
     final String data = "Hello-" + UUID.randomUUID().toString();
 
-    PutObjectRequest request = PutObjectRequest.builder().bucket(bucket).key(key).storageClass(storageClass).build();
+    PutObjectRequest.Builder requestBuilder = PutObjectRequest.builder().bucket(bucket).key(key);
+    if (storageClass != null) {
+      requestBuilder.storageClass(storageClass);
+    }
+    PutObjectRequest request = requestBuilder.build();
     PutObjectResponse response = s3Client.putObject(request, RequestBody.fromString(data));
     assertSuccess(response);
     assertThat(response.eTag()).isNotNull();
