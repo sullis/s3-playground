@@ -2,12 +2,6 @@ name: build
 
 on:
   workflow_call:
-    inputs:
-      java_version:
-        description: Java version for setup-java
-        type: string
-        required: false
-        default: 21
 
 jobs:
   build:
