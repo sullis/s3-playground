@@ -6,6 +6,7 @@ import io.github.sullis.s3.playground.testkit.S3SyncTestKit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
+import org.jspecify.annotations.Nullable;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -118,7 +119,7 @@ abstract class AbstractS3Test {
 
   @ParameterizedTest
   @MethodSource("s3AsyncClientArguments")
-  public void validateS3AsyncClient(S3AsyncClientInfo s3ClientInfo, StorageClass storageClass)
+  public void validateS3AsyncClient(S3AsyncClientInfo s3ClientInfo, @Nullable StorageClass storageClass)
       throws Exception {
     S3AsyncTestKit testkit = new S3AsyncTestKit(s3ClientInfo.client, getBucketExpirationInDays());
     try {

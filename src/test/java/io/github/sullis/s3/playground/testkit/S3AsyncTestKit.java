@@ -85,8 +85,11 @@ public class S3AsyncTestKit implements S3TestKit {
 
     final String contentType = "plain/text";
     final String key = "multipart-key-" + UUID.randomUUID();
-    CreateMultipartUploadRequest createMultipartUploadRequest =
-        CreateMultipartUploadRequest.builder().bucket(bucket).key(key).storageClass(storageClass).contentType(contentType).build();
+    CreateMultipartUploadRequest.Builder createMultipartUploadBuilder = CreateMultipartUploadRequest.builder().bucket(bucket).key(key).contentType(contentType);
+    if (storageClass != null) {
+      createMultipartUploadBuilder.storageClass(storageClass);
+    }
+    CreateMultipartUploadRequest createMultipartUploadRequest = createMultipartUploadBuilder.build();
     CreateMultipartUploadResponse createMultipartUploadResponse =
         s3Client.createMultipartUpload(createMultipartUploadRequest).get();
     assertSuccess(createMultipartUploadResponse);
@@ -153,11 +156,15 @@ public class S3AsyncTestKit implements S3TestKit {
   }
 
   @Override
-  public void putObjectIntoBucket(final String bucket, final StorageClass storageClass) throws Exception {
+  public void putObjectIntoBucket(final String bucket, @Nullable final StorageClass storageClass) throws Exception {
     final String key = "putObject-key-" + UUID.randomUUID().toString();
     final String data = "Hello-" + UUID.randomUUID().toString();
 
-    PutObjectRequest request = PutObjectRequest.builder().bucket(bucket).key(key).storageClass(storageClass).build();
+    PutObjectRequest.Builder putObjectRequestBuilder = PutObjectRequest.builder().bucket(bucket).key(key);
+    if (storageClass != null) {
+      putObjectRequestBuilder.storageClass(storageClass);
+    }
+    PutObjectRequest request = putObjectRequestBuilder.build();
     PutObjectResponse response = s3Client.putObject(request, AsyncRequestBody.fromString(data)).get();
     assertSuccess(response);
     assertThat(response.eTag()).isNotNull();
@@ -181,9 +188,13 @@ public class S3AsyncTestKit implements S3TestKit {
 
     try (S3TransferManager transferManager = S3TransferManager.builder().s3Client(s3Client).build()) {
 
+      PutObjectRequest.Builder putObjectRequestBuilder = PutObjectRequest.builder().bucket(bucket).key(uploadKey);
+      if (storageClass != null) {
+        putObjectRequestBuilder.storageClass(storageClass);
+      }
       Upload upload = transferManager.upload(
           uploadReq -> uploadReq.requestBody(AsyncRequestBody.fromString(payload)).addTransferListener(listener)
-              .putObjectRequest(PutObjectRequest.builder().bucket(bucket).key(uploadKey).storageClass(storageClass).build()));
+              .putObjectRequest(putObjectRequestBuilder.build()));
       CompletedUpload completedUpload = upload.completionFuture().get();
       assertThat(completedUpload.response().eTag()).isNotNull();
       assertThat(completedUpload.response().expiration()).isNull();
