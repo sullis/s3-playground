@@ -17,6 +17,7 @@ public interface ObjectStorageProvider {
   S3CrtAsyncClientBuilder configure(S3CrtAsyncClientBuilder builder);
   AwsClientBuilder<?, ?> configure(AwsClientBuilder<?, ?> builder);
   default boolean isLocal() { return false; }
+  default boolean supportsBucketExpiration() { return true; }
 
   class Localstack implements ObjectStorageProvider {
     private final LocalStackContainer container;
@@ -51,6 +52,11 @@ public interface ObjectStorageProvider {
     @Override
     public boolean isLocal() {
       return true;
+    }
+
+    @Override
+    public boolean supportsBucketExpiration() {
+      return false;
     }
 
     @Override
@@ -92,6 +98,11 @@ public interface ObjectStorageProvider {
     @Override
     public boolean isLocal() {
       return true;
+    }
+
+    @Override
+    public boolean supportsBucketExpiration() {
+      return false;
     }
 
     @Override

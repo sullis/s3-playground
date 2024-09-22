@@ -40,10 +40,10 @@ abstract class AbstractS3Test {
   protected abstract ObjectStorageProvider objectStorageProvider();
 
   protected int getBucketExpirationInDays() {
-    if (this.objectStorageProvider().isLocal()) {
-      return -1;
-    } else {
+    if (this.objectStorageProvider().supportsBucketExpiration()) {
       return 1;
+    } else {
+      return -1;
     }
   }
 

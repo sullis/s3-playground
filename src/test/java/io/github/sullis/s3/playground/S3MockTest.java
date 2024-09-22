@@ -1,7 +1,6 @@
 package io.github.sullis.s3.playground;
 
 import com.adobe.testing.s3mock.testcontainers.S3MockContainer;
-import java.util.List;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
