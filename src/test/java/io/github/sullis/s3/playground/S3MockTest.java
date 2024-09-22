@@ -6,6 +6,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
 
+/**   Adobe S3Mock   */
 @Testcontainers
 public class S3MockTest extends AbstractS3Test {
   @Container
