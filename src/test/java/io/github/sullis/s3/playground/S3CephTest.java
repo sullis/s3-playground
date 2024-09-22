@@ -1,6 +1,5 @@
 package io.github.sullis.s3.playground;
 
-import java.util.List;
 import org.junit.jupiter.api.Disabled;
 import org.testcontainers.containers.CephContainer;
 import org.testcontainers.junit.jupiter.Container;

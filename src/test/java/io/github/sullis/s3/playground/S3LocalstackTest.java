@@ -1,6 +1,5 @@
 package io.github.sullis.s3.playground;
 
-import java.util.List;
 import org.testcontainers.containers.localstack.LocalStackContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
