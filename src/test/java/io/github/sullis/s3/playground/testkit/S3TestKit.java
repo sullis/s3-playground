@@ -1,5 +1,9 @@
 package io.github.sullis.s3.playground.testkit;
 
+import java.time.Duration;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.concurrent.TimeUnit;
 import org.jspecify.annotations.Nullable;
 import software.amazon.awssdk.services.s3.model.BucketLifecycleConfiguration;
 import software.amazon.awssdk.services.s3.model.ExpirationStatus;
@@ -16,12 +20,15 @@ public interface S3TestKit {
   void putObjectIntoBucket(String bucket, StorageClass storageClass) throws Exception;
   void cleanup() throws Exception;
 
-  default @Nullable BucketLifecycleConfiguration createBucketExpiration(int numDays) {
-    if (numDays < 1) {
+  default @Nullable BucketLifecycleConfiguration createBucketExpiration(final Duration duration) {
+    if (duration.toSeconds() < 1) {
       return null;
     }
+
+    Instant expirationDate = Instant.now().minus(duration);
+
     LifecycleExpiration expiration = LifecycleExpiration.builder()
-        .days(numDays)
+        .date(expirationDate)
         .build();
     LifecycleRule rule = LifecycleRule.builder()
         .expiration(expiration)

@@ -2,6 +2,7 @@ package io.github.sullis.s3.playground.testkit;
 
 import java.io.File;
 import java.nio.file.Path;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -53,11 +54,11 @@ public class S3SyncTestKit implements S3TestKit {
 
   private List<String> bucketsCreated = new ArrayList<>();
   private final S3Client s3Client;
-  private final int bucketExpirationInDays;
+  private final Duration bucketDuration;
 
-  public S3SyncTestKit(S3Client s3Client, int bucketExpirationInDays) {
+  public S3SyncTestKit(S3Client s3Client, Duration bucketDuration) {
     this.s3Client = s3Client;
-    this.bucketExpirationInDays = bucketExpirationInDays;
+    this.bucketDuration = bucketDuration;
   }
 
   public void validate(@Nullable StorageClass storageClass)
@@ -175,7 +176,7 @@ public class S3SyncTestKit implements S3TestKit {
 
     assertBucketExists(bucketName);
 
-    BucketLifecycleConfiguration blConfig = createBucketExpiration(this.bucketExpirationInDays);
+    BucketLifecycleConfiguration blConfig = createBucketExpiration(this.bucketDuration);
     if (blConfig != null) {
       PutBucketLifecycleConfigurationResponse
           response = s3Client.putBucketLifecycleConfiguration(

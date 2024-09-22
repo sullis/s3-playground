@@ -3,6 +3,7 @@ package io.github.sullis.s3.playground;
 import io.github.sullis.s3.playground.metrics.Slf4jPublisher;
 import io.github.sullis.s3.playground.testkit.S3AsyncTestKit;
 import io.github.sullis.s3.playground.testkit.S3SyncTestKit;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
@@ -39,11 +40,11 @@ abstract class AbstractS3Test {
 
   protected abstract ObjectStorageProvider objectStorageProvider();
 
-  protected int getBucketExpirationInDays() {
+  protected Duration getBucketDuration() {
     if (this.objectStorageProvider().supportsBucketExpiration()) {
-      return 1;
+      return Duration.ofHours(1);
     } else {
-      return -1;
+      return Duration.ofSeconds(0);
     }
   }
 
@@ -121,7 +122,7 @@ abstract class AbstractS3Test {
   @MethodSource("s3AsyncClientArguments")
   public void validateS3AsyncClient(S3AsyncClientInfo s3ClientInfo, @Nullable StorageClass storageClass)
       throws Exception {
-    S3AsyncTestKit testkit = new S3AsyncTestKit(s3ClientInfo.client, getBucketExpirationInDays());
+    S3AsyncTestKit testkit = new S3AsyncTestKit(s3ClientInfo.client, getBucketDuration());
     try {
       testkit.validate(storageClass);
     } finally {
@@ -133,7 +134,7 @@ abstract class AbstractS3Test {
   @MethodSource("s3ClientArguments")
   public void validateS3Client(S3ClientInfo s3ClientInfo, StorageClass storageClass)
       throws Exception {
-    S3SyncTestKit testkit = new S3SyncTestKit(s3ClientInfo.client, getBucketExpirationInDays());
+    S3SyncTestKit testkit = new S3SyncTestKit(s3ClientInfo.client, getBucketDuration());
     try {
       testkit.validate(storageClass);
     } finally {
