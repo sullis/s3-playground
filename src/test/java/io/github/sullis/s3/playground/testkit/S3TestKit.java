@@ -2,6 +2,7 @@ package io.github.sullis.s3.playground.testkit;
 
 import org.jspecify.annotations.Nullable;
 import software.amazon.awssdk.services.s3.model.BucketLifecycleConfiguration;
+import software.amazon.awssdk.services.s3.model.ExpirationStatus;
 import software.amazon.awssdk.services.s3.model.LifecycleExpiration;
 import software.amazon.awssdk.services.s3.model.LifecycleRule;
 import software.amazon.awssdk.services.s3.model.StorageClass;
@@ -24,7 +25,7 @@ public interface S3TestKit {
         .build();
     LifecycleRule rule = LifecycleRule.builder()
         .expiration(expiration)
-        .status("Enabled")
+        .status(ExpirationStatus.ENABLED)
         .build();
     return BucketLifecycleConfiguration.builder()
         .rules(rule)
