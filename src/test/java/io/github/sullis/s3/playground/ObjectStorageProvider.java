@@ -18,6 +18,8 @@ public interface ObjectStorageProvider {
   AwsClientBuilder<?, ?> configure(AwsClientBuilder<?, ?> builder);
   default boolean isLocal() { return false; }
   default boolean supportsBucketExpiration() { return true; }
+  default boolean supportsConditionalWrites() { return true; }
+
 
   class Localstack implements ObjectStorageProvider {
     private final LocalStackContainer container;
@@ -142,6 +144,9 @@ public interface ObjectStorageProvider {
     public boolean isLocal() {
       return true;
     }
+
+    @Override
+    public boolean supportsConditionalWrites() { return false; }
   }
 
   class Ceph implements ObjectStorageProvider {
