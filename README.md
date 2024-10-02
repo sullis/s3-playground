@@ -70,6 +70,7 @@ s3 experiments
 - [What’s the Big Deal with Conditional Writes Support in S3?](https://www.tigrisdata.com/blog/s3-conditional-writes/)
 - [Leader election with conditional writes](https://www.morling.dev/blog/leader-election-with-s3-conditional-writes/)
 - [Delta Lake: conditional writes](https://github.com/delta-io/delta/issues/3596)
+- [Localstack s3 conditional writes](https://github.com/localstack/localstack/pull/11402)
 
 # Java AWS SDK
 - [software.amazon.awssdk.services.s3.S3Uri](https://sdk.amazonaws.com/java/api/latest/software/amazon/awssdk/services/s3/S3Uri.html)
