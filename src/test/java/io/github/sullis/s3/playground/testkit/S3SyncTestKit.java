@@ -36,12 +36,14 @@ import software.amazon.awssdk.services.s3.model.PutBucketLifecycleConfigurationR
 import software.amazon.awssdk.services.s3.model.PutBucketLifecycleConfigurationResponse;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import software.amazon.awssdk.services.s3.model.PutObjectResponse;
+import software.amazon.awssdk.services.s3.model.S3Exception;
 import software.amazon.awssdk.services.s3.model.S3Object;
 import software.amazon.awssdk.services.s3.model.StorageClass;
 import software.amazon.awssdk.services.s3.model.UploadPartRequest;
 import software.amazon.awssdk.services.s3.model.UploadPartResponse;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 
 public class S3SyncTestKit implements S3TestKit {
@@ -55,10 +57,12 @@ public class S3SyncTestKit implements S3TestKit {
   private List<String> bucketsCreated = new ArrayList<>();
   private final S3Client s3Client;
   private final Duration bucketDuration;
+  private final boolean exerciseConditionalWrites;
 
-  public S3SyncTestKit(S3Client s3Client, Duration bucketDuration) {
+  public S3SyncTestKit(S3Client s3Client, Duration bucketDuration, boolean exerciseConditionalWrites) {
     this.s3Client = s3Client;
     this.bucketDuration = bucketDuration;
+    this.exerciseConditionalWrites = exerciseConditionalWrites;
   }
 
   public void validate(@Nullable StorageClass storageClass)
@@ -67,6 +71,9 @@ public class S3SyncTestKit implements S3TestKit {
     final String bucket = createNewBucket();
     putObjectIntoBucket(bucket, storageClass);
     uploadMultiPartIntoBucket(bucket, storageClass);
+    if (exerciseConditionalWrites) {
+      exerciseConditionalWrite(bucket);
+    }
   }
 
   @Override
@@ -198,6 +205,36 @@ public class S3SyncTestKit implements S3TestKit {
     }
     DeleteBucketResponse response = s3Client.deleteBucket(request -> request.bucket(bucketName));
     assertSuccess(response);
+  }
+
+  public void exerciseConditionalWrite(final String bucket) throws Exception {
+    logger.info("exerciseConditionalWrite: {}", s3Client.getClass().getSimpleName());
+
+    final String key = "test-key-" + UUID.randomUUID().toString();
+    for (int i = 0; i < 5; i++) {
+      final String payload = "test-payload-" + i;
+      PutObjectRequest request = PutObjectRequest.builder()
+          .bucket(bucket)
+          .key(key)
+          .ifNoneMatch("*")
+          .build();
+      RequestBody body = RequestBody.fromString(payload);
+      if (i == 0) {
+        PutObjectResponse response = s3Client.putObject(request, body);
+        assertSuccess(response);
+      } else {
+        assertThatThrownBy(() -> {
+          s3Client.putObject(request, body);
+        }).isInstanceOf(S3Exception.class)
+            .hasMessageContaining("Service: S3, Status Code: 412");
+      }
+    }
+
+    var getResponse = s3Client.getObject(
+        request -> request.bucket(bucket).key(key),
+        ResponseTransformer.toBytes());
+    String responseBody = getResponse.asUtf8String();
+    assertThat(responseBody).isEqualTo("test-payload-0");
   }
 
   public void assertBucketExists(final String bucketName) {
