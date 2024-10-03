@@ -213,7 +213,8 @@ public class S3AsyncTestKit implements S3TestKit {
           s3Client.putObject(request, body).get();
         }).isInstanceOf(ExecutionException.class)
           .hasCauseInstanceOf(S3Exception.class)
-          .hasMessageContaining("Service: S3, Status Code: 412");
+          .hasMessageContaining("Service: S3, Status Code: 412")
+          .hasMessageContaining("At least one of the pre-conditions you specified did not hold");
       }
     }
 
