@@ -210,6 +210,12 @@ public class S3SyncTestKit implements S3TestKit {
   public void exerciseConditionalWrite(final String bucket) throws Exception {
     logger.info("exerciseConditionalWrite: {}", s3Client.getClass().getSimpleName());
 
+    /* August 2024:
+
+       https://aws.amazon.com/about-aws/whats-new/2024/08/amazon-s3-conditional-writes/
+
+     */
+
     final String key = "test-key-" + UUID.randomUUID().toString();
     for (int i = 0; i < 5; i++) {
       final String payload = "test-payload-" + i;
