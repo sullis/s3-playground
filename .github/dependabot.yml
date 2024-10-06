@@ -4,9 +4,9 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
-      time: "03:28"
+      time: "04:29"
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "daily"
-      time: "03:38"
+      time: "04:39"
