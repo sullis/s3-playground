@@ -56,12 +56,12 @@ public class S3SyncTestKit implements S3TestKit {
 
   private List<String> bucketsCreated = new ArrayList<>();
   private final S3Client s3Client;
-  private final Duration bucketDuration;
+  private final int bucketExpirationDays;
   private final boolean exerciseConditionalWrites;
 
-  public S3SyncTestKit(S3Client s3Client, Duration bucketDuration, boolean exerciseConditionalWrites) {
+  public S3SyncTestKit(S3Client s3Client, int bucketExpirationDays, boolean exerciseConditionalWrites) {
     this.s3Client = s3Client;
-    this.bucketDuration = bucketDuration;
+    this.bucketExpirationDays = bucketExpirationDays;
     this.exerciseConditionalWrites = exerciseConditionalWrites;
   }
 
@@ -183,7 +183,7 @@ public class S3SyncTestKit implements S3TestKit {
 
     assertBucketExists(bucketName);
 
-    BucketLifecycleConfiguration blConfig = createBucketExpiration(this.bucketDuration);
+    BucketLifecycleConfiguration blConfig = createBucketExpiration(this.bucketExpirationDays);
     if (blConfig != null) {
       PutBucketLifecycleConfigurationResponse
           response = s3Client.putBucketLifecycleConfiguration(

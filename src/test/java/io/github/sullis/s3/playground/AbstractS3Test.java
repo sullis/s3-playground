@@ -3,7 +3,6 @@ package io.github.sullis.s3.playground;
 import io.github.sullis.s3.playground.metrics.Slf4jPublisher;
 import io.github.sullis.s3.playground.testkit.S3AsyncTestKit;
 import io.github.sullis.s3.playground.testkit.S3SyncTestKit;
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
@@ -40,11 +39,11 @@ abstract class AbstractS3Test {
 
   protected abstract ObjectStorageProvider objectStorageProvider();
 
-  protected Duration getBucketDuration() {
+  protected int getBucketExpirationDays() {
     if (this.objectStorageProvider().supportsBucketExpiration()) {
-      return Duration.ofHours(1);
+      return 1;
     } else {
-      return Duration.ofSeconds(0);
+      return -1;
     }
   }
 
@@ -124,7 +123,7 @@ abstract class AbstractS3Test {
       throws Exception {
     S3AsyncTestKit testkit = new S3AsyncTestKit(
         s3ClientInfo.client,
-        getBucketDuration(),
+        getBucketExpirationDays(),
         this.objectStorageProvider().supportsConditionalWrites());
     try {
       testkit.validate(storageClass);
@@ -139,7 +138,7 @@ abstract class AbstractS3Test {
       throws Exception {
     S3SyncTestKit testkit = new S3SyncTestKit(
         s3ClientInfo.client,
-        getBucketDuration(),
+        getBucketExpirationDays(),
         this.objectStorageProvider().supportsConditionalWrites());
     try {
       testkit.validate(storageClass);
