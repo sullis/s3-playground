@@ -246,12 +246,10 @@ public class S3AsyncTestKit implements S3TestKit {
               .putObjectRequest(putObjectRequestBuilder.build()));
       CompletedUpload completedUpload = upload.completionFuture().get();
       assertThat(completedUpload.response().eTag()).isNotNull();
-      assertThat(completedUpload.response().expiration()).isNull();
 
       PutObjectResponse putObjectResponse = completedUpload.response();
       assertSuccess(putObjectResponse);
       assertThat(putObjectResponse.eTag()).isNotNull();
-      assertThat(putObjectResponse.expiration()).isNull();
 
       assertKeyExists(bucket, uploadKey);
 

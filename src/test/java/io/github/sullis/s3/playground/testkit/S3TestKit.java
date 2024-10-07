@@ -12,6 +12,7 @@ import software.amazon.awssdk.services.s3.model.BucketLifecycleConfiguration;
 import software.amazon.awssdk.services.s3.model.ExpirationStatus;
 import software.amazon.awssdk.services.s3.model.LifecycleExpiration;
 import software.amazon.awssdk.services.s3.model.LifecycleRule;
+import software.amazon.awssdk.services.s3.model.LifecycleRuleFilter;
 import software.amazon.awssdk.services.s3.model.StorageClass;
 
 
@@ -31,9 +32,13 @@ public interface S3TestKit {
     LifecycleExpiration expiration = LifecycleExpiration.builder()
         .days(days)
         .build();
+
+    LifecycleRuleFilter filter = LifecycleRuleFilter.builder().prefix("").build();
+
     LifecycleRule rule = LifecycleRule.builder()
         .expiration(expiration)
         .status(ExpirationStatus.ENABLED)
+        .filter(filter)
         .build();
     return BucketLifecycleConfiguration.builder()
         .rules(rule)
