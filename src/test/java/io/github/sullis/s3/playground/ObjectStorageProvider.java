@@ -284,6 +284,9 @@ public interface ObjectStorageProvider {
           .credentialsProvider(awsCredentialsProvider)
           .endpointOverride(endpointUri);
     }
+
+    @Override
+    public boolean supportsBucketExpiration() { return false; }
   }
 
   /*
