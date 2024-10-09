@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -59,7 +58,6 @@ import org.jspecify.annotations.Nullable;
 
 
 public class S3AsyncTestKit implements S3TestKit {
-  private static final String BUCKET_PREFIX = "test-bucket-";
   private static final int PART_SIZE = 5 * 1024 * 1024;
   private static final int NUM_PARTS = 3;
   private static final long EXPECTED_OBJECT_SIZE = NUM_PARTS * PART_SIZE;
@@ -296,7 +294,7 @@ public class S3AsyncTestKit implements S3TestKit {
   public String createNewBucket()
       throws ExecutionException, InterruptedException {
 
-    final String bucketName = BUCKET_PREFIX + UUID.randomUUID();
+    final String bucketName = generateUniqueBucketName();
     bucketsCreated.add(bucketName);
 
     CreateBucketRequest.Builder createBucketRequestBuilder = CreateBucketRequest.builder().bucket(bucketName);

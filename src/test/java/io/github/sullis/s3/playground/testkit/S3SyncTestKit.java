@@ -2,7 +2,6 @@ package io.github.sullis.s3.playground.testkit;
 
 import java.io.File;
 import java.nio.file.Path;
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -47,7 +46,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 
 public class S3SyncTestKit implements S3TestKit {
-  private static final String BUCKET_PREFIX = "test-bucket-";
   private static final int PART_SIZE = 5 * 1024 * 1024;
   private static final int NUM_PARTS = 3;
   private static final long EXPECTED_OBJECT_SIZE = NUM_PARTS * PART_SIZE;
@@ -169,7 +167,7 @@ public class S3SyncTestKit implements S3TestKit {
 
   @Override
   public String createNewBucket() throws Exception {
-    final String bucketName = BUCKET_PREFIX + UUID.randomUUID();
+    final String bucketName = generateUniqueBucketName();
     bucketsCreated.add(bucketName);
 
 

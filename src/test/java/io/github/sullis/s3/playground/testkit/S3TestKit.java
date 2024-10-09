@@ -1,11 +1,13 @@
 package io.github.sullis.s3.playground.testkit;
 
+import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalUnit;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import org.jspecify.annotations.Nullable;
 import software.amazon.awssdk.services.s3.model.BucketLifecycleConfiguration;
@@ -17,6 +19,14 @@ import software.amazon.awssdk.services.s3.model.StorageClass;
 
 
 public interface S3TestKit {
+  String BUCKET_PREFIX = "test-bucket-";
+
+  default String generateUniqueBucketName() {
+    SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+    String day = format.format(new java.util.Date());
+    return BUCKET_PREFIX + day + "-" + UUID.randomUUID();
+  }
+
   void validate(@Nullable StorageClass storageClass) throws Exception;
   String createNewBucket() throws Exception;
   void deleteBucket(String bucketName) throws Exception;
