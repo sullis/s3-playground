@@ -119,7 +119,7 @@ abstract class AbstractS3Test {
 
   @ParameterizedTest
   @MethodSource("s3AsyncClientArguments")
-  public void validateS3AsyncClient(S3AsyncClientInfo s3ClientInfo, @Nullable StorageClass storageClass)
+  void validateS3AsyncClient(S3AsyncClientInfo s3ClientInfo, @Nullable StorageClass storageClass)
       throws Exception {
     S3AsyncTestKit testkit = new S3AsyncTestKit(
         s3ClientInfo.client,
@@ -134,7 +134,7 @@ abstract class AbstractS3Test {
 
   @ParameterizedTest
   @MethodSource("s3ClientArguments")
-  public void validateS3Client(S3ClientInfo s3ClientInfo, StorageClass storageClass)
+  void validateS3Client(S3ClientInfo s3ClientInfo, StorageClass storageClass)
       throws Exception {
     S3SyncTestKit testkit = new S3SyncTestKit(
         s3ClientInfo.client,

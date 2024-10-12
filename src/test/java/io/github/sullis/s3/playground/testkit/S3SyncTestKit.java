@@ -65,7 +65,7 @@ public class S3SyncTestKit implements S3TestKit {
 
   public void validate(@Nullable StorageClass storageClass)
       throws Exception {
-    logger.info("validate S3Client: storageClass=" + storageClass);
+    logger.info("validate S3Client: storageClass={}", storageClass);
     final String bucket = createNewBucket();
     putObjectIntoBucket(bucket, storageClass);
     uploadMultiPartIntoBucket(bucket, storageClass);
@@ -98,7 +98,7 @@ public class S3SyncTestKit implements S3TestKit {
           UploadPartRequest.builder().bucket(bucket).key(key).uploadId(uploadId).partNumber(part).build();
       UploadPartResponse uploadPartResponse = s3Client.uploadPart(uploadPartRequest, requestBody);
       assertSuccess(uploadPartResponse);
-      logger.info("S3Client uploaded part " + part + " of " + NUM_PARTS);
+      logger.info("S3Client uploaded part {} of {}", part, NUM_PARTS);
       completedParts.add(CompletedPart.builder().partNumber(part).eTag(uploadPartResponse.eTag()).build());
     }
 
@@ -197,7 +197,7 @@ public class S3SyncTestKit implements S3TestKit {
 
   @Override
   public void deleteBucket(final String bucketName) throws Exception {
-    logger.info("deleteBucket: " + bucketName);
+    logger.info("deleteBucket: {}", bucketName);
     for (S3Object s3Object : s3Client.listObjectsV2(request -> request.bucket(bucketName)).contents()) {
       s3Client.deleteObject(request -> request.bucket(bucketName).key(s3Object.key()));
     }

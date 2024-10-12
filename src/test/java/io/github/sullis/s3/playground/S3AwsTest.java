@@ -16,7 +16,7 @@ public class S3AwsTest extends AbstractS3Test {
   private static final Logger LOGGER = LoggerFactory.getLogger(S3AwsTest.class);
 
   @BeforeAll
-  public void checkAwsCredentials() {
+  void checkAwsCredentials() {
       try (DefaultCredentialsProvider provider = DefaultCredentialsProvider.create()) {
         AwsCredentials credentials = provider.resolveCredentials();
         assertThat(credentials).isNotNull();
