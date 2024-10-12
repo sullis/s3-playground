@@ -176,6 +176,35 @@
 
   <build>
     <plugins>
+
+      <plugin>
+        <groupId>org.openrewrite.maven</groupId>
+        <artifactId>rewrite-maven-plugin</artifactId>
+        <version>5.42.2</version>
+        <configuration>
+          <activeRecipes>
+            <recipe>s3playground.InternalBestPractices</recipe>
+          </activeRecipes>
+        </configuration>
+        <dependencies>
+          <dependency>
+            <groupId>org.openrewrite.recipe</groupId>
+            <artifactId>rewrite-testing-frameworks</artifactId>
+            <version>2.20.0</version>
+          </dependency>
+          <dependency>
+            <groupId>org.openrewrite.recipe</groupId>
+            <artifactId>rewrite-logging-frameworks</artifactId>
+            <version>2.15.0</version>
+          </dependency>
+          <dependency>
+            <groupId>org.openrewrite.recipe</groupId>
+            <artifactId>rewrite-migrate-java</artifactId>
+            <version>2.27.0</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-enforcer-plugin</artifactId>
