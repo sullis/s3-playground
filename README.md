@@ -75,6 +75,7 @@ s3 experiments
 - [Leader election with conditional writes](https://www.morling.dev/blog/leader-election-with-s3-conditional-writes/)
 - [Delta Lake: conditional writes](https://github.com/delta-io/delta/issues/3596)
 - [Localstack s3 conditional writes](https://github.com/localstack/localstack/pull/11402)
+- [Minio conditional writes](https://resources.min.io/c/leading-the-way-minios-conditional-write-feature?x=Fg6JFL)
 
 # Java AWS SDK
 - [software.amazon.awssdk.services.s3.S3Uri](https://sdk.amazonaws.com/java/api/latest/software/amazon/awssdk/services/s3/S3Uri.html)
