@@ -93,6 +93,9 @@ s3 experiments
 - [How WarpStream enables cost-effective low-latency streaming with Amazon S3 Express One Zone](https://aws.amazon.com/blogs/storage/how-warpstream-enables-cost-effective-low-latency-streaming-with-amazon-s3-express-one-zone/)
 - [S3 durability](https://newsletter.systemdesign.one/p/amazon-s3-durability)
 
+# Small Files Problem
+- [The Challenge in Big Data is Small Files](https://resources.min.io/c/challenge-big-data-s)
+
 # Academic papers
 - [MIT: Building a Database on S3](https://people.csail.mit.edu/kraska/pub/sigmod08-s3.pdf) (2008)
 
