@@ -31,6 +31,10 @@ s3 experiments
 # S3 List performance
 - [Delta Lake pdf](https://people.eecs.berkeley.edu/~matei/papers/2020/vldb_delta_lake.pdf)
 
+# Databases on Object Storage
+- [DB on object storage](https://resources.min.io/october-24-newsletter-sg/databases-on-object-storage)
+- [SlateDB and S3](https://slatedb.io/docs/tutorials/s3/)
+  
 # Video
 - [Building and Operating a Pretty Big Storage System (My Adventures in Amazon S3)](https://www.usenix.org/conference/fast23/presentation/warfield) - Andy Warfield @ FAST '23
 - [Reimplementing Apache Kafka with Golang and S3](https://www.youtube.com/watch?v=xgzmxe6cj6A) - Ryan Worl, WarpStream
