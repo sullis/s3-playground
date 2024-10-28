@@ -15,6 +15,9 @@ s3 experiments
 # S3 storage classes
 - [using S3 storage classes](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-class-intro.html)
 
+# S3 Consistency
+- [Read-after-Write consistency](https://aws.amazon.com/blogs/aws/amazon-s3-update-strong-read-after-write-consistency/)
+
 # S3 Express One Zone storage
 - [Working with S3 Express One Zone](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-SDKs.html)
 - [Getting started with the Amazon S3 Express One Zone storage class](https://www.youtube.com/watch?v=MzZ5pZ-wXBM)
