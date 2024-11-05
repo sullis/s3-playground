@@ -79,6 +79,7 @@ s3 experiments
 - [Delta Lake: conditional writes](https://github.com/delta-io/delta/issues/3596)
 - [Localstack s3 conditional writes](https://github.com/localstack/localstack/pull/11402)
 - [Minio conditional writes](https://resources.min.io/c/leading-the-way-minios-conditional-write-feature?x=Fg6JFL)
+- [conditional writes in arrow-rs](https://github.com/apache/arrow-rs/pull/6682)
 
 # Java AWS SDK
 - [software.amazon.awssdk.services.s3.S3Uri](https://sdk.amazonaws.com/java/api/latest/software/amazon/awssdk/services/s3/S3Uri.html)
