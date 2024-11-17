@@ -39,6 +39,7 @@ s3 experiments
 - [SlateDB and S3](https://slatedb.io/docs/tutorials/s3/)
   
 # Video
+- [Object Storage is all you need](https://www.youtube.com/watch?v=ei0wwTy6_G4) - Justin Cormack, KubeCon November 2024
 - [Building and Operating a Pretty Big Storage System (My Adventures in Amazon S3)](https://www.usenix.org/conference/fast23/presentation/warfield) - Andy Warfield @ FAST '23
 - [Reimplementing Apache Kafka with Golang and S3](https://www.youtube.com/watch?v=xgzmxe6cj6A) - Ryan Worl, WarpStream
 - [Beyond Kafka: Cutting Costs and Complexity with WarpStream and S3](https://www.youtube.com/watch?v=wgwUE2izH38) - Ryan Worl, WarpStream
