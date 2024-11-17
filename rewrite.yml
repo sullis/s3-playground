@@ -1,6 +1,6 @@
 ---
 type: specs.openrewrite.org/v1beta/recipe
-name: s3playground.InternalBestPractices
+name: InternalBestPractices
 displayName: internal recipe
 description: internal recipe
 recipeList:
