@@ -183,7 +183,7 @@
         <version>5.45.0</version>
         <configuration>
           <activeRecipes>
-            <recipe>s3playground.InternalBestPractices</recipe>
+            <recipe>InternalBestPractices</recipe>
           </activeRecipes>
         </configuration>
         <dependencies>
