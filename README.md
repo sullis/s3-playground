@@ -68,6 +68,7 @@ s3 experiments
 
 # BYOB (Bring your own bucket)
 - [Axiom BYOB](https://axiom.co/blog/bring-your-own-bucket)
+- [Bitdrift BYOB](https://blog.bitdrift.io/post/bring-your-own-bucket)
 
 # S3 Multi Part Upload
 - [multipart upload](https://docs.aws.amazon.com/AmazonS3/latest/userguide/mpu-upload-object.html) guide
