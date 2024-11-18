@@ -104,7 +104,7 @@ s3 experiments
 - [Dropbox migration to S3](https://www.youtube.com/watch?v=6x-XGJQwk2M)
 
 # Small Files Problem
-- [The Challenge in Big Data is Small Files](https://resources.min.io/c/challenge-big-data-s)
+- [The Challenge in Big Data is Small Files](https://blog.min.io/challenge-big-data-small-files/)
 
 # Academic papers
 - [MIT: Building a Database on S3](https://people.csail.mit.edu/kraska/pub/sigmod08-s3.pdf) (2008)
