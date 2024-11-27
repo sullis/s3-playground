@@ -37,6 +37,12 @@ s3 experiments
 # Databases on Object Storage
 - [DB on object storage](https://resources.min.io/october-24-newsletter-sg/databases-on-object-storage)
 - [SlateDB and S3](https://slatedb.io/docs/tutorials/s3/)
+
+# Zero Disk Architecture
+- [Zero Disk Architecture](https://avi.im/blag/2024/zero-disk-architecture/)
+- [Zero disks is better](https://www.warpstream.com/blog/zero-disks-is-better-for-kafka) - warpstream
+
+
   
 # Video
 - [Object Storage is all you need](https://www.youtube.com/watch?v=ei0wwTy6_G4) - Justin Cormack, KubeCon November 2024
