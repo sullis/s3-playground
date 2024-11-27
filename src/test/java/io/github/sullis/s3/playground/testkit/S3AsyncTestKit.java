@@ -53,6 +53,7 @@ import software.amazon.awssdk.transfer.s3.progress.LoggingTransferListener;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Fail.fail;
 
 import org.jspecify.annotations.Nullable;
 
@@ -221,6 +222,47 @@ public class S3AsyncTestKit implements S3TestKit {
         AsyncResponseTransformer.toBlockingInputStream()).get();
     String responseBody = new String(getResponse.readAllBytes(), StandardCharsets.UTF_8);
     assertThat(responseBody).isEqualTo("test-payload-0");
+
+    final String bogusETag = UUID.randomUUID().toString();
+
+    try {
+      s3Client.putObject(
+          PutObjectRequest.builder()
+                .bucket(bucket)
+                .key(key)
+                .ifMatch(bogusETag)
+                .build(),
+          AsyncRequestBody.fromString("with-invalid-etag")).get();
+      fail("No exception thrown. What?");
+    } catch (Exception exception) {
+      // expected exception
+      S3Exception s3Exception = (S3Exception) exception.getCause();
+      assertThat(s3Exception.statusCode()).isEqualTo(412);
+      assertThat(s3Exception.getMessage())
+          .contains("At least one of the pre-conditions you specified did not hold");
+    }
+
+    getResponse = s3Client.getObject(
+        request -> request.bucket(bucket).key(key),
+        AsyncResponseTransformer.toBlockingInputStream()).get();
+
+    responseBody = new String(getResponse.readAllBytes(), StandardCharsets.UTF_8);
+    assertThat(responseBody).isEqualTo("test-payload-0");
+
+    s3Client.putObject(
+        PutObjectRequest.builder()
+            .bucket(bucket)
+            .key(key)
+            .ifMatch(getResponse.response().eTag())
+            .build(),
+        AsyncRequestBody.fromString("with-valid-etag")).get();
+
+    getResponse = s3Client.getObject(
+        request -> request.bucket(bucket).key(key),
+        AsyncResponseTransformer.toBlockingInputStream()).get();
+
+    responseBody = new String(getResponse.readAllBytes(), StandardCharsets.UTF_8);
+    assertThat(responseBody).isEqualTo("with-valid-etag");
   }
 
   public void exerciseTransferManager(@Nullable StorageClass storageClass)

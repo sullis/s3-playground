@@ -62,6 +62,9 @@ public interface ObjectStorageProvider {
     }
 
     @Override
+    public boolean supportsConditionalWrites() { return false; }
+
+    @Override
     public String toString() {
       return this.getClass().getSimpleName();
     }
