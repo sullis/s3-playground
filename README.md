@@ -85,7 +85,7 @@ s3 experiments
 - [conditional write with ETag](https://aws.amazon.com/about-aws/whats-new/2024/11/amazon-s3-functionality-conditional-writes/)
 - [S3 now supports conditional writes](https://aws.amazon.com/about-aws/whats-new/2024/08/amazon-s3-conditional-writes/)
 - [What’s the Big Deal with Conditional Writes Support in S3?](https://www.tigrisdata.com/blog/s3-conditional-writes/)
-- [Leader election with conditional writes](https://www.morling.dev/blog/leader-election-with-s3-conditional-writes/)
+- [Leader election with conditional writes](https://www.morling.dev/blog/leader-election-with-s3-conditional-writes/) - Gunnar Morling
 - [Delta Lake: conditional writes](https://github.com/delta-io/delta/issues/3596)
 - [Localstack s3 conditional writes](https://github.com/localstack/localstack/pull/11402)
 - [Minio conditional writes](https://resources.min.io/c/leading-the-way-minios-conditional-write-feature?x=Fg6JFL)
