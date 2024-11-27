@@ -81,6 +81,7 @@ s3 experiments
 - [S3 Transfer Manager](https://sdk.amazonaws.com/java/api/latest/software/amazon/awssdk/transfer/s3/package-summary.html)
 
 # S3 conditional writes
+- [conditional write with ETag](https://aws.amazon.com/about-aws/whats-new/2024/11/amazon-s3-functionality-conditional-writes/)
 - [S3 now supports conditional writes](https://aws.amazon.com/about-aws/whats-new/2024/08/amazon-s3-conditional-writes/)
 - [What’s the Big Deal with Conditional Writes Support in S3?](https://www.tigrisdata.com/blog/s3-conditional-writes/)
 - [Leader election with conditional writes](https://www.morling.dev/blog/leader-election-with-s3-conditional-writes/)
