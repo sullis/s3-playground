@@ -30,3 +30,13 @@ target/
 .classpath
 .project
 .settings/
+
+pom.xml.versionsBackup
+
+.gradle
+build/
+
+!gradle/wrapper/*.jar
+
+# sbt
+.bsp/
