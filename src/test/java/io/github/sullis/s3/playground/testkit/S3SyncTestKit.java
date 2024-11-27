@@ -43,6 +43,7 @@ import software.amazon.awssdk.services.s3.model.UploadPartResponse;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Fail.fail;
 
 
 public class S3SyncTestKit implements S3TestKit {
@@ -240,6 +241,44 @@ public class S3SyncTestKit implements S3TestKit {
         ResponseTransformer.toBytes());
     String responseBody = getResponse.asUtf8String();
     assertThat(responseBody).isEqualTo("test-payload-0");
+
+    final String bogusETag = UUID.randomUUID().toString();
+
+    try {
+      s3Client.putObject(
+          PutObjectRequest.builder()
+              .bucket(bucket)
+              .key(key)
+              .ifMatch(bogusETag)
+              .build(),
+          RequestBody.fromString("with-invalid-etag"));
+      fail("No exception thrown. What?");
+    } catch (S3Exception s3Exception) {
+      // expected exception
+      assertThat(s3Exception.statusCode()).isEqualTo(412);
+      assertThat(s3Exception.getMessage())
+          .contains("At least one of the pre-conditions you specified did not hold");
+    }
+
+    getResponse = s3Client.getObject(
+        request -> request.bucket(bucket).key(key),
+        ResponseTransformer.toBytes());
+
+    assertThat(getResponse.asUtf8String()).isEqualTo("test-payload-0");
+
+    s3Client.putObject(
+        PutObjectRequest.builder()
+            .bucket(bucket)
+            .key(key)
+            .ifMatch(getResponse.response().eTag())
+            .build(),
+        RequestBody.fromString("with-valid-etag"));
+
+    getResponse = s3Client.getObject(
+        request -> request.bucket(bucket).key(key),
+        ResponseTransformer.toBytes());
+
+    assertThat(getResponse.asUtf8String()).isEqualTo("with-valid-etag");
   }
 
   public void assertBucketExists(final String bucketName) {
