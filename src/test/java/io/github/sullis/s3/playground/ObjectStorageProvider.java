@@ -147,9 +147,6 @@ public interface ObjectStorageProvider {
     public boolean isLocal() {
       return true;
     }
-
-    @Override
-    public boolean supportsConditionalWrites() { return false; }
   }
 
   class Ceph implements ObjectStorageProvider {
