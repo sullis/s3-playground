@@ -43,7 +43,7 @@ s3 experiments
 - [Zero disks is better](https://www.warpstream.com/blog/zero-disks-is-better-for-kafka) - warpstream
 
 # Presentations
-- [https://speakerdeck.com/sullis/amazon-s3-nyjavasig-2024-12-12](Amazon S3 at NYJavaSIG) - December 2024
+- [Amazon S3 at NYJavaSIG](https://speakerdeck.com/sullis/amazon-s3-nyjavasig-2024-12-12) - December 2024
   
 # Video
 - [Object Storage is all you need](https://www.youtube.com/watch?v=ei0wwTy6_G4) - Justin Cormack, KubeCon November 2024
