@@ -97,6 +97,7 @@ s3 experiments
 - [S3 URI parsing](https://aws.amazon.com/blogs/devops/s3-uri-parsing-is-now-available-in-aws-sdk-for-java-2-x/)
 
 # Articles
+- [Around the world in 15 buckets](https://cloudiamo.com/2024/12/15/around-the-world-in-15-buckets/)
 - [Delta Lake and S3](https://delta.io/blog/delta-lake-s3/)
 - [Registering S3 files into Apache Iceberg tables- without the rewrites](https://medium.com/inquery-data/registering-s3-files-into-apache-iceberg-tables-without-the-rewrites-3c087cb01658)
 - [Materialize: Bulk exports to S3](https://materialize.com/blog/bulk-exports-s3/)
