@@ -6,6 +6,8 @@ s3 experiments
 - [AWS re:invent 2024 - What's new with Amazon S3](https://www.youtube.com/watch?v=pbsIVmWqr2M)
 - [AWS re:Invent 2024 - Dive deep on Amazon S3](https://www.youtube.com/watch?v=NXehLy7IiPM)
 - [AWS re:Invent 2024 - Store tabular data at scale with Amazon S3 Tables](https://www.youtube.com/watch?v=1U7yX4HTLCI)
+- [AWS re:Invent 2024 - Scaling and evolving media storage at Netflix with Amazon S3](https://www.youtube.com/watch?v=Nd9ebOzucj4)
+- [AWS re:Invent 2024 - Amazon S3 security and access control best practices](https://www.youtube.com/watch?v=vRmUI0VdsQw)
 
 # S3 at AWS re:Invent 2023
 
