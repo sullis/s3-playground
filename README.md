@@ -11,6 +11,7 @@ s3 experiments
 - [AWS re:Invent 2024 - Unlock the power of your data with Amazon S3 Metadata](https://www.youtube.com/watch?v=hB0AxWKh4wA)
 - [AWS re:Invent 2024 - Build and optimize a data lake on Amazon S3](https://www.youtube.com/watch?v=SIGpBvmlick)
 - [AWS re:Invent 2024 - Beyond 11 9s of durability: Data protection with Amazon S3](https://www.youtube.com/watch?v=XyRdMT4zUrA)
+- [AWS re:Invent 2024 - Efficient incremental processing with Apache Iceberg at Netflix](https://www.youtube.com/watch?v=s1ySnxVg5rk)
 
 # S3 at AWS re:Invent 2023
 
