@@ -8,6 +8,9 @@ s3 experiments
 - [AWS re:Invent 2024 - Store tabular data at scale with Amazon S3 Tables](https://www.youtube.com/watch?v=1U7yX4HTLCI)
 - [AWS re:Invent 2024 - Scaling and evolving media storage at Netflix with Amazon S3](https://www.youtube.com/watch?v=Nd9ebOzucj4)
 - [AWS re:Invent 2024 - Amazon S3 security and access control best practices](https://www.youtube.com/watch?v=vRmUI0VdsQw)
+- [AWS re:Invent 2024 - Unlock the power of your data with Amazon S3 Metadata](https://www.youtube.com/watch?v=hB0AxWKh4wA)
+- [AWS re:Invent 2024 - Build and optimize a data lake on Amazon S3](https://www.youtube.com/watch?v=SIGpBvmlick)
+- [AWS re:Invent 2024 - Beyond 11 9s of durability: Data protection with Amazon S3](https://www.youtube.com/watch?v=XyRdMT4zUrA)
 
 # S3 at AWS re:Invent 2023
 
