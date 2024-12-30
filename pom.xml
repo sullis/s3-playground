@@ -21,7 +21,7 @@
     <skip.tests>false</skip.tests>
   </properties>
 
-    <dependencyManagement>
+  <dependencyManagement>
     <dependencies>
       <dependency>
         <groupId>org.testcontainers</groupId>
