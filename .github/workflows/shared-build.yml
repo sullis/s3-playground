@@ -10,6 +10,7 @@ jobs:
         java: [ 21 ]
         os: [ 'ubuntu-latest' ]
     runs-on: ${{ matrix.os }}
+    name: Java ${{ matrix.java }} ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v4
     - name: Set up JDK
