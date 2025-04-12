@@ -55,6 +55,7 @@ Amazon S3 experiments
 
 # Presentations
 - [Amazon S3 at NYJavaSIG](https://speakerdeck.com/sullis/amazon-s3-nyjavasig-2024-12-12) - December 2024
+- [The Rise of Object Store Architectures](https://www.linkedin.com/posts/tednaleid_the-rise-of-object-store-architectures-activity-7310822744076472322-uay-?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAABsl_wBt-O6pdpGoZIeFdwL4P2DQYZ_JqU)
   
 # Video
 - [Object Storage is all you need](https://www.youtube.com/watch?v=ei0wwTy6_G4) - Justin Cormack, KubeCon November 2024
