@@ -187,7 +187,9 @@ public class S3AsyncTestKit implements S3TestKit {
   }
 
   public void exerciseConditionalWrite(final String bucket) throws Exception {
-    logger.info("exerciseConditionalWrite: {}", s3Client.getClass().getSimpleName());
+    if (logger.isInfoEnabled()) {
+      logger.info("exerciseConditionalWrite: {}", s3Client.getClass().getSimpleName());
+    }
 
     /* August 2024:
 
@@ -267,7 +269,9 @@ public class S3AsyncTestKit implements S3TestKit {
 
   public void exerciseTransferManager(@Nullable StorageClass storageClass)
       throws Exception {
-    logger.info("exerciseTransferManager: {}", s3Client.getClass().getSimpleName());
+    if (logger.isInfoEnabled()) {
+      logger.info("exerciseTransferManager: {}", s3Client.getClass().getSimpleName());
+    }
 
     final String bucket = createNewBucket();
     final String uploadKey = "upload-key-" + UUID.randomUUID().toString();

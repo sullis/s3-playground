@@ -207,7 +207,9 @@ public class S3SyncTestKit implements S3TestKit {
   }
 
   public void exerciseConditionalWrite(final String bucket) throws Exception {
-    logger.info("exerciseConditionalWrite: {}", s3Client.getClass().getSimpleName());
+    if (logger.isInfoEnabled()) {
+      logger.info("exerciseConditionalWrite: {}", s3Client.getClass().getSimpleName());
+    }
 
     /* August 2024:
 
