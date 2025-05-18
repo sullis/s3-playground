@@ -53,6 +53,9 @@ Amazon S3 experiments
 - [Zero Disk Architecture](https://avi.im/blag/2024/zero-disk-architecture/)
 - [Zero disks is better](https://www.warpstream.com/blog/zero-disks-is-better-for-kafka) - warpstream
 
+# Diskless Kafka
+- [Ins and Outs of KIP-1150: Diskless Topics in Apache Kafka](https://www.youtube.com/watch?v=hrMvOFoQ3X4)
+
 # Presentations
 - [Amazon S3 at NYJavaSIG](https://speakerdeck.com/sullis/amazon-s3-nyjavasig-2024-12-12) - December 2024
 - [The Rise of Object Store Architectures](https://www.linkedin.com/posts/tednaleid_the-rise-of-object-store-architectures-activity-7310822744076472322-uay-?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAABsl_wBt-O6pdpGoZIeFdwL4P2DQYZ_JqU)
