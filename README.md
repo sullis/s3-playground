@@ -86,6 +86,7 @@ Amazon S3 experiments
 # Bechmarks
 - [warp](https://github.com/minio/warp) - s3 benchmarking tool
 - [object-store-bench](https://github.com/projectnessie/object-store-bench)
+- [cosbench](https://github.com/sine-io/cosbench-sineio)
 
 # Commercial offerings
 - [Wasabi S3 API](https://docs.wasabi.com/docs/wasabi-api)
