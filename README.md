@@ -57,6 +57,8 @@ Amazon S3 experiments
 - [Ins and Outs of KIP-1150: Diskless Topics in Apache Kafka](https://www.youtube.com/watch?v=hrMvOFoQ3X4)
 
 # Presentations
+- [Amazon S3 at Chicago Java User Group](https://speakerdeck.com/sullis/amazon-s3-chicago-2025-06-04) - June 2025
+- [Amazon S3 at Boston Lakehouse meetup](https://speakerdeck.com/sullis/amazon-s3-boston-2025-05-07) - May 2025
 - [Amazon S3 at NYJavaSIG](https://speakerdeck.com/sullis/amazon-s3-nyjavasig-2024-12-12) - December 2024
 - [The Rise of Object Store Architectures](https://www.linkedin.com/posts/tednaleid_the-rise-of-object-store-architectures-activity-7310822744076472322-uay-?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAABsl_wBt-O6pdpGoZIeFdwL4P2DQYZ_JqU)
   
