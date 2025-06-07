@@ -140,6 +140,10 @@ Amazon S3 experiments
 # Small Files Problem
 - [The Challenge in Big Data is Small Files](https://blog.min.io/challenge-big-data-small-files/)
 
+# KubeCon 2024
+- [Object Storage Is All You Need](https://www.youtube.com/watch?v=ei0wwTy6_G4) - Justin Cormack, Docker
+- [Object, Block, or File Storage](https://www.youtube.com/watch?v=QQgmaHqKRyY) -  Mitch Becker & Tom McDonald, Amazon Web Services (AWS)
+
 # Academic papers
 - [MIT: Building a Database on S3](https://people.csail.mit.edu/kraska/pub/sigmod08-s3.pdf) (2008)
 
