@@ -47,7 +47,10 @@ Amazon S3 experiments
 
 # Databases on Object Storage
 - [DB on object storage](https://resources.min.io/october-24-newsletter-sg/databases-on-object-storage)
+
+# SlateDb
 - [SlateDB and S3](https://slatedb.io/docs/tutorials/s3/)
+- [Internals of SlateDB](https://www.youtube.com/watch?v=gcTRXZeKbNg)
 
 # Zero Disk Architecture
 - [Zero Disk Architecture](https://avi.im/blag/2024/zero-disk-architecture/)
