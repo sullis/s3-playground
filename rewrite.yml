@@ -6,5 +6,5 @@ description: internal recipe
 recipeList:
   - org.openrewrite.java.logging.slf4j.Slf4jBestPractices
   - org.openrewrite.java.testing.junit5.JUnit5BestPractices
-  - org.openrewrite.java.jspecify.MigrateToJspecify
+  - org.openrewrite.java.jspecify.JSpecifyBestPractices
   - org.openrewrite.java.migrate.util.JavaUtilAPIs
