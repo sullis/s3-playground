@@ -60,8 +60,8 @@ Amazon S3 experiments
 - [Ins and Outs of KIP-1150: Diskless Topics in Apache Kafka](https://www.youtube.com/watch?v=hrMvOFoQ3X4)
 
 # RisingWave and S3
-- [https://risingwave.com/blog/sub-100ms-stream-processing-s3-cloud-native/](https://medium.com/@yingjunwu/towards-sub-100ms-latency-stream-processing-with-an-s3-based-architecture-c5fbf1f3ee96)
-- [https://risingwave.com/blog/how-we-built-risingwave-on-s3-a-deep-dive-into-s3-as-primary-storage-architecture/](S3 as primary storage)
+- [Towards Sub-100ms Latency Stream Processing with an S3-Based Architecture](https://risingwave.com/blog/sub-100ms-stream-processing-s3-cloud-native/)
+- [S3 as primary storage](https://risingwave.com/blog/how-we-built-risingwave-on-s3-a-deep-dive-into-s3-as-primary-storage-architecture/)
 
 # Presentations
 - [Amazon S3 at Chicago Java User Group](https://speakerdeck.com/sullis/amazon-s3-chicago-2025-06-04) - June 2025
