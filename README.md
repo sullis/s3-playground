@@ -155,4 +155,8 @@ Amazon S3 experiments
 # Academic papers
 - [MIT: Building a Database on S3](https://people.csail.mit.edu/kraska/pub/sigmod08-s3.pdf) (2008)
 
+# Gradle plugins
+- [object-store-cache-plugin](https://github.com/craigatk/object-store-cache-plugin)
+
+
   
