@@ -152,6 +152,9 @@ Amazon S3 experiments
 - [Object Storage Is All You Need](https://www.youtube.com/watch?v=ei0wwTy6_G4) - Justin Cormack, Docker
 - [Object, Block, or File Storage](https://www.youtube.com/watch?v=QQgmaHqKRyY) -  Mitch Becker & Tom McDonald, Amazon Web Services (AWS)
 
+# Tigris Data object storage
+- [Append Only object storage](https://www.tigrisdata.com/blog/append-only-storage/)
+
 # Academic papers
 - [MIT: Building a Database on S3](https://people.csail.mit.edu/kraska/pub/sigmod08-s3.pdf) (2008)
 
