@@ -154,6 +154,7 @@ Amazon S3 experiments
 
 # Tigris Data object storage
 - [Append Only object storage](https://www.tigrisdata.com/blog/append-only-storage/)
+- [shadow buckets](https://www.tigrisdata.com/blog/shadow-bucket/)
 
 # Academic papers
 - [MIT: Building a Database on S3](https://people.csail.mit.edu/kraska/pub/sigmod08-s3.pdf) (2008)
