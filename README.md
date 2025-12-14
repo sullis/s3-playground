@@ -93,7 +93,7 @@ Amazon S3 experiments
 - [s3fs-fuse](https://github.com/s3fs-fuse/s3fs-fuse)
 - [slatedb](https://github.com/slatedb/slatedb)
 
-# Bechmarks
+# Benchmarks
 - [warp](https://github.com/minio/warp) - s3 benchmarking tool
 - [object-store-bench](https://github.com/projectnessie/object-store-bench)
 - [cosbench](https://github.com/sine-io/cosbench-sineio)
@@ -127,6 +127,7 @@ Amazon S3 experiments
 - [S3 URI parsing](https://aws.amazon.com/blogs/devops/s3-uri-parsing-is-now-available-in-aws-sdk-for-java-2-x/)
 
 # Articles
+- [Why We Built Another Object Storage](https://fractalbits.com/blog/why-we-built-another-object-storage/)
 - [Garbage collection of Object Storage](https://www.warpstream.com/blog/taking-out-the-trash-garbage-collection-of-object-storage-at-massive-scale)
 - [CORS configs on Amazon S3](https://aws.amazon.com/blogs/media/deep-dive-into-cors-configs-on-aws-s3/)
 - [Around the world in 15 buckets](https://cloudiamo.com/2024/12/15/around-the-world-in-15-buckets/)
