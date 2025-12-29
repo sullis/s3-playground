@@ -126,6 +126,9 @@ Amazon S3 experiments
 - [software.amazon.awssdk.services.s3.S3Uri](https://sdk.amazonaws.com/java/api/latest/software/amazon/awssdk/services/s3/S3Uri.html)
 - [S3 URI parsing](https://aws.amazon.com/blogs/devops/s3-uri-parsing-is-now-available-in-aws-sdk-for-java-2-x/)
 
+# Minio alternatives
+- [minio alternatives](https://www.infoq.com/news/2025/12/minio-s3-api-alternatives/)
+
 # Articles
 - [Why We Built Another Object Storage](https://fractalbits.com/blog/why-we-built-another-object-storage/)
 - [Garbage collection of Object Storage](https://www.warpstream.com/blog/taking-out-the-trash-garbage-collection-of-object-storage-at-massive-scale)
