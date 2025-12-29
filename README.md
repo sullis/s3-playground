@@ -2,6 +2,9 @@
 
 Amazon S3 experiments
 
+# S3 at AWS re:Invent 2025
+- TBD
+
 # S3 at AWS re:Invent 2024
 - [AWS re:invent 2024 - What's new with Amazon S3](https://www.youtube.com/watch?v=pbsIVmWqr2M)
 - [AWS re:Invent 2024 - Dive deep on Amazon S3](https://www.youtube.com/watch?v=NXehLy7IiPM)
