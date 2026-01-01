@@ -169,5 +169,9 @@ Amazon S3 experiments
 # Gradle plugins
 - [object-store-cache-plugin](https://github.com/craigatk/object-store-cache-plugin)
 
+# open source utilities
+- [s3grep](https://github.com/dacort/s3grep)
+- [s3sh](https://github.com/dacort/s3sh)
+
 
   
