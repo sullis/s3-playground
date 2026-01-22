@@ -2,6 +2,9 @@
 
 Amazon S3 experiments
 
+# How S3 is Built
+- [https://www.youtube.com/watch?v=5vL6aCvgQXU](how s3 is built) -- January 2026
+
 # S3 at AWS re:Invent 2025
 - TBD
 
