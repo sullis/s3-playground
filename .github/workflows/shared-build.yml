@@ -18,6 +18,20 @@ jobs:
       with:
         java-version: ${{ matrix.java }}
         distribution: 'temurin'
-        cache: 'maven'
+    - name: Cache Maven repository
+      uses: actions/cache@v4
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        restore-keys: |
+          ${{ runner.os }}-maven-
+    - name: Set up Maven 4
+      run: |
+        wget https://dlcdn.apache.org/maven/maven-4/4.0.0-rc-5/binaries/apache-maven-4.0.0-rc-5-bin.tar.gz || \
+        wget https://archive.apache.org/dist/maven/maven-4/4.0.0-rc-5/binaries/apache-maven-4.0.0-rc-5-bin.tar.gz
+        tar xzf apache-maven-4.0.0-rc-5-bin.tar.gz
+        echo "$PWD/apache-maven-4.0.0-rc-5/bin" >> $GITHUB_PATH
+    - name: Verify Maven version
+      run: mvn --version
     - name: Build
       run: mvn -ntp -B clean test
