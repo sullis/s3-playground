@@ -101,7 +101,7 @@ Below is a curated collection of resources about Amazon S3 and object storage sy
 - [AWS re:Invent 2025 - Building multi-Region data lakes with Replication for Amazon S3 Tables](https://www.youtube.com/watch?v=3aca3axKgGs) (STG358)
 
 ### S3 at AWS re:Invent 2024
-- [AWS re:invent 2024 - What's new with Amazon S3](https://www.youtube.com/watch?v=pbsIVmWqr2M)
+- [AWS re:Invent 2024 - What's new with Amazon S3](https://www.youtube.com/watch?v=pbsIVmWqr2M)
 - [AWS re:Invent 2024 - Dive deep on Amazon S3](https://www.youtube.com/watch?v=NXehLy7IiPM)
 - [AWS re:Invent 2024 - Store tabular data at scale with Amazon S3 Tables](https://www.youtube.com/watch?v=1U7yX4HTLCI)
 - [AWS re:Invent 2024 - Scaling and evolving media storage at Netflix with Amazon S3](https://www.youtube.com/watch?v=Nd9ebOzucj4)
