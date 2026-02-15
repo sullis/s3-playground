@@ -206,39 +206,6 @@
         <version>2.21.0</version>
       </plugin>
       <plugin>
-        <groupId>org.openrewrite.maven</groupId>
-        <artifactId>rewrite-maven-plugin</artifactId>
-        <version>6.28.1</version>
-        <configuration>
-          <activeRecipes>
-            <recipe>InternalBestPractices</recipe>
-          </activeRecipes>
-        </configuration>
-        <dependencies>
-          <dependency>
-            <groupId>org.openrewrite.recipe</groupId>
-            <artifactId>rewrite-testing-frameworks</artifactId>
-            <version>3.27.0</version>
-          </dependency>
-          <dependency>
-            <groupId>org.openrewrite.recipe</groupId>
-            <artifactId>rewrite-jackson</artifactId>
-            <version>1.15.0</version>
-          </dependency>
-          <dependency>
-            <groupId>org.openrewrite.recipe</groupId>
-            <artifactId>rewrite-logging-frameworks</artifactId>
-            <version>3.23.0</version>
-          </dependency>
-          <dependency>
-            <groupId>org.openrewrite.recipe</groupId>
-            <artifactId>rewrite-migrate-java</artifactId>
-            <version>3.26.0</version>
-          </dependency>
-        </dependencies>
-      </plugin>
-
-      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-enforcer-plugin</artifactId>
         <version>3.6.2</version>
