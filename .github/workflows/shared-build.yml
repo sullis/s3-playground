@@ -18,6 +18,55 @@ jobs:
       with:
         java-version: ${{ matrix.java }}
         distribution: 'temurin'
-        cache: 'maven'
+    - name: Cache Maven repository
+      uses: actions/cache@v4
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        restore-keys: |
+          ${{ runner.os }}-maven-
+    - name: Set up Maven 4
+      run: |
+        set -e
+        # Maven version configuration
+        # Note: Also update .sdkmanrc if changing this version
+        MAVEN_VERSION="4.0.0-rc-5"
+        MAVEN_ARCHIVE="apache-maven-${MAVEN_VERSION}-bin.tar.gz"
+        MAVEN_CHECKSUM="${MAVEN_ARCHIVE}.sha512"
+        PRIMARY_MIRROR="https://dlcdn.apache.org/maven/maven-4/${MAVEN_VERSION}/binaries"
+        ARCHIVE_MIRROR="https://archive.apache.org/dist/maven/maven-4/${MAVEN_VERSION}/binaries"
+        
+        # Try primary mirror first
+        if wget -q "${PRIMARY_MIRROR}/${MAVEN_ARCHIVE}" && \
+           wget -q "${PRIMARY_MIRROR}/${MAVEN_CHECKSUM}"; then
+          echo "Downloaded Maven from primary mirror (dlcdn.apache.org)"
+        else
+          # Clean up any partial downloads
+          rm -f "${MAVEN_ARCHIVE}" "${MAVEN_CHECKSUM}"
+          # Fall back to archive mirror
+          echo "Primary mirror failed, trying archive mirror..."
+          wget -q "${ARCHIVE_MIRROR}/${MAVEN_ARCHIVE}" || {
+            echo "ERROR: Failed to download Maven binary from both mirrors"
+            exit 1
+          }
+          wget -q "${ARCHIVE_MIRROR}/${MAVEN_CHECKSUM}" || {
+            echo "ERROR: Failed to download Maven checksum from archive mirror"
+            exit 1
+          }
+          echo "Downloaded Maven from archive mirror (archive.apache.org)"
+        fi
+        # Verify checksum
+        echo "Verifying checksum..."
+        echo "$(cat ${MAVEN_CHECKSUM}) ${MAVEN_ARCHIVE}" | sha512sum -c - || {
+          echo "ERROR: Checksum verification failed"
+          exit 1
+        }
+        # Extract and add to PATH
+        echo "Extracting Maven..."
+        tar xzf "${MAVEN_ARCHIVE}"
+        echo "$PWD/apache-maven-${MAVEN_VERSION}/bin" >> $GITHUB_PATH
+        echo "Maven ${MAVEN_VERSION} installed successfully"
+    - name: Verify Maven version
+      run: mvn --version
     - name: Build
       run: mvn -ntp -B clean test

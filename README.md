@@ -32,7 +32,7 @@ This project provides a testing framework for experimenting with various S3 impl
 ## Prerequisites
 
 - Java 21 or later
-- Maven 3.6+ (or use included Maven wrapper)
+- Maven 4.0+ (Maven 4.0.0-rc-5 or newer RC/GA releases)
 - Docker (required for running testcontainers-based tests)
 
 ## Build and Test
