@@ -27,8 +27,12 @@ jobs:
           ${{ runner.os }}-maven-
     - name: Set up Maven 4
       run: |
+        set -e
         wget https://dlcdn.apache.org/maven/maven-4/4.0.0-rc-5/binaries/apache-maven-4.0.0-rc-5-bin.tar.gz || \
         wget https://archive.apache.org/dist/maven/maven-4/4.0.0-rc-5/binaries/apache-maven-4.0.0-rc-5-bin.tar.gz
+        wget https://downloads.apache.org/maven/maven-4/4.0.0-rc-5/binaries/apache-maven-4.0.0-rc-5-bin.tar.gz.sha512 || \
+        wget https://archive.apache.org/dist/maven/maven-4/4.0.0-rc-5/binaries/apache-maven-4.0.0-rc-5-bin.tar.gz.sha512
+        echo "$(cat apache-maven-4.0.0-rc-5-bin.tar.gz.sha512) apache-maven-4.0.0-rc-5-bin.tar.gz" | sha512sum -c -
         tar xzf apache-maven-4.0.0-rc-5-bin.tar.gz
         echo "$PWD/apache-maven-4.0.0-rc-5/bin" >> $GITHUB_PATH
     - name: Verify Maven version
