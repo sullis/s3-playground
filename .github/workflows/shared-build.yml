@@ -28,6 +28,8 @@ jobs:
     - name: Set up Maven 4
       run: |
         set -e
+        # Maven version configuration
+        # Note: Also update .sdkmanrc if changing this version
         MAVEN_VERSION="4.0.0-rc-5"
         MAVEN_ARCHIVE="apache-maven-${MAVEN_VERSION}-bin.tar.gz"
         MAVEN_CHECKSUM="${MAVEN_ARCHIVE}.sha512"
