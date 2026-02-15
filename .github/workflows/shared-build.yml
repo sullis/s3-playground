@@ -29,18 +29,35 @@ jobs:
       run: |
         set -e
         # Try primary mirror first
-        if wget https://dlcdn.apache.org/maven/maven-4/4.0.0-rc-5/binaries/apache-maven-4.0.0-rc-5-bin.tar.gz; then
-          wget https://dlcdn.apache.org/maven/maven-4/4.0.0-rc-5/binaries/apache-maven-4.0.0-rc-5-bin.tar.gz.sha512
+        if wget -q https://dlcdn.apache.org/maven/maven-4/4.0.0-rc-5/binaries/apache-maven-4.0.0-rc-5-bin.tar.gz && \
+           wget -q https://dlcdn.apache.org/maven/maven-4/4.0.0-rc-5/binaries/apache-maven-4.0.0-rc-5-bin.tar.gz.sha512; then
+          echo "Downloaded Maven from primary mirror (dlcdn.apache.org)"
         else
+          # Clean up any partial downloads
+          rm -f apache-maven-4.0.0-rc-5-bin.tar.gz apache-maven-4.0.0-rc-5-bin.tar.gz.sha512
           # Fall back to archive mirror
-          wget https://archive.apache.org/dist/maven/maven-4/4.0.0-rc-5/binaries/apache-maven-4.0.0-rc-5-bin.tar.gz
-          wget https://archive.apache.org/dist/maven/maven-4/4.0.0-rc-5/binaries/apache-maven-4.0.0-rc-5-bin.tar.gz.sha512
+          echo "Primary mirror failed, trying archive mirror..."
+          wget -q https://archive.apache.org/dist/maven/maven-4/4.0.0-rc-5/binaries/apache-maven-4.0.0-rc-5-bin.tar.gz || {
+            echo "ERROR: Failed to download Maven binary from both mirrors"
+            exit 1
+          }
+          wget -q https://archive.apache.org/dist/maven/maven-4/4.0.0-rc-5/binaries/apache-maven-4.0.0-rc-5-bin.tar.gz.sha512 || {
+            echo "ERROR: Failed to download Maven checksum from archive mirror"
+            exit 1
+          }
+          echo "Downloaded Maven from archive mirror (archive.apache.org)"
         fi
         # Verify checksum
-        echo "$(cat apache-maven-4.0.0-rc-5-bin.tar.gz.sha512) apache-maven-4.0.0-rc-5-bin.tar.gz" | sha512sum -c -
+        echo "Verifying checksum..."
+        echo "$(cat apache-maven-4.0.0-rc-5-bin.tar.gz.sha512) apache-maven-4.0.0-rc-5-bin.tar.gz" | sha512sum -c - || {
+          echo "ERROR: Checksum verification failed"
+          exit 1
+        }
         # Extract and add to PATH
+        echo "Extracting Maven..."
         tar xzf apache-maven-4.0.0-rc-5-bin.tar.gz
         echo "$PWD/apache-maven-4.0.0-rc-5/bin" >> $GITHUB_PATH
+        echo "Maven 4.0.0-rc-5 installed successfully"
     - name: Verify Maven version
       run: mvn --version
     - name: Build
