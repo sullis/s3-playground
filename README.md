@@ -92,10 +92,16 @@ Below is a curated collection of resources about Amazon S3 and object storage sy
 - [how s3 is built](https://www.youtube.com/watch?v=5vL6aCvgQXU) -- January 2026 - Pragmatic Engineer
 
 ### S3 at AWS re:Invent 2025
-- TBD
+- [AWS re:Invent 2025 - What's new with Amazon S3](https://www.youtube.com/watch?v=Sy2LHRyMXAo) (STG206)
+- [AWS re:Invent 2025 - Deep dive on Amazon S3](https://www.youtube.com/watch?v=S4swTRi1i0w) (STG407)
+- [AWS re:Invent 2025 - Amazon S3 Tables architecture, use cases, and best practices](https://www.youtube.com/watch?v=Pi82g0YGklU) (STG334)
+- [AWS re:Invent 2025 - Transforming AI storage economics with Amazon S3 Vectors](https://www.youtube.com/watch?v=ghUW2SpEYPk) (STG318)
+- [AWS re:Invent 2025 - Amazon S3 security and access control best practices](https://www.youtube.com/watch?v=UfGW7RoaNhc) (STG316)
+- [AWS re:Invent 2025 - How Netflix uses Amazon S3 Storage Lens to track exabytes of data](https://www.youtube.com/watch?v=Q2YoHfhFuI8) (STG214)
+- [AWS re:Invent 2025 - Building multi-Region data lakes with Replication for Amazon S3 Tables](https://www.youtube.com/watch?v=3aca3axKgGs) (STG358)
 
 ### S3 at AWS re:Invent 2024
-- [AWS re:invent 2024 - What's new with Amazon S3](https://www.youtube.com/watch?v=pbsIVmWqr2M)
+- [AWS re:Invent 2024 - What's new with Amazon S3](https://www.youtube.com/watch?v=pbsIVmWqr2M)
 - [AWS re:Invent 2024 - Dive deep on Amazon S3](https://www.youtube.com/watch?v=NXehLy7IiPM)
 - [AWS re:Invent 2024 - Store tabular data at scale with Amazon S3 Tables](https://www.youtube.com/watch?v=1U7yX4HTLCI)
 - [AWS re:Invent 2024 - Scaling and evolving media storage at Netflix with Amazon S3](https://www.youtube.com/watch?v=Nd9ebOzucj4)
