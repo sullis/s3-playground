@@ -228,6 +228,7 @@ Below is a curated collection of resources about Amazon S3 and object storage sy
 - [minio alternatives](https://www.infoq.com/news/2025/12/minio-s3-api-alternatives/)
 
 ### Articles
+- [Moving Floe from Minio to SeaweedFS](https://medium.com/@neeleshsalian/moving-floe-from-minio-to-seaweedfs-35a4d615aafe)
 - [Why We Built Another Object Storage](https://fractalbits.com/blog/why-we-built-another-object-storage/)
 - [Garbage collection of Object Storage](https://www.warpstream.com/blog/taking-out-the-trash-garbage-collection-of-object-storage-at-massive-scale)
 - [CORS configs on Amazon S3](https://aws.amazon.com/blogs/media/deep-dive-into-cors-configs-on-aws-s3/)
