@@ -4,7 +4,6 @@
 
   <groupId>io.github.sullis</groupId>
   <artifactId>s3-playground</artifactId>
-  <packaging>jar</packaging>
   <name>s3-playground</name>
   <version>0.0.1-SNAPSHOT</version>
   <description>s3-playground</description>
@@ -16,8 +15,9 @@
   </licenses>
 
   <properties>
-    <maven.compiler.source>21</maven.compiler.source>
-    <maven.compiler.target>21</maven.compiler.target>
+    <maven.compiler.release>21</maven.compiler.release>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <logback.version>1.5.32</logback.version>
     <slf4j.version>2.0.17</slf4j.version>
   </properties>
