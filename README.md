@@ -269,6 +269,9 @@ Below is a curated collection of resources about Amazon S3 and object storage sy
 - [s3grep](https://github.com/dacort/s3grep)
 - [s3sh](https://github.com/dacort/s3sh)
 
+## Tech Interviews
+- [Object storage in system design interviews](https://www.youtube.com/watch?v=RvaMHMxHjp4) - Hello Interview
+
 # Contributing
 
 Contributions are welcome! This can include:
