@@ -9,7 +9,7 @@ import org.testcontainers.utility.DockerImageName;
 @Testcontainers
 public class S3LocalstackTest extends AbstractS3Test {
   @Container
-  private static final LocalStackContainer LOCALSTACK = new LocalStackContainer(DockerImageName.parse("localstack/localstack:s3-latest"))
+  private static final LocalStackContainer LOCALSTACK = new LocalStackContainer(DockerImageName.parse("localstack/localstack:4.1.0"))
       .withServices(LocalStackContainer.Service.S3);
 
   @Override
