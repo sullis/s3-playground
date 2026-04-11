@@ -228,6 +228,7 @@ Below is a curated collection of resources about Amazon S3 and object storage sy
 - [minio alternatives](https://www.infoq.com/news/2025/12/minio-s3-api-alternatives/)
 
 ### Articles
+- [Amazon S3 Files](https://aws.amazon.com/s3/features/files/)
 - [Operational Benefits of Databases Built on Object Storage](https://blog.colinbreck.com/operational-benefits-of-databases-built-on-object-storage/) - Colin Breck
 - [Moving Floe from Minio to SeaweedFS](https://medium.com/@neeleshsalian/moving-floe-from-minio-to-seaweedfs-35a4d615aafe)
 - [Why We Built Another Object Storage](https://fractalbits.com/blog/why-we-built-another-object-storage/)
