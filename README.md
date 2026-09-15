@@ -9,7 +9,7 @@ A comprehensive testing playground and resource collection for Amazon S3 and S3-
 
 This project provides a testing framework for experimenting with various S3 implementations and storage providers. It includes:
 
-- **Test suites** for multiple S3-compatible object storage providers (AWS S3, LocalStack, MinIO, Ceph, Google Cloud Storage, Cloudflare R2, Wasabi, Tigris)
+- **Test suites** for multiple S3-compatible object storage providers (AWS S3, LocalStack, Ceph, Google Cloud Storage, Cloudflare R2, Wasabi, Tigris)
 - **Reusable test kits** (`S3SyncTestKit`, `S3AsyncTestKit`) for testing S3 operations
 - **Comprehensive examples** demonstrating AWS SDK for Java v2 features
 - **Curated resources** including videos, articles, presentations, and documentation about S3 and object storage
@@ -45,7 +45,6 @@ mvn clean package
 mvn clean test
 
 # Run tests for a specific provider
-mvn test -Dtest=S3MinioTest
 mvn test -Dtest=S3LocalstackTest
 ```
 
@@ -56,7 +55,6 @@ src/test/java/io/github/sullis/s3/playground/
 ├── AbstractS3Test.java          # Base test class with common functionality
 ├── S3AwsTest.java               # Tests for AWS S3
 ├── S3LocalstackTest.java        # Tests for LocalStack
-├── S3MinioTest.java             # Tests for MinIO
 ├── S3CephTest.java              # Tests for Ceph
 ├── S3GoogleCloudTest.java       # Tests for Google Cloud Storage
 ├── S3CloudflareTest.java        # Tests for Cloudflare R2
@@ -76,7 +74,6 @@ This project includes tests for the following S3-compatible storage providers:
 |----------|-----------|-----------------|
 | AWS S3 | `S3AwsTest` | Real AWS credentials required |
 | LocalStack | `S3LocalstackTest` | Testcontainers |
-| MinIO | `S3MinioTest` | Testcontainers |
 | Ceph | `S3CephTest` | Testcontainers |
 | Google Cloud Storage | `S3GoogleCloudTest` | Real GCS credentials required |
 | Cloudflare R2 | `S3CloudflareTest` | Real R2 credentials required |

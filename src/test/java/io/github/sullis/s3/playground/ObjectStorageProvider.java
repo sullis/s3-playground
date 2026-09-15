@@ -3,7 +3,6 @@ package io.github.sullis.s3.playground;
 import com.adobe.testing.s3mock.testcontainers.S3MockContainer;
 import java.net.URI;
 import org.testcontainers.containers.CephContainer;
-import org.testcontainers.containers.MinIOContainer;
 import org.testcontainers.containers.localstack.LocalStackContainer;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.AwsCredentialsProvider;
@@ -63,52 +62,6 @@ public interface ObjectStorageProvider {
 
     @Override
     public boolean supportsConditionalWrites() { return false; }
-
-    @Override
-    public String toString() {
-      return this.getClass().getSimpleName();
-    }
-  }
-
-  class Minio implements ObjectStorageProvider {
-    private final AwsCredentialsProvider awsCredentialsProvider;
-    private final Region awsRegion;
-    private final URI endpoint;
-
-    public Minio(MinIOContainer container) {
-      if (!container.isRunning()) {
-        throw new IllegalStateException("container is not running");
-      }
-      this.awsCredentialsProvider = StaticCredentialsProvider.create(
-          AwsBasicCredentials.create("minioadmin", "minioadmin")
-      );
-      this.awsRegion = Region.US_EAST_1;
-      this.endpoint = URI.create("http://127.0.0.1:" + container.getFirstMappedPort());
-    }
-
-    @Override
-    public S3CrtAsyncClientBuilder configure(S3CrtAsyncClientBuilder builder) {
-      return builder.endpointOverride(endpoint)
-          .credentialsProvider(awsCredentialsProvider)
-          .region(awsRegion);
-    }
-
-    @Override
-    public AwsClientBuilder<?, ?> configure(AwsClientBuilder<?, ?> builder) {
-      return builder.endpointOverride(endpoint)
-          .credentialsProvider(awsCredentialsProvider)
-          .region(awsRegion);
-    }
-
-    @Override
-    public boolean isLocal() {
-      return true;
-    }
-
-    @Override
-    public boolean supportsBucketExpiration() {
-      return false;
-    }
 
     @Override
     public String toString() {
