@@ -230,7 +230,6 @@ Below is a curated collection of resources about Amazon S3 and object storage sy
 ### Articles
 - [Amazon S3 Files](https://aws.amazon.com/s3/features/files/)
 - [Operational Benefits of Databases Built on Object Storage](https://blog.colinbreck.com/operational-benefits-of-databases-built-on-object-storage/) - Colin Breck
-- [Moving Floe from Minio to SeaweedFS](https://medium.com/@neeleshsalian/moving-floe-from-minio-to-seaweedfs-35a4d615aafe)
 - [Why We Built Another Object Storage](https://fractalbits.com/blog/why-we-built-another-object-storage/)
 - [Garbage collection of Object Storage](https://www.warpstream.com/blog/taking-out-the-trash-garbage-collection-of-object-storage-at-massive-scale)
 - [CORS configs on Amazon S3](https://aws.amazon.com/blogs/media/deep-dive-into-cors-configs-on-aws-s3/)
@@ -262,7 +261,7 @@ Below is a curated collection of resources about Amazon S3 and object storage sy
 - [shadow buckets](https://www.tigrisdata.com/blog/shadow-bucket/)
 
 ### Academic papers
-- [MIT: Building a Database on S3](https://people.csail.mit.edu/kraska/pub/sigmod08-s3.pdf) (2008)
+- [MIT: Building a Database on S3](https://web.archive.org/web/20231031074514/https://people.csail.mit.edu/kraska/pub/sigmod08-s3.pdf) (2008)
 
 ### Gradle plugins
 - [object-store-cache-plugin](https://github.com/craigatk/object-store-cache-plugin)
