@@ -177,6 +177,8 @@ Below is a curated collection of resources about Amazon S3 and object storage sy
 - [Minio for developers](https://www.youtube.com/watch?v=gY090GEDdu8)
 
 ### Open source projects
+- [argmin](https://github.com/justincormack/argmin)
+- [rustfs](https://rustfs.com/)
 - [antfly s3 storage](https://github.com/antflydb/antfly/blob/main/docs/s3-storage.md)
 - [s3proxy](https://github.com/gaul/s3proxy)
 - [S3Mock](https://github.com/adobe/S3Mock)
