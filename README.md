@@ -179,6 +179,7 @@ Below is a curated collection of resources about Amazon S3 and object storage sy
 ### Open source projects
 - [argmin](https://github.com/justincormack/argmin)
 - [rustfs](https://rustfs.com/)
+- [seaweedfs](https://github.com/seaweedfs/seaweedfs) - distributed object store with an S3 API
 - [antfly s3 storage](https://github.com/antflydb/antfly/blob/main/docs/s3-storage.md)
 - [s3proxy](https://github.com/gaul/s3proxy)
 - [S3Mock](https://github.com/adobe/S3Mock)
