@@ -160,6 +160,7 @@ Below is a curated collection of resources about Amazon S3 and object storage sy
 
 ### S3 WAL
 - [Cursor S3 WAL](https://www.infoq.com/news/2026/09/cursor-continuity-git-storage/)
+- [s3-wal-collection](https://github.com/Vanlightly/s3-wal-collection/)
 
 ### Presentations
 - [Amazon S3 at Chicago Java User Group](https://speakerdeck.com/sullis/amazon-s3-chicago-2025-06-04) - June 2025
